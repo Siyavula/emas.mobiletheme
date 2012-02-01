@@ -1,0 +1,32 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:cmf="http://namespaces.zope.org/cmf"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    i18n_domain="emas.mobiletheme">
+    
+  <includeDependencies package="." />
+
+  <grok:grok package="." />
+
+  <include package="gomobiletheme.basic" />
+
+  <!-- Register add-on installer entry in the control panel -->
+  <genericsetup:registerProfile
+      name="default"
+      title="emas.mobiletheme"
+      directory="profiles/default"
+      description='Mobile theme for Everything Maths & Science'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <!-- Register theme layer interface -->
+  <interface
+    interface=".interfaces.IThemeLayer"
+    type="zope.publisher.interfaces.browser.IBrowserSkinType"
+    name="emas.mobiletheme theme"
+    />
+
+</configure>

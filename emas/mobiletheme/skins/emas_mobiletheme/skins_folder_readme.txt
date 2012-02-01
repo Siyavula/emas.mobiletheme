@@ -1,0 +1,1 @@
+Place old Plone 2 style template and through-the-web overrides to this folder.

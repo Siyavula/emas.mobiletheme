@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<object name="portal_properties" meta_type="Plone Properties Tool">
+ <object name="mobile_properties" meta_type="Plone Property Sheet" title="Mobile site specific settings">
+
+  <!--
+
+      When request is detected to be mobile or mobile site preview request,
+    enable this skin (the name of the skin) instead of using one
+    set up in portal_skins.
+
+    -->
+  <property name="mobile_skin" type="string" purge="False">emas.mobiletheme theme</property>
+
+ </object>
+</object>
