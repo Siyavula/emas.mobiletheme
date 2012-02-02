@@ -7,3 +7,9 @@
  * @license GPL"
  *
  */
+
+#footer-text a:active,
+#footer-text a:hover {
+    color: transparent;
+    background-color: transparent;
+}
