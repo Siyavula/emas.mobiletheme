@@ -12,8 +12,6 @@
 
         <p class="documentDescription" tal:content="context/Description" />
 
-        <h2 class="toc" i18n:translate="help_enable_table_of_contents">Table of Contents</h2>
-
         <ul id="table-of-contents" class="visualNoMarker button-links"
             tal:define="toc_container nocall:context">
             <metal:rendertoc define-macro="rendertoc">              
