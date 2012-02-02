@@ -39,6 +39,12 @@
         />
 
     <browser:defaultView
+        for="Products.ATContentTypes.interfaces.IATFolder"
+        layer=".interfaces.IThemeLayer"
+        name="toc"
+        />
+
+    <browser:defaultView
         for="rhaptos.xmlfile.xmlfile.IXMLFile"
         layer=".interfaces.IThemeLayer"
         name="mobilexmlfile"
