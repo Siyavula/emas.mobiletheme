@@ -1,0 +1,33 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="emas.theme">
+<body>
+
+    <metal:core fill-slot="main">
+        <h1 class="documentFirstHeading" tal:content="context/Title" />
+
+        <p class="documentDescription" tal:content="context/Description" />
+
+        <h2 class="toc" i18n:translate="help_enable_table_of_contents">Table of Contents</h2>
+
+        <ul id="table-of-contents" class="visualNoMarker button-links"
+            tal:define="toc_container nocall:context">
+            <metal:rendertoc define-macro="rendertoc">              
+            <tal:items repeat="item python:view.getContentItems(toc_container)">
+            <li class="navTreeItem visualNoMarker">
+                <a href="#" tal:attributes="href item/absolute_url">
+                    <span class="button-body"><span class="button-inner" tal:content="item/Title">Title</span></span>
+                </a>
+            </li>
+            </tal:items>
+            </metal:rendertoc>              
+        </ul>
+
+    </metal:core>
+
+</body>
+</html>

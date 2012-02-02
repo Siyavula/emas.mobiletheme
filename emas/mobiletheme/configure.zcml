@@ -29,4 +29,19 @@
         name="emas.mobiletheme theme"
         />
 
+    <browser:page
+        for="Products.ATContentTypes.interfaces.IATFolder"
+        name="toc"
+        class="emas.theme.browser.toc.TableOfContents"
+        template="templates/toc.pt"
+        permission="zope2.View"
+        layer=".interfaces.IThemeLayer"
+        />
+
+    <browser:defaultView
+        for="rhaptos.xmlfile.xmlfile.IXMLFile"
+        layer=".interfaces.IThemeLayer"
+        name="mobilexmlfile"
+        />
+
 </configure>

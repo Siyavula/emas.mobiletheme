@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="rhaptos.xmlfile">
+<body>
+
+<metal:content-core fill-slot="main">
+    <h1 class="documentFirstHeading" tal:content="context/Title" />
+
+    <p class="documentDescription" tal:content="context/Description" />
+
+    <tal:rewriteimg define="text view/w/body/render;
+                            helper nocall:context/@@mobile_image_html_rewriter;
+                            text python:helper.processHTML(text)">
+            <div tal:replace="structure text" />
+    </tal:rewriteimg>
+</metal:content-core>
+
+</body>
+</html>
