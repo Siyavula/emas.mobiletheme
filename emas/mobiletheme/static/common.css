@@ -8,6 +8,154 @@
  *
  */
 
+
+body {
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    text-align: left;
+    color: #333;
+    font-size: 1.2em;
+    padding: 0;
+    margin: 0;
+}
+
+* ul, ol {
+    list-style: none outside none;
+}
+* li {
+    display: inline;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    color: #111;
+}
+
+td, th {
+    padding: 0.5em 1em;
+    vertical-align: top;
+    line-height: 1em;
+}
+
+#content h1 {
+    border-bottom: 2px solid #ddd;
+    clear: both;
+    margin: 4px 0 0;
+    line-height: 125%;
+}
+
+#content p, #content div, #content dd, #content dt {
+    line-height: 1.55em;
+    margin: 1.2em 0;
+}
+
+#content table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+}
+
+#content pre {
+    background-color: #ccc;
+}
+
+#content pre.space {
+    background-color: white;
+    display: inline;
+    padding: 0;
+}
+#content .documentDescription, #content #description {
+    font: bold 1.25em "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.shortcode-content {
+    padding: 1em 2em;
+}
+
+.shortcode-content label.formQuestion {
+    font-weight: bold;
+}
+
+.shortcode-content .answer {
+    border-bottom: 1px solid #ccc;
+}
+
+#content .table {
+    margin: 1.5em 0;
+    text-align: center;
+    width: 100%;
+}
+#content .table table,
+#content .table table td,
+#content .figure table td {
+    text-align: center;
+    margin: auto;
+}
+
+#content .figure table {
+    width: 100%;
+}
+
+table.plain th, table.plain td {
+    border: 1px solid #DDDDDD;
+}
+
+.equation {
+    margin: .5em 0 1em;
+    position: relative;
+}
+
+.equation-number {
+    position: absolute;
+    top: 50%;
+    right: 0;
+}
+
+.table-text {
+    text-align: left;
+    line-height: normal;
+    padding-top: .3em;
+}
+
+#content .solution {
+    margin: .5em 0 .5em 3em;
+}
+
+#content .definition
+{
+   margin:.5em;
+   padding:.5em;
+   border: 2px solid black;
+}
+
+h2.section-header .title
+{
+   border-bottom: 1px solid #999999;
+   padding-left:.5em;
+   display:block;
+   background:#efefef;
+}
+h3.section-header .title
+{
+   border-bottom: 1px solid #999999;
+   padding-left:.5em;
+   display:block;
+}
+
+#content .example
+{
+   padding-left:.5em;
+   padding-right:.5em;
+   border: 5px solid #ccc;
+}
+
+#content .exercise
+{
+   padding-left:.5em;
+   padding-right:.5em;
+   border: 5px solid #ccc;
+}
+
+
 #footer-text a:active,
 #footer-text a:hover {
     color: transparent;
