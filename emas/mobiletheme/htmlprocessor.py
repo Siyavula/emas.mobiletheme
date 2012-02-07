@@ -67,7 +67,7 @@ class MathMLProcessor(ResizeViewHelper):
 
             mathml.getparent().replace(mathml, img)
 
-        return etree.tostring(doc)
+        return html.tostring(doc, method="xml")
 
 class MobileMathMLImage(BrowserView):
 
