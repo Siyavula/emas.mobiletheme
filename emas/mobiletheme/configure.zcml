@@ -50,4 +50,19 @@
         name="mobilexmlfile"
         />
 
+    <browser:page
+        for="*"
+        name="mobile_image_mathml_rewriter"
+        allowed_attributes="processHTML"
+        permission="zope2.View"
+        class=".htmlprocessor.MathMLImageRewriter"
+        />
+
+    <browser:page
+        for="*"
+        name="mobile_mathml_image"
+        permission="zope2.View"
+        class=".htmlprocessor.MobileMathMLImage"
+        />
+
 </configure>
