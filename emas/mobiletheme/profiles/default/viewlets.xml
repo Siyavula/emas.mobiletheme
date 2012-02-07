@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<object>
+    <order manager="plone.belowcontenttitle" skinname="emas.mobiletheme theme">
+        <viewlet name="plone.nextprevious" insert-before="*"/>
+    </order>
+</object>

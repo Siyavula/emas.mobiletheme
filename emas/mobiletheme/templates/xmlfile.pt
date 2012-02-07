@@ -8,6 +8,8 @@
 <body>
 
 <metal:content-core fill-slot="main">
+    <div tal:replace="structure context/@@viewlets/plone.nextprevious" />
+
     <h1 class="documentFirstHeading" tal:content="context/Title" />
 
     <p class="documentDescription" tal:content="context/Description" />
@@ -17,6 +19,9 @@
                             text python:helper.processHTML(text)">
             <div tal:replace="structure text" />
     </tal:rewriteimg>
+
+    <div tal:replace="structure context/@@viewlets/plone.nextprevious" />
+
 </metal:content-core>
 
 </body>

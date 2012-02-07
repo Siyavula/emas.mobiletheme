@@ -48,6 +48,22 @@ td, th {
     margin: 1.2em 0;
 }
 
+#content ol, dl.portlet ol {
+    list-style-type: decimal;
+    margin-left: 2em;
+}
+
+#content li, dl.portlet li {
+    display: list-item;
+    line-height: 1.5em;
+    margin-bottom: 0.25em;
+}
+
+#content a:link, dl.portlet a:link {
+    border-bottom: 0.1em solid #CCCCCC;
+    color: #205C90;
+}
+
 #content table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -155,6 +171,29 @@ h3.section-header .title
    border: 5px solid #ccc;
 }
 
+div.listingBar {
+    background-color: transparent;
+    font-size: 80%;
+    margin: 1em 0;
+}
+div.listingBar .previous {
+    display: inline-block;
+    margin-left: 0;
+}
+div.listingBar .next {
+    display: inline-block;
+    float: right;
+}
+div.listingBar a {
+    border: 0.1em solid #CCCCCC;
+    display: inline-block;
+    padding: 0.25em 0.5em;
+}
+#content div.listingBar a:hover {
+    color: White;
+    background-color: #329fd7;
+    border-color: #329fd7;
+}
 
 #footer-text a:active,
 #footer-text a:hover {

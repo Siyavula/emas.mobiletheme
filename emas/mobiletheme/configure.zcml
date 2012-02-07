@@ -65,4 +65,13 @@
         class=".htmlprocessor.MobileMathMLImage"
         />
 
+    <browser:viewlet  
+        name="plone.nextprevious"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+        class="plone.app.layout.nextprevious.view.NextPreviousViewlet"
+        layer=".interfaces.IThemeLayer"
+        permission="zope2.View" 
+        />
+
+
 </configure>
