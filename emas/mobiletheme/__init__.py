@@ -1,5 +1,7 @@
 from zope.i18nmessageid import MessageFactory
 
+import patches
+
 # Declare the function which will turn strings to translation ids
 MessageFactory = MessageFactory('${namespace_package}.${package}')
 
