@@ -102,3 +102,12 @@ class MobileFolderListing(base.MobileFolderListing):
     def update(self):
         """ """
         self.items = []
+
+class SearchBoxTop(base.SearchBoxTop):
+    """ Search box top
+    """
+    
+class SearchBoxBottom(base.SearchBoxBottom):
+    """ Search box bottom
+    """
+

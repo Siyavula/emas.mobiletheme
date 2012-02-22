@@ -1,0 +1,22 @@
+<div id="search-box-top">
+	<form action="@@emas.search" class="searchform searchform-top">
+		<table width="100%" cellspacing="0" cellpadding="0">
+			<tbody>
+				<tr>
+					<td class="searchBar">
+						<input  id="searchboxtop"
+								type="text" 
+								name="SearchableText" 
+								title="Search Site" 
+								i18n:attributes="title title_search_title;"
+								value=""
+								class="searchfield" />
+					</td>
+					<td class="searchBtn">
+						<input type="submit" value="Go" class="button">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+</div>

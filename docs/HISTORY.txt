@@ -10,6 +10,9 @@ Changelog
 
 - fix NotFound import error
 
+- change form action for search form to emas.search to enable
+  redirection when a short code is entered.
+
 1.0
 ---
 
