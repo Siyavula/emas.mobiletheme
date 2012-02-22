@@ -8,6 +8,8 @@ Changelog
 
 - disable folder listing
 
+- fix NotFound import error
+
 1.0
 ---
 

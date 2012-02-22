@@ -4,6 +4,7 @@ from xml.parsers.expat import ExpatError
 
 from Products.Five import BrowserView
 from Products.CMFCore.utils import getToolByName
+from ZPublisher import NotFound
 
 from zope.component import getMultiAdapter, getUtility
 from gomobile.mobile.interfaces import IMobileImageProcessor
