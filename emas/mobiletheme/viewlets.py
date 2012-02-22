@@ -96,3 +96,9 @@ class Back(base.Back):
 class FooterText(base.FooterText):
     """ Override to put our own template into play """
 
+class MobileFolderListing(base.MobileFolderListing):
+    """ Disable mobile folder listing """
+
+    def update(self):
+        """ """
+        self.items = []

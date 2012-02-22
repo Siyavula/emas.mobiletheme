@@ -84,7 +84,7 @@ td, th {
 }
 
 .shortcode-content {
-    padding: 1em 2em;
+    padding: 0em;
 }
 
 .shortcode-content label.formQuestion {
@@ -93,6 +93,10 @@ td, th {
 
 .shortcode-content .answer {
     border-bottom: 1px solid #ccc;
+}
+
+.shortcode-content .field {
+    padding: 0em;
 }
 
 #content .table {

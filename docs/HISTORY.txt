@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.1
+---
+
+- zero padding for answer 
+
+- disable folder listing
+
 1.0
 ---
 
