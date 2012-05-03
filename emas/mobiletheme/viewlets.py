@@ -5,10 +5,12 @@ from zope.component import getMultiAdapter
 from zope.interface import Interface
 
 from five import grok
+from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from gomobiletheme.basic import viewlets as base
 from gomobile.mobile.interfaces import IMobileImageProcessor
 
+from plone.app.layout.nextprevious import view as navbase
 from emas.mobiletheme import MessageFactory as _
 
 # Layer for which against all our viewlets are registered
@@ -110,4 +112,10 @@ class SearchBoxTop(base.SearchBoxTop):
 class SearchBoxBottom(base.SearchBoxBottom):
     """ Search box bottom
     """
+
+class NextPreviousViewlet(navbase.NextPreviousViewlet):
+    """ Next / Previous links template override
+    """
+    index = ZopeTwoPageTemplateFile('./templates/nextprevious.pt')
+
 
