@@ -1,11 +1,17 @@
 import copy
 
+import PIL
+import urllib2
+import cStringIO
+
+from ZPublisher import NotFound
 from lxml.etree import ParserError 
 from lxml.html import fromstring, tostring
 from zope.app.component.hooks import getSite
 from plone.app.redirector.storage import RedirectionStorage
 from mobile.htmlprocessing.transformers.basic import BasicCleaner
 from gomobile.mobile.browser.imageprocessor import MobileImageProcessor
+from gomobile.imageinfo.utilities import ImageInfoUtility
 
 from Acquisition import aq_base
 
@@ -110,3 +116,17 @@ def mapURL(self, url):
     return url
 
 MobileImageProcessor.mapURL = mapURL
+
+def downloadImage(self, url):
+    """ Get remote image data and store.
+    """
+    req = urllib2.Request(url)
+    try:
+        response = urllib2.urlopen(req)
+    except urllib2.HTTPError:
+        raise NotFound('The URL:%s could not be found' %url)
+    data = response.read()
+    io = cStringIO.StringIO(data)
+    return PIL.Image.open(io)
+
+ImageInfoUtility.downloadImage = downloadImage
