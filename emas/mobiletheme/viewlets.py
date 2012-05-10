@@ -118,4 +118,12 @@ class NextPreviousViewlet(navbase.NextPreviousViewlet):
     """
     index = ZopeTwoPageTemplateFile('./templates/nextprevious.pt')
 
+class Head(base.Head):
+    """ Override base to customise template
+    """
 
+    def apple_icon_url(self):
+        """ Get url for apple-touch-icon used on Apple devices.
+        """
+        return "/".join([self.resource_url(), "apple-touch-icon.png"])
+     
