@@ -74,6 +74,8 @@ class MobileMathMLImage(BrowserView):
 
     def __call__(self):
         key = self.request.get('key')
+        if key is None:
+            raise NotFound("No key specified")
         filename = key.split('.')[0]
         resizer = getMultiAdapter((self.context, self.request),
                                   IMobileImageProcessor)
