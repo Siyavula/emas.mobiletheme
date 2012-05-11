@@ -1,6 +1,19 @@
 Changelog
 =========
 
+1.2unreleased
+-------------
+
+- Show the offending url and use NotFound so we can suppress it in the error log
+
+- fix apple icon url
+  
+- raise NotFound if key is not specified
+  
+- Simplify next/previous links
+  
+- patched to traverse relative urls from folder if content is not folderish
+
 1.1
 ---
 
