@@ -4,6 +4,7 @@ import PIL
 import urllib2
 import cStringIO
 
+from Acquisition import aq_base
 from ZPublisher import NotFound
 from lxml.etree import ParserError 
 from lxml.html import fromstring, tostring
@@ -12,8 +13,11 @@ from plone.app.redirector.storage import RedirectionStorage
 from mobile.htmlprocessing.transformers.basic import BasicCleaner
 from gomobile.mobile.browser.imageprocessor import MobileImageProcessor
 from gomobile.imageinfo.utilities import ImageInfoUtility
+from mobile.sniffer import utilities as snifferutils
 
-from Acquisition import aq_base
+from logging import getLogger
+LOG = getLogger('MobileTheme: patches')
+
 
 def process(self, html):
     """ patched method to not encode result when converting back to
@@ -130,3 +134,21 @@ def downloadImage(self, url):
     return PIL.Image.open(io)
 
 ImageInfoUtility.downloadImage = downloadImage
+
+def get_user_agent(request):
+    """ Monkey patch on: mobile/sniffer/utilities.py
+        We want to see what the environment and returned agent was.
+    """
+    environ = snifferutils.get_environ(request)
+    LOG.info(environ)
+    agent = 'No agent found'
+
+    if "HTTP_X_OPERAMINI_PHONE_UA" in environ:
+        # Opera mini proxy special case
+        agent = environ["HTTP_X_OPERAMINI_PHONE_UA"]
+    elif "HTTP_USER_AGENT" in environ:
+        agent = environ["HTTP_USER_AGENT"]
+
+    return agent
+
+snifferutils.get_user_agent = get_user_agent

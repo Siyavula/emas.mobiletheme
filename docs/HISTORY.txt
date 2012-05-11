@@ -14,6 +14,8 @@ Changelog
   
 - patched to traverse relative urls from folder if content is not folderish
 
+- patched sniffer.utilities.get_user_agent to log the environment and rather return 'No agent found' then 'None'.
+
 1.1
 ---
 
