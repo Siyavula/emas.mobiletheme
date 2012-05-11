@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.2unreleased'
+version = '1.2 (unreleased)'
 
 setup(name='emas.mobiletheme',
       version=version,
