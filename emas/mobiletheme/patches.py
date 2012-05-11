@@ -140,7 +140,6 @@ def get_user_agent(request):
         We want to see what the environment and returned agent was.
     """
     environ = snifferutils.get_environ(request)
-    LOG.info(environ)
     agent = 'No agent found'
 
     if "HTTP_X_OPERAMINI_PHONE_UA" in environ:
@@ -148,6 +147,10 @@ def get_user_agent(request):
         agent = environ["HTTP_X_OPERAMINI_PHONE_UA"]
     elif "HTTP_USER_AGENT" in environ:
         agent = environ["HTTP_USER_AGENT"]
+    else:
+        # we don't know what user agent, we log the environment se we can
+        # fix this problem in the long run.
+        LOG.info(environ)
 
     return agent
 
