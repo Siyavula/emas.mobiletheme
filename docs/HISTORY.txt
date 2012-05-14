@@ -17,6 +17,9 @@ Changelog
 - patched sniffer.utilities.get_user_agent to log the environment and
   rather return 'No agent found' then None.
 
+- Replace back button with simpler back link that can be rendered for
+  all phones
+
 1.1
 ---
 
