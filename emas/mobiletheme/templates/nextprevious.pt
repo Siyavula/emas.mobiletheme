@@ -24,7 +24,6 @@
                    Previous
                 </span>
             </a>
-            |
           </tal:previous>
             <a class="next" href="" 
                title="Go to next item"
