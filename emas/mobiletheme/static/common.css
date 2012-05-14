@@ -36,6 +36,15 @@ td, th {
     line-height: 1em;
 }
 
+div.back {
+    position: relative;
+    vertical-align: middle;
+}
+
+div.back a > * {
+    vertical-align: middle;
+}
+
 #content h1 {
     border-bottom: 2px solid #ddd;
     clear: both;
