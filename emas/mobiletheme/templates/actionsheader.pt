@@ -1,0 +1,12 @@
+<div id="actions-header" tal:condition="not: context/@@mobile_tool/isLowEndPhone">
+
+    <div tal:replace="structure context/@@viewlets/topactions" />
+
+    <div style="clear: both"><!-- --></div>
+
+</div>
+
+<div tal:replace="structure context/@@viewlets/back" />
+
+<div tal:condition="not: context/@@mobile_tool/isLowEndPhone" tal:replace="structure context/@@viewlets/searchboxtop" />
+
