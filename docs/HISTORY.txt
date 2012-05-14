@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.2 (unreleased)
-----------------
+1.2
+---
 
 - Show the offending url and use NotFound so we can suppress it in the error log
 
@@ -14,7 +14,8 @@ Changelog
   
 - patched to traverse relative urls from folder if content is not folderish
 
-- patched sniffer.utilities.get_user_agent to log the environment and rather return 'No agent found' then 'None'.
+- patched sniffer.utilities.get_user_agent to log the environment and
+  rather return 'No agent found' then None.
 
 1.1
 ---

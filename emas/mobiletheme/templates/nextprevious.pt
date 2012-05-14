@@ -19,15 +19,12 @@
                title="Go to previous item"
                i18n:attributes="title title_previous_item"
                tal:attributes="href previous/url">
-                «
                 <span i18n:translate="label_previous_item"
                       tal:omit-tag="">
                    Previous
                 </span>
             </a>
           </tal:previous>
-
-
             <a class="next" href="" 
                title="Go to next item"
                i18n:attributes="title title_next_item"
@@ -37,7 +34,6 @@
                      tal:omit-tag="">
                    Next
                </span>
-                »
             </a>
 
           &nbsp;
