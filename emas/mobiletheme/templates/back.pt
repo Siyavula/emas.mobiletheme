@@ -1,7 +1,0 @@
-<div class="back" tal:condition="not:viewlet/isHome">
-	<a tal:attributes="href viewlet/backUrl;
-					   title viewlet/backTitle">
-        <img src="++resource++emas.mobiletheme/back.png"/>&nbsp;
-        <span tal:content="viewlet/backTitle"/>
-    </a>
-</div>

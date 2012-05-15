@@ -47,11 +47,6 @@ class Logo(base.Logo):
         self.logo_url = self.nav_root_url + "/" + self.getLogoPath()
 
 
-class ActionsHeader(base.ActionsHeader):
-    """ Override to customise template
-    """
-
-
 class AdditionalHead(base.AdditionalHead):
     """ Include our custom CSS and JS in the theme.
     
