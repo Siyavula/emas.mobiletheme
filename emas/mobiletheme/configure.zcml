@@ -30,6 +30,15 @@
         />
 
     <browser:page
+        for="*"
+        name="mobile_tool"
+        permission="zope2.Public"
+        class=".views.MobileTool"
+        allowed_attributes="isMobileRequest getWebSiteURL getMobileSiteURL getMobilePreviewURL isLowEndPhone isMXit"
+        layer=".interfaces.IThemeLayer"
+        />
+
+    <browser:page
         for="Products.ATContentTypes.interfaces.IATFolder"
         name="toc"
         class="emas.theme.browser.toc.TableOfContents"
