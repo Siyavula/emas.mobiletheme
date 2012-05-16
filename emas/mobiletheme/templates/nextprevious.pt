@@ -9,8 +9,7 @@
 
     <tal:block define="portal_url view/portal_url;">
 
-        <div class="listingBar"
-             tal:define="next view/next; 
+        <div class="nextprevious" tal:define="next view/next; 
                          previous view/previous"
              tal:condition="python:previous is not None or next is not None">
 
@@ -18,25 +17,15 @@
             <a class="previous" href="" 
                title="Go to previous item"
                i18n:attributes="title title_previous_item"
-               tal:attributes="href previous/url">
-                <span i18n:translate="label_previous_item"
-                      tal:omit-tag="">
-                   Previous
-                </span>
-            </a>
+               tal:attributes="href previous/url"><span i18n:translate="label_previous_item"
+                      tal:omit-tag="">Previous page</span></a>
           </tal:previous>
+            <tal:pipe tal:condition="python: next and previous">&nbsp;|&nbsp;</tal:pipe>
             <a class="next" href="" 
                title="Go to next item"
                i18n:attributes="title title_next_item"
                tal:condition="next"
-               tal:attributes="href next/url">
-               <span i18n:translate="label_next_item"
-                     tal:omit-tag="">
-                   Next
-               </span>
-            </a>
-
-          &nbsp;
+               tal:attributes="href next/url"><span i18n:translate="label_next_item" tal:omit-tag="">Next page</span></a>
 
        </div>
 

@@ -64,6 +64,16 @@ td, th {
     color: #205C90;
 }
 
+#content div.nextprevious {
+    float: right;
+}
+#content a.previous:link,
+#content a.next:link {
+    border-bottom: none;
+    text-decoration: underline;
+}
+
+
 #content table {
     border-collapse: collapse;
     border-spacing: 0;
