@@ -1,0 +1,17 @@
+<ul id="portal-sections" i18n:domain="gomobiletheme.basic">
+
+    <tal:tabs tal:repeat="sec viewlet/sections" tal:condition="python:len(viewlet.sections) > 0">
+        <li tal:attributes="id string:portaltab-${sec/id};">
+            <a href=""
+               tal:content="structure sec/title"
+               tal:attributes="href sec/url;
+                           title sec/description|nothing">
+                <tal:comment replace="nothing">Tab Name</tal:comment>
+            </a>
+        </li>
+    </tal:tabs>
+
+	<li id="full-site" tal:condition="not: context/@@mobile_tool/isMXit">
+		<a href="" tal:attributes="href viewlet/get_web_site_url">Full Site</a>
+	</li>
+</ul>

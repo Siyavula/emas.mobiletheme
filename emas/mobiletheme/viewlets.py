@@ -65,7 +65,6 @@ class AdditionalHead(base.AdditionalHead):
         # Absolute URL refering to the static media folder
         self.resource_url = self.portal_url + "/" + "++resource++emas.mobiletheme"
 
-
 class Back(base.Back):
     """ Make a custom Back button that does not use the canonical object
     """
@@ -127,3 +126,7 @@ class Head(base.Head):
         """
         return "/".join([self.resource_url(), "apple-touch-icon.png"])
      
+
+class Sections(base.Sections):
+    """ Override to customise template
+    """
