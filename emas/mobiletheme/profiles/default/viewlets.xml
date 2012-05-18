@@ -3,4 +3,7 @@
     <order manager="plone.belowcontenttitle" skinname="emas.mobiletheme theme">
         <viewlet name="plone.nextprevious" insert-before="*"/>
     </order>
+    <order manager="plone.belowcontentbody" skinname="emas.mobiletheme theme">
+        <viewlet name="emas.mobiletheme.mxitchatroomlink" insert-before="*"/>
+    </order>
 </object>

@@ -82,4 +82,12 @@
         permission="zope2.View" 
         />
 
+    <browser:viewlet  
+        name="emas.mobiletheme.mxitchatroomlink"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class="upfront.mxitup.browser.viewlets.MxitChatroomLink"
+        layer=".interfaces.IThemeLayer"
+        permission="zope2.View" 
+        />
+
 </configure>
