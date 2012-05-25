@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.4 (unreleased)
+----------------
+
+- Remove user agent monkey patch after adding it to new mobile.sniffer branch.
+
 1.3
 ---
 

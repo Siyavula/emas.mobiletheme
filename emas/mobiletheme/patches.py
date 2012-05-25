@@ -134,24 +134,3 @@ def downloadImage(self, url):
     return PIL.Image.open(io)
 
 ImageInfoUtility.downloadImage = downloadImage
-
-def get_user_agent(request):
-    """ Monkey patch on: mobile/sniffer/utilities.py
-        We want to see what the environment and returned agent was.
-    """
-    environ = snifferutils.get_environ(request)
-    agent = 'No agent found'
-
-    if "HTTP_X_OPERAMINI_PHONE_UA" in environ:
-        # Opera mini proxy special case
-        agent = environ["HTTP_X_OPERAMINI_PHONE_UA"]
-    elif "HTTP_USER_AGENT" in environ:
-        agent = environ["HTTP_USER_AGENT"]
-    else:
-        # we don't know what user agent, we log the environment se we can
-        # fix this problem in the long run.
-        LOG.info(environ)
-
-    return agent
-
-snifferutils.get_user_agent = get_user_agent
