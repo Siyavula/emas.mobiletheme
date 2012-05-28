@@ -64,7 +64,7 @@
         name="mobile_image_mathml_rewriter"
         allowed_attributes="processHTML"
         permission="zope2.View"
-        class=".htmlprocessor.MathMLImageRewriter"
+        class=".htmlprocessor.HTMLImageRewriter"
         />
 
     <browser:page

@@ -1,4 +1,8 @@
-import lxml
+import sys
+from cStringIO import StringIO
+import Image
+import ImageDraw
+import ImageFont
 from lxml import etree, html
 from xml.parsers.expat import ExpatError
 
@@ -12,6 +16,32 @@ from gomobile.mobile.browser.imageprocessor import ResizeViewHelper
 from gomobile.mobile.interfaces import IMobileRequestDiscriminator, \
     MobileRequestType
 from upfront.mathmlimage import convert
+
+
+# HTML entities we convert to png for the sake of mxit
+ENTITIES = [
+    '&#8960;',
+    '&#8474;',
+    '&#8484;',
+    '&#8496;',
+    '&#8248;',
+    '&#1013;',
+    '&#8469;',
+    '&#160;',
+    '&#8477;',
+    '&#120237;',
+    '&#8942;',
+    '&#119842;',
+    '&#119848;',
+    '&#119837;',
+    '&#119834;',
+    '&#119847;',
+    '&#119853;',
+    '&#119855;',
+    '&#119836;',
+    '&#119838;',
+]
+
 
 class MathMLProcessor(ResizeViewHelper):
 
@@ -70,6 +100,74 @@ class MathMLProcessor(ResizeViewHelper):
 
         return html.tostring(doc, method="xml")
 
+
+class MxitHTMLProcessor(BrowserView):
+    
+    def process(self, source):
+        if source is None and source == "":
+            return source
+
+        doc = html.fromstring(source)
+        for example in doc.cssselect('div.example'):
+            example.getparent().remove(example)
+        return html.tostring(doc, method="xml")
+
+
+class HTMLEntityProcessor(ResizeViewHelper):
+    font = ImageFont.truetype(
+        '/usr/share/fonts/truetype/freefont/FreeSerif.ttf',24)
+
+    def __init__(self, context, request):
+        super(HTMLEntityProcessor, self).__init__(context, request)
+        self.init()
+        self.entities_image_map = {}
+        portal_url = getToolByName(self.context, 'portal_url')()
+        for entity in ENTITIES:
+            path = self.resizer.cache.makePathKey(entity)
+            file = self.resizer.cache.get(path)
+            if file is None:
+                # get the unicode for the character
+                entity_code = html.fromstring(entity).text
+                data = self.convert(entity_code)
+                if not data or len(data) < 1:
+                    path = 'notfound.png'
+                else:
+                    self.resizer.cache.set(path, data)
+
+            img_tag = '<img class="mathml" src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
+            self.entities_image_map[entity] = img_tag
+    
+    def convert(self, entity_code):
+        # Get the width and height of the given text, as a 2-tuple.
+        size = self.font.getsize(entity_code)
+        im = Image.new("RGBA", size, (255,255,255))
+        draw = ImageDraw.Draw(im)
+        draw.text((0,6), entity_code, font=self.font, fill=(0,0,0))
+        del draw
+        img_buffer = StringIO()
+        im.save(img_buffer, format="PNG")
+        return img_buffer.getvalue()
+
+    def process(self, source):
+        for entity, tag in self.entities_image_map.items():
+            while source.find(entity) > 0:
+                source = source.replace(entity, tag)
+        return source
+
+
+class UnicodeProcessor(HTMLEntityProcessor):
+    """ Specialize the HTMLEntityProcessor to look for the unicode codepoints
+        instead of the html entities. The substition of the found codepoints
+        with the cached images remains the same.
+    """
+    def process(self, source):
+        for entity, tag in self.entities_image_map.items():
+            entity_code = html.fromstring(entity).text
+            while source.find(entity_code) > 0:
+                source = source.replace(entity_code, tag)
+        return source
+
+
 class MobileMathMLImage(BrowserView):
 
     def __call__(self):
@@ -79,6 +177,7 @@ class MobileMathMLImage(BrowserView):
         filename = key.split('.')[0]
         resizer = getMultiAdapter((self.context, self.request),
                                   IMobileImageProcessor)
+
         resizer.init()
 
         file = resizer.cache.get(filename)
@@ -93,10 +192,12 @@ class MobileMathMLImage(BrowserView):
         return data
 
 
-class MathMLImageRewriter(BrowserView):
+class HTMLImageRewriter(BrowserView):
     """
-    A copy of the gomobile HTMLImageRewriter extended with MathML to
-    image conversion
+    A copy of the gomobile HTMLImageRewriter extended with:
+    - MathML to image conversion
+    - unicode to image conversion (for selected unicode chars)
+    - cleanup of worked solution divs
     """
 
     def processHTML(self, html, trusted=True, only_for_mobile=False):
@@ -110,15 +211,13 @@ class MathMLImageRewriter(BrowserView):
         rendered in mobile mode
 
         """
-
-
         if only_for_mobile:
             # Perform check if we are in mobile rendering mode
             discriminator = getUtility(IMobileRequestDiscriminator)
             flags = discriminator.discriminate(self.context, self.request)
             if not MobileRequestType.MOBILE in flags:
                 return html
-
+        
         resizer = getMultiAdapter((self.context, self.request),
                                   IMobileImageProcessor)
 
@@ -129,6 +228,22 @@ class MathMLImageRewriter(BrowserView):
 
         mathmlconverter = MathMLProcessor(self.context, self.request)
         html = mathmlconverter.process(html)
+
+        mob_tool = getMultiAdapter((self.context, self.request),
+                                   name='mobile_tool')
+        if mob_tool.isMXit():
+            mxitprocessor = MxitHTMLProcessor(self.context,
+                                              self.request)
+            html = mxitprocessor.process(html)
+
+            entity_processor = HTMLEntityProcessor(self.context,
+                                                   self.request)
+            html = entity_processor.process(html)
+
+            unicode_to_image_processor = UnicodeProcessor(self.context,
+                                                          self.request)
+            html = unicode_to_image_processor.process(html)
+
         return html
 
 
