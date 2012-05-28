@@ -6,6 +6,10 @@ Changelog
 
 - Remove user agent monkey patch after adding it to new mobile.sniffer branch.
 
+- Add processors to
+  remove examples
+  render selected html entities and unicode characters as images
+
 1.3
 ---
 
