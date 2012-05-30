@@ -1,6 +1,5 @@
 import sys
 import subprocess
-import tempfile
 from cStringIO import StringIO
 import Image
 import ImageDraw
@@ -198,8 +197,6 @@ class MxitTableProcessor(BrowserView):
     """
     Convert tables to images for mxit.
     """
-    font = ImageFont.truetype(
-        '/usr/share/fonts/truetype/freefont/FreeSerif.ttf',24)
     
     def process(self, source):
         if source is None and source == "":
