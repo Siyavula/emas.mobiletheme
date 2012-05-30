@@ -1,4 +1,6 @@
 import sys
+import subprocess
+import tempfile
 from cStringIO import StringIO
 import Image
 import ImageDraw
@@ -192,6 +194,60 @@ class MobileMathMLImage(BrowserView):
         return data
 
 
+class MxitTableProcessor(BrowserView):
+    """
+    Convert tables to images for mxit.
+    """
+    font = ImageFont.truetype(
+        '/usr/share/fonts/truetype/freefont/FreeSerif.ttf',24)
+    
+    def process(self, source):
+        if source is None and source == "":
+            return source
+
+        resizer = getMultiAdapter((self.context, self.request),
+                                  IMobileImageProcessor)
+        resizer.init()
+        portal_url = getToolByName(self.context, 'portal_url')()
+        doc = html.fromstring(source)
+        for table in doc.cssselect('table'):
+            path = resizer.cache.makePathKey(table)
+            file = resizer.cache.get(path)
+            if file is None:
+                data = self.convert(table)
+                if not data or len(data) < 1:
+                    path = 'notfound'
+                else:
+                    resizer.cache.set(path, data)
+
+            img_tag = '<img src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
+            element = html.fromstring(img_tag)
+            table.getparent().replace(table, element)
+        return html.tostring(doc, method='xml')
+
+    def convert(self, table):
+        """
+        Convert the html table with wkhtmltoimage, like so:
+            wkhtmltoimage --quality 30 --width 320 table.html table.png
+        """
+        
+        #TODO: make 'quality' and 'width' configurable,
+        #      maybe portal properties?
+        cmdargs = ['wkhtmltoimage',
+                   '--quality',
+                   '30',
+                   '--width',
+                   '320',
+                   '-',
+                   '-'
+        ]
+        process = subprocess.Popen(cmdargs,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        stdout, stderr = process.communicate(html.tostring(table))
+        
+        return stdout
+
+
 class HTMLImageRewriter(BrowserView):
     """
     A copy of the gomobile HTMLImageRewriter extended with:
@@ -231,7 +287,8 @@ class HTMLImageRewriter(BrowserView):
 
         mob_tool = getMultiAdapter((self.context, self.request),
                                    name='mobile_tool')
-        if mob_tool.isMXit():
+        #if mobile_tool.isMXit():
+        if True:
             mxitprocessor = MxitHTMLProcessor(self.context,
                                               self.request)
             html = mxitprocessor.process(html)
@@ -243,6 +300,10 @@ class HTMLImageRewriter(BrowserView):
             unicode_to_image_processor = UnicodeProcessor(self.context,
                                                           self.request)
             html = unicode_to_image_processor.process(html)
+
+            mxit_table_processor = MxitTableProcessor(self.context,
+                                                      self.request)
+            html = mxit_table_processor.process(html)
 
         return html
 
