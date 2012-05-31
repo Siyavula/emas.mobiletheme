@@ -3,6 +3,7 @@ import os
 import re
 import subprocess
 import tempfile
+import xml.sax.saxutils as saxutils
 from cStringIO import StringIO
 import Image
 import ImageDraw
@@ -302,7 +303,9 @@ class LatexProcessor(BrowserView):
                 # convert the latex to png
                 data = self.convert(latex)
                 if not data or len(data) < 1:
-                    path = 'notfound'
+                    # if we cannot do the latex to png convertion,
+                    # we keep the latex
+                    continue
                 else:
                     resizer.cache.set(path, data)
 
@@ -320,7 +323,7 @@ class LatexProcessor(BrowserView):
         workfile = tempfile.mkstemp(dir=cachedir)
         fp = open(workfile[1], 'wb')
         fp.write(self.latexHeader)
-        fp.write(latex)
+        fp.write(saxutils.unescape(latex))
         fp.write(self.latexFooter)
         fp.close()
 
