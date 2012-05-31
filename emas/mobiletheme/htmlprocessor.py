@@ -1,5 +1,8 @@
 import sys
+import os
+import re
 import subprocess
+import tempfile
 from cStringIO import StringIO
 import Image
 import ImageDraw
@@ -208,10 +211,11 @@ class MxitTableProcessor(BrowserView):
         portal_url = getToolByName(self.context, 'portal_url')()
         doc = html.fromstring(source)
         for table in doc.cssselect('table'):
-            path = resizer.cache.makePathKey(table)
+            table_source = html.tostring(table, method="html")
+            path = resizer.cache.makePathKey(table_source)
             file = resizer.cache.get(path)
             if file is None:
-                data = self.convert(table)
+                data = self.convert(table_source)
                 if not data or len(data) < 1:
                     path = 'notfound'
                 else:
@@ -240,9 +244,130 @@ class MxitTableProcessor(BrowserView):
         ]
         process = subprocess.Popen(cmdargs,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        stdout, stderr = process.communicate(html.tostring(table))
+        stdout, stderr = process.communicate(table)
         
         return stdout
+
+
+class LatexProcessor(BrowserView):
+    """
+    Convert latex to png for mobile devices. 
+    """
+
+    latexHeader = r"""
+    \documentclass{article}
+    \usepackage{amsmath,amssymb}
+
+    % Maths commands
+    \newcommand{\pdist}[3]{#1\left(#2 \,\middle|\, #3\right)} % probability distribution (conditional)
+    \newcommand{\pdista}[2]{#1\left(#2\right)} % probability distribution (unconditional)
+    \renewcommand{\vec}[1]{{\boldsymbol{#1}}} % vector symbol
+    \newcommand{\mat}[1]{{\boldsymbol{#1}}} % matrix symbol
+    \newcommand{\prop}[1]{\mathbb{#1}} % proposition symbol
+    \newcommand{\model}[1]{\mathcal{#1}} % model symbol
+
+    \begin{document}
+    \pagestyle{empty}
+    """
+
+    latexFooter = r"""
+    \end{document}"""
+
+    
+    def process(self, source):
+        """
+        Find all the latex that has to be converted,
+        Check the resizer cache and if it has not been converted,
+        feed it to the convert method and cache the result.
+        """
+
+        if source is None and source == "":
+            return source
+
+        resizer = getMultiAdapter((self.context, self.request),
+                                  IMobileImageProcessor)
+        resizer.init()
+        portal_url = getToolByName(self.context, 'portal_url')()
+        doc = html.fromstring(source)
+        
+        tmp_dict = {}
+        # find the latext in the source
+        pattern = re.compile(r'\\\[.*?\\\]', re.DOTALL)
+        for match in pattern.finditer(source):
+            latex = source[match.start():match.end()]
+            path = resizer.cache.makePathKey(latex)
+            # check the resizer cache
+            file = resizer.cache.get(path)
+            if file is None:
+                # convert the latex to png
+                data = self.convert(latex)
+                if not data or len(data) < 1:
+                    path = 'notfound'
+                else:
+                    resizer.cache.set(path, data)
+
+            img_tag = '<img src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
+            tmp_dict[latex] = img_tag
+        
+        for latex, img_tag in tmp_dict.items():
+            while source.find(latex) > 0:
+                source = source.replace(latex, img_tag)
+        return source
+
+    def convert(self, latex, dpi='120'):
+        
+        cachedir = '/tmp'
+        workfile = tempfile.mkstemp(dir=cachedir)
+        fp = open(workfile[1], 'wb')
+        fp.write(self.latexHeader)
+        fp.write(latex)
+        fp.write(self.latexFooter)
+        fp.close()
+
+        cmdargs = ['latex',
+                   '-output-directory',
+                   '/tmp',
+                   '-interaction',
+                   'nonstopmode',
+                   '-output-format',
+                   'dvi',
+                   workfile[1],
+                   ]
+        process = subprocess.Popen(cmdargs,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        rendered, stderr = process.communicate(latex)
+       
+        dvifile = os.path.join(cachedir, '%s.dvi' %workfile[1])
+        pngfile = os.path.join(cachedir, '%s.png' %workfile[1])
+        cmdargs = ['dvipng',
+                   '-q',
+                   '-D',
+                   dpi,
+                   '-T',
+                   'tight',
+                   '-o',
+                   pngfile,
+                   dvifile,
+        ]
+        process = subprocess.Popen(cmdargs,
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+        
+        try:
+            outfile = open(pngfile, 'rb')
+            data = outfile.readlines()
+            outfile.close()
+        except IOError:
+            data = None
+        
+        for extension in ['tex', 'dvi', 'aux', 'log', 'png']:
+            try:
+                os.unlink(os.path.join(cachedir, '%s.%s' %(workfile[1], extension)))
+            except OSError:
+                # it's ok, the file does not exist, so no need to do cleanup.
+                pass
+
+        return data and ''.join(data) or None
 
 
 class HTMLImageRewriter(BrowserView):
@@ -282,9 +407,13 @@ class HTMLImageRewriter(BrowserView):
         mathmlconverter = MathMLProcessor(self.context, self.request)
         html = mathmlconverter.process(html)
 
+        latexconverter = LatexProcessor(self.context, self.request)
+        html = latexconverter.process(html)
+
         mob_tool = getMultiAdapter((self.context, self.request),
                                    name='mobile_tool')
-        if mob_tool.isMXit():
+        #if mob_tool.isMXit():
+        if True:
             mxitprocessor = MxitHTMLProcessor(self.context,
                                               self.request)
             html = mxitprocessor.process(html)
