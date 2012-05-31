@@ -292,14 +292,15 @@ class LatexProcessor(BrowserView):
         doc = html.fromstring(source)
         
         img_dict = {}
-        # find the multi-line latext in the source
+        # find the block latext in the source
+        # we add a break before the block levels to create some space
         pattern = re.compile(r'\\\[.*?\\\]', re.DOTALL)
         img_dict.update(
-            self.latext_png_map(source, pattern, resizer, portal_url)
+            self.latext_png_map(source, pattern, resizer, portal_url, '<br/>')
         )
         
-        # find the single line latex
-        pattern = re.compile(r'\\\(.*?\\\)')
+        # find the in-line latex
+        pattern = re.compile(r'\\\(.*?\\\)', re.DOTALL)
         img_dict.update(
             self.latext_png_map(source, pattern, resizer, portal_url)
         )
@@ -309,7 +310,7 @@ class LatexProcessor(BrowserView):
                 source = source.replace(latex, img_tag)
         return source
 
-    def latext_png_map(self, source, pattern, resizer, portal_url):
+    def latext_png_map(self, source, pattern, resizer, portal_url, extra=''):
         tmp_dict = {}
         for match in pattern.finditer(source):
             latex = source[match.start():match.end()]
@@ -326,7 +327,10 @@ class LatexProcessor(BrowserView):
                 else:
                     resizer.cache.set(path, data)
 
-            img_tag = '<img src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
+            img_tag = (
+                '%s<img src="%s/@@mobile_mathml_image?key=%s.png"/>'
+                % (extra, portal_url, path)
+            )
             tmp_dict[latex] = img_tag
         return tmp_dict
 
