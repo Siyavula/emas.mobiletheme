@@ -291,9 +291,26 @@ class LatexProcessor(BrowserView):
         portal_url = getToolByName(self.context, 'portal_url')()
         doc = html.fromstring(source)
         
-        tmp_dict = {}
-        # find the latext in the source
+        img_dict = {}
+        # find the multi-line latext in the source
         pattern = re.compile(r'\\\[.*?\\\]', re.DOTALL)
+        img_dict.update(
+            self.latext_png_map(source, pattern, resizer, portal_url)
+        )
+        
+        # find the single line latex
+        pattern = re.compile(r'\\\(.*?\\\)')
+        img_dict.update(
+            self.latext_png_map(source, pattern, resizer, portal_url)
+        )
+        
+        for latex, img_tag in img_dict.items():
+            while source.find(latex) > 0:
+                source = source.replace(latex, img_tag)
+        return source
+
+    def latext_png_map(self, source, pattern, resizer, portal_url):
+        tmp_dict = {}
         for match in pattern.finditer(source):
             latex = source[match.start():match.end()]
             path = resizer.cache.makePathKey(latex)
@@ -311,11 +328,7 @@ class LatexProcessor(BrowserView):
 
             img_tag = '<img src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
             tmp_dict[latex] = img_tag
-        
-        for latex, img_tag in tmp_dict.items():
-            while source.find(latex) > 0:
-                source = source.replace(latex, img_tag)
-        return source
+        return tmp_dict
 
     def convert(self, latex, dpi='120'):
         
