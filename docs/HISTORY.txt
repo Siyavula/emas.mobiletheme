@@ -10,6 +10,8 @@ Changelog
   remove examples
   render selected html entities and unicode characters as images
 
+- Add latex to png processor
+
 1.3
 ---
 

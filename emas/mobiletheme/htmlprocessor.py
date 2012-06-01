@@ -432,8 +432,7 @@ class HTMLImageRewriter(BrowserView):
 
         mob_tool = getMultiAdapter((self.context, self.request),
                                    name='mobile_tool')
-        #if mob_tool.isMXit():
-        if True:
+        if mob_tool.isMXit():
             mxitprocessor = MxitHTMLProcessor(self.context,
                                               self.request)
             html = mxitprocessor.process(html)
