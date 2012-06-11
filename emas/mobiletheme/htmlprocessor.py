@@ -5,9 +5,14 @@ import subprocess
 import tempfile
 import xml.sax.saxutils as saxutils
 from cStringIO import StringIO
-import Image
-import ImageDraw
-import ImageFont
+try:
+    import Image
+    import ImageDraw
+    import ImageFont
+except ImportError:
+    from PIL import Image
+    from PIL import ImageDraw
+    from PIL import ImageFont
 from lxml import etree, html
 from xml.parsers.expat import ExpatError
 
