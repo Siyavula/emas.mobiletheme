@@ -369,6 +369,8 @@ class LatexProcessor(BrowserView):
                    dpi,
                    '-T',
                    'tight',
+                   '-bg',
+                   'Transparent',
                    '-o',
                    pngfile,
                    dvifile,
