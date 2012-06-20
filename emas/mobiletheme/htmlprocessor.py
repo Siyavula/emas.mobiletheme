@@ -90,7 +90,7 @@ class MathMLProcessor(ResizeViewHelper):
             file = self.resizer.cache.get(path)
             if file is None:
                 try:
-                    data = convert(mathmlstring)
+                    data = convert(mathmlstring, ['transparent', 'white'])
                     self.resizer.cache.set(path, data)
                 except ExpatError:
                     path = 'notfound.png'
