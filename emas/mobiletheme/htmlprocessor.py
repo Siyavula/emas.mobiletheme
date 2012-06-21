@@ -244,6 +244,7 @@ class MxitTableProcessor(BrowserView):
                    quality,
                    '--width',
                    width,
+                   '--transparent',
                    '-',
                    '-'
         ]
