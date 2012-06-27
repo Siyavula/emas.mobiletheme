@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.5
+---
+
+- Set up caching rulesets for MobileMathMLImage and XMLView
+
 1.4
 ---
 
