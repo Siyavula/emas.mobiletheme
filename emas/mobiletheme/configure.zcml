@@ -5,6 +5,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:cmf="http://namespaces.zope.org/cmf"
     xmlns:grok="http://namespaces.zope.org/grok"
+    xmlns:cache="http://namespaces.zope.org/cache"
     i18n_domain="emas.mobiletheme">
     
     <includeDependencies package="." />
@@ -80,6 +81,16 @@
         class=".viewlets.NextPreviousViewlet"
         layer=".interfaces.IThemeLayer"
         permission="zope2.View" 
+        />
+
+    <cache:ruleset
+        for=".htmlprocessor.MobileMathMLImage"
+        ruleset="plone.stableResource"
+        />
+
+    <cache:ruleset
+        for=".views.XMLFile"
+        ruleset="plone.content.itemView"
         />
 
 </configure>
