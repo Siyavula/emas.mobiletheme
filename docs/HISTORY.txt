@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.6
+---
+
+- Set up caching ruleset for @@mobile_image_processor view
+
 1.5
 ---
 

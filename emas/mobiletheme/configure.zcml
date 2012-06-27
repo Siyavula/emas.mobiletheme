@@ -89,6 +89,11 @@
         />
 
     <cache:ruleset
+        for="gomobile.mobile.browser.imageprocessor.ResizeView"
+        ruleset="plone.stableResource"
+        />
+
+    <cache:ruleset
         for=".views.XMLFile"
         ruleset="plone.content.itemView"
         />
