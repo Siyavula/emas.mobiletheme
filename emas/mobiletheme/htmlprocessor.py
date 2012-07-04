@@ -147,11 +147,11 @@ class HTMLEntityProcessor(ResizeViewHelper):
             self.entities_image_map[entity] = img_tag
     
     def convert(self, entity_code):
-        # Get the width and height of the given text, as a 2-tuple.
+        # Get the width and height of the given text, as a tuple.
         size = self.font.getsize(entity_code)
-        im = Image.new("RGBA", size, (255,255,255))
+        im = Image.new("RGBA", size, (255,255,255,0))
         draw = ImageDraw.Draw(im)
-        draw.text((0,6), entity_code, font=self.font, fill=(0,0,0))
+        draw.text((0,8), entity_code, font=self.font, fill=(0,0,0))
         del draw
         img_buffer = StringIO()
         im.save(img_buffer, format="PNG")

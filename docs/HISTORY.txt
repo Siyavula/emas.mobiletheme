@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.7
+---
+
+- Add transparency for html entities converted to images
+
 1.6
 ---
 
