@@ -244,6 +244,7 @@ class MxitTableProcessor(BrowserView):
                    quality,
                    '--width',
                    width,
+                   '--transparent',
                    '-',
                    '-'
         ]
@@ -369,6 +370,8 @@ class LatexProcessor(BrowserView):
                    dpi,
                    '-T',
                    'tight',
+                   '-bg',
+                   'Transparent',
                    '-o',
                    pngfile,
                    dvifile,
