@@ -4,6 +4,7 @@ import re
 import subprocess
 import tempfile
 import xml.sax.saxutils as saxutils
+import aggdraw
 from cStringIO import StringIO
 try:
     import Image
@@ -121,10 +122,9 @@ class MxitHTMLProcessor(BrowserView):
             example.getparent().remove(example)
         return html.tostring(doc, method="xml")
 
+fontdir = os.path.join(os.path.dirname(__file__), 'font')
 
 class HTMLEntityProcessor(ResizeViewHelper):
-    font = ImageFont.truetype(
-        '/usr/share/fonts/truetype/freefont/FreeSerif.ttf',24)
 
     def __init__(self, context, request):
         super(HTMLEntityProcessor, self).__init__(context, request)
@@ -147,12 +147,24 @@ class HTMLEntityProcessor(ResizeViewHelper):
             self.entities_image_map[entity] = img_tag
     
     def convert(self, entity_code):
-        # Get the width and height of the given text, as a tuple.
-        size = self.font.getsize(entity_code)
+        fontfile = os.path.join(fontdir, 'stixgeneral-webfont.ttf')
+        font = aggdraw.Font("black", fontfile, size=20)
+        fontfile = os.path.join(fontdir, 'stixgeneralbol-webfont.ttf')
+        boldfont = aggdraw.Font("black", fontfile, size=20)
+
+        im = Image.new("RGBA", (10,10), (255,255,255,0))
+        draw = aggdraw.Draw(im)
+        # use the normal font to compute size, but draw with the bold
+        # font. size calculation on the bold font is broken
+        size = draw.textsize(entity_code, font)
+
+        # recreate Image instance with correct size
         im = Image.new("RGBA", size, (255,255,255,0))
-        draw = ImageDraw.Draw(im)
-        draw.text((0,8), entity_code, font=self.font, fill=(0,0,0))
+        draw = aggdraw.Draw(im)
+        draw.text((0,0), entity_code, boldfont)
+        draw.flush()
         del draw
+
         img_buffer = StringIO()
         im.save(img_buffer, format="PNG")
         return img_buffer.getvalue()
