@@ -113,7 +113,7 @@ class MathMLProcessor(ResizeViewHelper):
 class MxitHTMLProcessor(BrowserView):
     
     def process(self, source):
-        if source is None and source == "":
+        if not source:
             return source
 
         doc = html.fromstring(source)
@@ -209,7 +209,7 @@ class MxitTableProcessor(BrowserView):
     """
     
     def process(self, source):
-        if source is None and source == "":
+        if not source:
             return source
 
         resizer = getMultiAdapter((self.context, self.request),
@@ -233,10 +233,10 @@ class MxitTableProcessor(BrowserView):
             table.getparent().replace(table, element)
         return html.tostring(doc, method='xml')
 
-    def convert(self, table, quality='30', width='320'):
+    def convert(self, table, quality='70', width='320'):
         """
         Convert the html table with wkhtmltoimage, like so:
-            wkhtmltoimage --quality 30 --width 320 table.html table.png
+            wkhtmltoimage --quality 70 --width 320 table.html table.png
         """
         
         #TODO: make 'quality' and 'width' configurable,
@@ -289,7 +289,7 @@ class LatexProcessor(BrowserView):
         feed it to the convert method and cache the result.
         """
 
-        if source is None and source == "":
+        if not source:
             return source
 
         resizer = getMultiAdapter((self.context, self.request),
@@ -442,21 +442,21 @@ class HTMLImageRewriter(BrowserView):
         mob_tool = getMultiAdapter((self.context, self.request),
                                    name='mobile_tool')
         if mob_tool.isMXit():
-            mxitprocessor = MxitHTMLProcessor(self.context,
-                                              self.request)
+            mxitprocessor = MxitHTMLProcessor(self.context, self.request)
             html = mxitprocessor.process(html)
 
-            entity_processor = HTMLEntityProcessor(self.context,
-                                                   self.request)
+            mxit_table_processor = MxitTableProcessor(self.context,
+                                                      self.request)
+            html = mxit_table_processor.process(html)
+
+        if mob_tool.isLowEndPhone():
+            entity_processor = HTMLEntityProcessor(self.context, self.request)
             html = entity_processor.process(html)
 
             unicode_to_image_processor = UnicodeProcessor(self.context,
                                                           self.request)
             html = unicode_to_image_processor.process(html)
 
-            mxit_table_processor = MxitTableProcessor(self.context,
-                                                      self.request)
-            html = mxit_table_processor.process(html)
 
         return html
 
