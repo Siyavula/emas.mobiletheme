@@ -233,7 +233,7 @@ class MxitTableProcessor(BrowserView):
             table.getparent().replace(table, element)
         return html.tostring(doc, method='xml')
 
-    def convert(self, table, quality='70', width='320'):
+    def convert(self, table, quality='90', width='320'):
         """
         Convert the html table with wkhtmltoimage, like so:
             wkhtmltoimage --quality 70 --width 320 table.html table.png
@@ -242,6 +242,8 @@ class MxitTableProcessor(BrowserView):
         #TODO: make 'quality' and 'width' configurable,
         #      maybe portal properties?
         cmdargs = ['wkhtmltoimage',
+                   '--format',
+                   'png',
                    '--quality',
                    quality,
                    '--width',
