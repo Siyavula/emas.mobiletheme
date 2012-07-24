@@ -22,6 +22,16 @@
                 </a>
             </li>
             </tal:items>
+
+            <li class="navTreeItem visualNoMarker"
+                tal:condition="context/@@mobile_tool/isMXit">
+                <a href="#" tal:attributes="href context/absolute_url">
+                    <span class="button-body">
+                        <span class="button-inner">Exam Zone</span>
+                    </span>
+                </a>
+            </li>
+
             </metal:rendertoc>              
         </ul>
 
