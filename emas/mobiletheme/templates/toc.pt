@@ -25,10 +25,10 @@
 
             <tal:check-visibility condition="context/@@mobile_tool/isMXit">
             <li class="navTreeItem visualNoMarker"
-                tal:condition="not:view/isExamZone">
-                <a href="#" tal:attributes="href view/examzone_url">
+                tal:condition="not:view/isPastExamPapers">
+                <a href="#" tal:attributes="href view/past_exam_papers_url">
                     <span class="button-body">
-                        <span class="button-inner">Exam Zone</span>
+                        <span class="button-inner">Past Exam Papers</span>
                     </span>
                 </a>
             </li>
