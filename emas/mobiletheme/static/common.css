@@ -53,6 +53,26 @@ td, th {
     margin-left: 2em;
 }
 
+#content ol.arabic {
+    list-style-type: decimal;
+}
+
+#content ol.upper-alpha {
+    list-style-type: upper-alpha;
+}
+
+#content ol.lower-alpha {
+    list-style-type: lower-alpha;
+}
+
+#content ol.upper-roman {
+    list-style-type: upper-roman;
+}
+
+#content ol.lower-roman {
+    list-style-type: lower-roman;
+}
+
 #content li, dl.portlet li {
     display: list-item;
     line-height: 1.5em;
