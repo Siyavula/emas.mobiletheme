@@ -23,14 +23,16 @@
             </li>
             </tal:items>
 
+            <tal:check-visibility condition="context/@@mobile_tool/isMXit">
             <li class="navTreeItem visualNoMarker"
-                tal:condition="context/@@mobile_tool/isMXit">
+                tal:condition="not:view/isExamZone">
                 <a href="#" tal:attributes="href view/examzone_url">
                     <span class="button-body">
                         <span class="button-inner">Exam Zone</span>
                     </span>
                 </a>
             </li>
+            </tal:check-visibility>
 
             </metal:rendertoc>              
         </ul>
