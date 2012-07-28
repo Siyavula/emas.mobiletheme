@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="emas.theme">
+<body>
+
+    <metal:core fill-slot="main">
+        <h1 class="documentFirstHeading" tal:content="context/Title" />
+
+        <p class="documentDescription" tal:content="context/Description" />
+
+        <ul id="table-of-contents" class="visualNoMarker button-links"
+            tal:define="toc_container nocall:context">
+            <metal:rendertoc define-macro="rendertoc">              
+
+            <tal:check-visibility condition="not:context/@@mobile_tool/isMXit">
+            <li class="navTreeItem visualNoMarker"
+                tal:define="urls view/getURLs"
+                tal:repeat="url urls">
+                <a href="#" tal:attributes="href url">
+                    <span class="button-body">
+                        <span class="button-inner"
+                            tal:content="python:urls[url]">
+                            Past Exam Papers
+                        </span>
+                    </span>
+                </a>
+            </li>
+            </tal:check-visibility>
+
+            </metal:rendertoc>              
+        </ul>
+
+    </metal:core>
+
+</body>
+</html>
