@@ -25,13 +25,10 @@
 
             <tal:check-visibility condition="context/@@mobile_tool/isMXit">
             <li class="navTreeItem visualNoMarker"
-                tal:condition="not:view/isPastExamPapers"
-                tal:define="urls view/past_exam_papers_urls"
-                tal:repeat="url urls">
-                <a href="#" tal:attributes="href url">
+                tal:condition="not:view/isExamPapersFolder">
+                <a href="#" tal:attributes="href view/getExamPapersURL">
                     <span class="button-body">
-                        <span class="button-inner"
-                            tal:content="python:urls[url]">
+                        <span class="button-inner">
                             Past Exam Papers
                         </span>
                     </span>
