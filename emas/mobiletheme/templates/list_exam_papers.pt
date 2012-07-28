@@ -16,7 +16,7 @@
             tal:define="toc_container nocall:context">
             <metal:rendertoc define-macro="rendertoc">              
 
-            <tal:check-visibility condition="not:context/@@mobile_tool/isMXit">
+            <tal:check-visibility condition="context/@@mobile_tool/isMXit">
             <li class="navTreeItem visualNoMarker"
                 tal:define="urls view/getURLs"
                 tal:repeat="url urls">
