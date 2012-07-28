@@ -28,19 +28,27 @@ class List_Exam_Papers(grok.View):
         pps = self.context.restrictedTraverse('@@plone_portal_state')
         navroot = pps.navigation_root()
         
-        urls = {}
+        urls = {
+                'payed': {},
+                'notpayed': {}
+               }
+        gt = getToolByName(self.context, 'portal_groups')
         for subject, groupname in SUBJECT_MAP.items():
-            gt = getToolByName(self.context, 'portal_groups')
+            subject = subject.title()
             group = gt.getGroupById(groupname)
             # check if the current mxit member belongs to the ExamPapers group
             if memberid in group.getMemberIds():
+                tmp_dict = urls['payed']
                 url = '%s/%s' %(navroot.absolute_url() , EXAM_PAPERS_URL)
-                urls[url] = u'Past %s Exam Papers' %subject
+                tmp_dict.update({url: u'Past %s Exam Papers' %subject})
+                urls['payed'] = tmp_dict
             else:
+                tmp_dict = urls['notpayed']
                 url = '%s/@@mxitpaymentrequest?productId=%s' %(
                     navroot.absolute_url(), groupname
                 )
-                urls[url] = u'Past %s Exam Papers' %subject
+                tmp_dict.update({url: u'Past %s Exam Papers' %subject})
+                urls['notpayed'] = tmp_dict
         return urls
     
     def isExamPapersFolder(self):

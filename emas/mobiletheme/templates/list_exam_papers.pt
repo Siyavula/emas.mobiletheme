@@ -8,33 +8,60 @@
 <body>
 
     <metal:core fill-slot="main">
-        <h1 class="documentFirstHeading" tal:content="context/Title" />
+    <h1 class="documentFirstHeading" tal:content="context/Title">Title</h1>
 
-        <p class="documentDescription" tal:content="context/Description" />
+    <tal:check-visibility
+        condition="not:context/@@mobile_tool/isMXit"
+        tal:define="urls view/getURLs">
 
-        <ul id="table-of-contents" class="visualNoMarker button-links"
-            tal:define="toc_container nocall:context">
-            <metal:rendertoc define-macro="rendertoc">              
+    <p class="documentDescription">Welcome to the Exam Papers area! Here you can find past papers and memos for the 2011 Matric final exam.  <span tal:condition="python:len(urls['payed']) == 0">For 200 moola per subject, you will get access to the exam papers and the model solutions.</span>
+    </p>
 
-            <tal:check-visibility condition="context/@@mobile_tool/isMXit">
-            <li class="navTreeItem visualNoMarker"
-                tal:define="urls view/getURLs"
-                tal:repeat="url urls">
-                <a href="#" tal:attributes="href url">
-                    <span class="button-body">
-                        <span class="button-inner"
-                            tal:content="python:urls[url]">
-                            Past Exam Papers
-                        </span>
+    <p>You should practise these papers before looking at the answers! We will put up the solutions for the exams on Monday 13 August 2012. In the mean time, you should try to solve all the problems in all the papers. It will also help you to improve if you discuss your answers with your friends.</p>
+
+
+    <p tal:condition="python:len(urls['payed']) == 0">Please choose your subject:</p>
+
+    <ul id="table-of-contents" class="visualNoMarker button-links">
+
+        <tal:payed define="payed_urls python:urls['payed']">
+        <li class="navTreeItem visualNoMarker" tal:repeat="url payed_urls">
+            <a href="#" tal:attributes="href url">
+                <span class="button-body">
+                    <span class="button-inner"
+                        tal:content="python:payed_urls[url]">
+                        Past Exam Papers
                     </span>
-                </a>
-            </li>
-            </tal:check-visibility>
+                </span>
+            </a>
+        </li>
+        </tal:payed>
 
-            </metal:rendertoc>              
-        </ul>
+        <tal:notpayed define="notpayed_urls python:urls['notpayed']">
+        <li class="navTreeItem visualNoMarker" tal:repeat="url notpayed_urls">
+            <a href="#" tal:attributes="href url">
+                <span class="button-body">
+                    <span class="button-inner"
+                        tal:content="python:notpayed_urls[url]">
+                        Past Exam Papers
+                    </span>
+                </span>
+            </a>
+        </li>
+        </tal:notpayed>
+
+    </ul>
+
+    </tal:check-visibility>
 
     </metal:core>
 
 </body>
 </html>
+
+For 200 moola per subject, you will get access to the exam papers and the model solutions.
+
+Please choose your subject:
+
+Mathematics (November 2011, Papers 1, 2 and 3) [200 moola]
+Physical Sciences (November 2011, Papers 1 and 2) [200 moola]
