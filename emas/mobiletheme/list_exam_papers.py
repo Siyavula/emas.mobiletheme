@@ -39,7 +39,11 @@ class List_Exam_Papers(grok.View):
             # check if the current mxit member belongs to the ExamPapers group
             if memberid in group.getMemberIds():
                 tmp_list = urls['payed']
-                url = '%s/%s' %(navroot.absolute_url() , EXAM_PAPERS_URL)
+                url = '%s/%s/%s' %(
+                    navroot.absolute_url(),
+                    EXAM_PAPERS_URL,
+                    subject
+                 )
                 tmp_list.append([url, u'Past %s Exam Papers' %subject])
                 urls['payed'] = tmp_list
             else:
