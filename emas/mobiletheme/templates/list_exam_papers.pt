@@ -11,7 +11,7 @@
     <h1 class="documentFirstHeading" tal:content="context/Title">Title</h1>
 
     <tal:check-visibility
-        condition="not:context/@@mobile_tool/isMXit"
+        condition="context/@@mobile_tool/isMXit"
         tal:define="urls view/getURLs;
                     payed_urls python:urls['payed'];
                     notpayed_urls python:urls['notpayed'];">
