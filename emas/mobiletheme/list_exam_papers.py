@@ -29,8 +29,8 @@ class List_Exam_Papers(grok.View):
         navroot = pps.navigation_root()
         
         urls = {
-                'payed': {},
-                'notpayed': {}
+                'payed': [],
+                'notpayed': [] 
                }
         gt = getToolByName(self.context, 'portal_groups')
         for subject, groupname in SUBJECT_MAP.items():
@@ -38,17 +38,17 @@ class List_Exam_Papers(grok.View):
             group = gt.getGroupById(groupname)
             # check if the current mxit member belongs to the ExamPapers group
             if memberid in group.getMemberIds():
-                tmp_dict = urls['payed']
+                tmp_list = urls['payed']
                 url = '%s/%s' %(navroot.absolute_url() , EXAM_PAPERS_URL)
-                tmp_dict.update({url: u'Past %s Exam Papers' %subject})
-                urls['payed'] = tmp_dict
+                tmp_list.append([url, u'Past %s Exam Papers' %subject])
+                urls['payed'] = tmp_list
             else:
-                tmp_dict = urls['notpayed']
+                tmp_list = urls['notpayed']
                 url = '%s/@@mxitpaymentrequest?productId=%s' %(
                     navroot.absolute_url(), groupname
                 )
-                tmp_dict.update({url: u'Past %s Exam Papers' %subject})
-                urls['notpayed'] = tmp_dict
+                tmp_list.append([url, u'Past %s Exam Papers' %subject])
+                urls['notpayed'] = tmp_list
         return urls
     
     def isExamPapersFolder(self):

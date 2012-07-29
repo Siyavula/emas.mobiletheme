@@ -32,10 +32,10 @@
 
     <ul id="payed-table-of-contents" class="visualNoMarker button-links">
         <li class="navTreeItem visualNoMarker" tal:repeat="url payed_urls">
-            <a href="#" tal:attributes="href url">
+            <a href="#" tal:attributes="href python:url[0]">
                 <span class="button-body">
                     <span class="button-inner"
-                        tal:content="python:payed_urls[url]">
+                        tal:content="python:url[1]">
                         Past Exam Papers
                     </span>
                 </span>
@@ -55,10 +55,10 @@
 
     <ul id="notpayed-table-of-contents" class="visualNoMarker button-links">
         <li class="navTreeItem visualNoMarker" tal:repeat="url notpayed_urls">
-            <a href="#" tal:attributes="href url">
+            <a href="#" tal:attributes="href python:url[0]">
                 <span class="button-body">
                     <span class="button-inner"
-                        tal:content="python:notpayed_urls[url]">
+                        tal:content="python:url[1]">
                         Past Exam Papers
                     </span>
                 </span>
