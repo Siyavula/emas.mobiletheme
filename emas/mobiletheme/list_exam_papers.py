@@ -34,7 +34,6 @@ class List_Exam_Papers(grok.View):
                }
         gt = getToolByName(self.context, 'portal_groups')
         for subject, groupname in SUBJECT_MAP.items():
-            subject = subject.title()
             group = gt.getGroupById(groupname)
             # check if the current mxit member belongs to the ExamPapers group
             if memberid in group.getMemberIds():
@@ -44,14 +43,14 @@ class List_Exam_Papers(grok.View):
                     EXAM_PAPERS_URL,
                     subject
                  )
-                tmp_list.append([url, u'Past %s Exam Papers' %subject])
+                tmp_list.append([url, u'Past %s Exam Papers' %subject.title()])
                 urls['payed'] = tmp_list
             else:
                 tmp_list = urls['notpayed']
                 url = '%s/@@mxitpaymentrequest?productId=%s' %(
                     navroot.absolute_url(), groupname
                 )
-                tmp_list.append([url, u'Past %s Exam Papers' %subject])
+                tmp_list.append([url, u'Past %s Exam Papers' %subject.title()])
                 urls['notpayed'] = tmp_list
         return urls
     
