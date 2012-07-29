@@ -13,59 +13,51 @@
     <tal:check-visibility
         condition="context/@@mobile_tool/isMXit"
         tal:define="urls view/getURLs;
-                    payed_urls python:urls['payed'];
-                    notpayed_urls python:urls['notpayed'];">
+                    paid_urls urls/paid;
+                    notpaid_urls urls/notpaid;">
 
-    <p class="documentDescription">Welcome to the Exam Papers area! Here you can find past papers and memos for the 2011 Matric final exam.  <span tal:condition="python:len(urls['payed']) == 0">For 200 moola per subject, you will get access to the exam papers and the model solutions.</span>
+    <tal:paid condition="python:len(paid_urls) > 0">
+        <div>
+            You already have access to:
+        </div>
+
+        <ul id="paid-table-of-contents" class="visualNoMarker button-links">
+            <li class="navTreeItem visualNoMarker" tal:repeat="url paid_urls">
+                <a href="#" tal:attributes="href python:url[0]">
+                    <span class="button-body">
+                        <span class="button-inner"
+                            tal:content="python:url[1]">
+                            Past Exam Papers
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </tal:paid>
+
+    <p class="documentDescription">Welcome to the Exam Papers area! Here you can find past papers and memos for the 2011 Matric final exam.  <span tal:condition="python:len(urls['paid']) == 0">For 200 moola per subject, you will get access to the exam papers and the model solutions.</span>
     </p>
 
     <p>You should practise these papers before looking at the answers! We will put up the solutions for the exams on Monday 13 August 2012. In the mean time, you should try to solve all the problems in all the papers. It will also help you to improve if you discuss your answers with your friends.</p>
 
-    <tal:payed condition="python:len(payed_urls) > 0">
-    <div>
-        You already have access to:
-    </div>
+    <tal:notpaid condition="python:len(notpaid_urls) > 0">
+        <div>
+            Please choose your subject:
+        </div>
 
-    <div tal:condition="python:len(notpayed_urls) == 0">
-        You're already a member! Please choose your subject:
-    </div>
-
-    <ul id="payed-table-of-contents" class="visualNoMarker button-links">
-        <li class="navTreeItem visualNoMarker" tal:repeat="url payed_urls">
-            <a href="#" tal:attributes="href python:url[0]">
-                <span class="button-body">
-                    <span class="button-inner"
-                        tal:content="python:url[1]">
-                        Past Exam Papers
+        <ul id="notpaid-table-of-contents" class="visualNoMarker button-links">
+            <li class="navTreeItem visualNoMarker" tal:repeat="url notpaid_urls">
+                <a href="#" tal:attributes="href python:url[0]">
+                    <span class="button-body">
+                        <span class="button-inner"
+                            tal:content="python:url[1]">
+                            Past Exam Papers
+                        </span>
                     </span>
-                </span>
-            </a>
-        </li>
-    </ul>
-    </tal:payed>
-
-    <tal:notpayed condition="python:len(notpayed_urls) > 0">
-    <div tal:condition="python:len(payed_urls) == 0">
-        Please choose your subject:
-    </div>
-
-    <div tal:condition="python:len(payed_urls) > 0">
-        For 200 moola, you can also get:
-    </div>
-
-    <ul id="notpayed-table-of-contents" class="visualNoMarker button-links">
-        <li class="navTreeItem visualNoMarker" tal:repeat="url notpayed_urls">
-            <a href="#" tal:attributes="href python:url[0]">
-                <span class="button-body">
-                    <span class="button-inner"
-                        tal:content="python:url[1]">
-                        Past Exam Papers
-                    </span>
-                </span>
-            </a>
-        </li>
-    </ul>
-    </tal:notpayed>
+                </a>
+            </li>
+        </ul>
+    </tal:notpaid>
 
     </tal:check-visibility>
 
