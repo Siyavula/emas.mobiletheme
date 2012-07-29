@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.10
+----
+
+- MXit past exam papers
+
 1.9
 ---
 
