@@ -132,7 +132,7 @@ class MxitHTMLProcessor(BrowserView):
         pattern=re.compile('\((?P<element>\D\))')
         # Then we replace the letter in round-braces with the group named
         # 'element', thereby stripping away the first round-brace.
-        pattern.sub(r'\g<element>', source)
+        source = pattern.sub(r'\g<element>', source)
             
         return source
 
