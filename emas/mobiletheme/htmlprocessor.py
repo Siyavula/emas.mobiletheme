@@ -119,7 +119,22 @@ class MxitHTMLProcessor(BrowserView):
         doc = html.fromstring(source)
         for example in doc.cssselect('div.example'):
             example.getparent().remove(example)
-        return html.tostring(doc, method="xml")
+        
+        # the the source from our stripped doc above
+        source = html.tostring(doc, method="xml")
+        
+        # MXit has a number of emoticons including things like:
+        # (c) that is rendered as chillies.
+        # We stop this behaviour by removing the first round-brace from
+        # all single, non-digit characters enclosed in round-braces.
+        # First we match all non-digit characters enclosed in round-braces,
+        # marking all but the first round brace as a group named='element'
+        pattern=re.compile('\((?P<element>\D\))')
+        # Then we replace the letter in round-braces with the group named
+        # 'element', thereby stripping away the first round-brace.
+        pattern.sub(r'\g<element>', source)
+            
+        return source
 
 fontdir = os.path.join(os.path.dirname(__file__), 'font')
 
@@ -252,10 +267,25 @@ class MxitTableProcessor(BrowserView):
                    '-',
                    '-'
         ]
+       
         process = subprocess.Popen(cmdargs,
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         stdout, stderr = process.communicate(table)
-        
+
+        # Now the resultant image goes through imagemagick
+        # to set the background transparent.
+        format_arg = 'png:-'
+        cmdargs = ['convert',
+                   '-transparent',
+                   'white',
+                   '-',
+                   format_arg
+                  ]
+        data = stdout
+        process = subprocess.Popen(cmdargs,
+                stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        stdout, stderr = process.communicate(data)
+
         return stdout
 
 
@@ -443,7 +473,7 @@ class HTMLImageRewriter(BrowserView):
 
         mob_tool = getMultiAdapter((self.context, self.request),
                                    name='mobile_tool')
-        if mob_tool.isMXit():
+        if not mob_tool.isMXit():
             mxitprocessor = MxitHTMLProcessor(self.context, self.request)
             html = mxitprocessor.process(html)
 
