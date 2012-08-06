@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.11
+----
+
+- Use Imagemagic to give mxit table images a transparent background.
+- Replace all alphabetical characters in double round-braces with the same
+  character termintated by a single round-brace. This stops mxit from
+  interpreting some as emoticons.
+
 1.10
 ----
 
