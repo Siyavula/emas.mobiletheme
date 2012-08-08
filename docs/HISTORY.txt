@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.12
+----
+
+- ETagValue adapters for MXit and User Agent.
+
 1.11
 ----
 

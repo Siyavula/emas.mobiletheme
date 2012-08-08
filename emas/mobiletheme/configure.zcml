@@ -98,4 +98,8 @@
         ruleset="plone.content.itemView"
         />
 
+    <adapter factory=".etags.UserAgent" name="useragent" />
+
+    <adapter factory=".etags.MXit" name="mxit" />
+
 </configure>
