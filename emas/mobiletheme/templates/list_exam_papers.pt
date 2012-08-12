@@ -19,7 +19,7 @@
     <p class="documentDescription">Welcome to the Exam Papers area! Here you can find past papers and memos for the 2011 Matric final exam.  <span tal:condition="python:len(urls['paid']) == 0">For 200 moola per subject, you will get access to the exam papers and the model solutions.</span>
     </p>
 
-    <p>You should practise these papers before looking at the answers! We will put up the solutions for the exams on Monday 13 August 2012. In the mean time, you should try to solve all the problems in all the papers. It will also help you to improve if you discuss your answers with your friends.</p>
+    <p>You should practise these papers before looking at the answers! It will also help you to improve if you discuss your answers with your friends.</p>
 
     <tal:paid condition="python:len(paid_urls) > 0">
         <div>
