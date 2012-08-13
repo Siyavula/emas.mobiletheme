@@ -5,6 +5,7 @@ Changelog
 ----
 
 - ETagValue adapters for MXit and User Agent.
+- Updated exam papers copy.
 
 1.11
 ----
