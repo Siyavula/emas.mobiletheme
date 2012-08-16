@@ -2,5 +2,6 @@
   <version>1.12</version>
   <dependencies>
     <dependency>profile-gomobiletheme.basic:default</dependency>
+    <dependency>profile-plone.app.registry:default</dependency>
   </dependencies>
 </metadata>
