@@ -13,6 +13,16 @@
     <grok:grok package="." />
 
     <include package="gomobiletheme.basic" />
+    <include package=".tracking" />
+    <include package="plone.app.registry" />
+
+    <!-- Control panel -->
+    <browser:page
+        name="emas-mobiletheme-settings"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.EmasMobileThemeSettingsControlPanel"
+        permission="cmf.ManagePortal"
+        />
 
     <!-- Register add-on installer entry in the control panel -->
     <genericsetup:registerProfile

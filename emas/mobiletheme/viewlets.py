@@ -130,3 +130,7 @@ class Head(base.Head):
 class Sections(base.Sections):
     """ Override to customise template
     """
+
+class TrackingImage(grok.Viewlet):
+    """ Render link to tracking image.
+    """
