@@ -26,6 +26,7 @@ setup(name='emas.mobiletheme',
       install_requires=[
           'setuptools',
           'gomobiletheme.basic',
+          'pyga',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
