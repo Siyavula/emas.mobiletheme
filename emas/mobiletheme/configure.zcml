@@ -60,6 +60,12 @@
         name="mobilexmlfile"
         />
 
+      <browser:defaultView
+          for="Products.ATContentTypes.interface.IATDocument"
+          layer=".interfaces.IThemeLayer"
+          name="mobiledocumentdefault"
+          />
+
     <browser:page
         for="*"
         name="mobile_image_mathml_rewriter"
