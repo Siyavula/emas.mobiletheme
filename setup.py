@@ -26,7 +26,7 @@ setup(name='emas.mobiletheme',
       install_requires=[
           'setuptools',
           'gomobiletheme.basic',
-          'pyga',
+          'upfrontsystems.q',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
