@@ -1,9 +1,10 @@
-from pyga.requests import Tracker, Page, Session, Visitor
-
 from five import grok
 from zope.interface import Interface
 from zope.component import queryUtility
 from plone.registry.interfaces import IRegistry
+
+from upfrontsystems.q.factory import get_q
+from upfrontsystems.q.scripts import deliver
 
 from emas.mobiletheme.interfaces import IThemeLayer
 from emas.mobiletheme.interfaces import IEmasMobileThemeSettings
@@ -22,12 +23,15 @@ class Tracking_Image(grok.View):
         return ''
     
     def update(self):
+        entry = {}
+
         # get the nav root
         pps = self.context.restrictedTraverse('@@plone_portal_state')
         navroot = pps.navigation_root()
-
         # get the subject
         subject = navroot.getId()
+        entry['subject'] = subject
+        entry['domain'] = 'everything%s.co.za' %subject
 
         # get the GA code from the registry
         registry = queryUtility(IRegistry)
@@ -35,13 +39,10 @@ class Tracking_Image(grok.View):
         gacode = getattr(settings, '%s_gacode' %subject)
         if not gacode:
             return
+        entry['gacode'] = gacode
 
-        # make the call to google analytics
-        tracker = Tracker(gacode, 'everything%s.co.za' %subject)
-        visitor = Visitor()
-        visitor.ip_address = self.request.getClientAddr()
-        session = Session()
-        # drop the science or maths from the path
-        path_elements = ('',) + self.context.getPhysicalPath()[2:]
-        page = Page('/'.join(path_elements))
-        tracker.track_pageview(page, session, visitor)
+        entry['ip_address'] = self.request.getClientAddr()
+        entry['path'] = self.context.getPhysicalPath()
+
+        q = get_q('google_analytics_q')
+        q.enqueue(deliver, entry)
