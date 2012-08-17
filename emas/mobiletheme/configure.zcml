@@ -60,11 +60,20 @@
         name="mobilexmlfile"
         />
 
-      <browser:defaultView
-          for="Products.ATContentTypes.interface.IATDocument"
-          layer=".interfaces.IThemeLayer"
-          name="mobiledocumentdefault"
-          />
+    <browser:defaultView
+         for="Products.ATContentTypes.interface.IATDocument"
+         layer=".interfaces.IThemeLayer"
+         name="mobiledocumentdefault"
+         />
+
+    <browser:page
+         for="*"
+         name="practice"
+         class="emas.theme.browser.practice.Practice"
+         template="templates/practice.pt"
+         permission="zope2.View"
+         layer=".interfaces.IThemeLayer"
+         />
 
     <browser:page
         for="*"
