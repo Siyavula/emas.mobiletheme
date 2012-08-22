@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.13 (unreleased)
+----
+
+- Profile update to stop using /tmp as gomobile image cache.
+- Fix missing import in patces.py.
+
 1.12
 ----
 

@@ -6,11 +6,15 @@ import cStringIO
 
 from Acquisition import aq_base
 from ZPublisher import NotFound
+from zExceptions import Unauthorized
+from zope.app.component.hooks import getSite
+
 from lxml.etree import ParserError 
 from lxml.html import fromstring, tostring
-from zope.app.component.hooks import getSite
+
 from plone.app.redirector.storage import RedirectionStorage
 from mobile.htmlprocessing.transformers.basic import BasicCleaner
+
 from gomobile.mobile.browser.imageprocessor import MobileImageProcessor
 from gomobile.imageinfo.utilities import ImageInfoUtility
 from mobile.sniffer import utilities as snifferutils
