@@ -134,3 +134,8 @@ class Sections(base.Sections):
 class TrackingImage(grok.Viewlet):
     """ Render link to tracking image.
     """
+
+class MobileTracker(base.MobileTracker):
+    """ Site visitors tracking code for mobile analytics 
+        Redeclared to override template.
+    """
