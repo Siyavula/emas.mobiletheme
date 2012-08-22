@@ -32,8 +32,8 @@ from rq.connections import resolve_connection
 
 from mock_http import MockHTTP, GET, POST
 
-from upfrontsystems.q.scripts.queueprocessor import QueueArgs
-from upfrontsystems.q.factory import get_q
+from upfront.analyticsqueue.scripts.queueprocessor import RedisQueueArgs
+from upfront.analyticsqueue.factory import get_q
 
 from emas.mobiletheme.tests.test_theme import BaseTestCase
 
@@ -78,7 +78,7 @@ class TestQueue(BaseTestCase):
     
     def setUp(self):
         super(TestQueue, self).setUp()
-        self.args = QueueArgs()
+        self.args = RedisQueueArgs()
         setup_redis(self.args)
         self.qname = 'testq'
 

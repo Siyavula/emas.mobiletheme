@@ -3,8 +3,8 @@ from zope.interface import Interface
 from zope.component import queryUtility
 from plone.registry.interfaces import IRegistry
 
-from upfrontsystems.q.factory import get_q
-from upfrontsystems.q.googlequeue import GoogleQueue 
+from upfront.analyticsqueue.factory import get_q
+from upfront.analyticsqueue.googlequeue import GoogleQueue 
 
 from emas.mobiletheme.interfaces import IThemeLayer
 from emas.mobiletheme.interfaces import IEmasMobileThemeSettings
@@ -44,5 +44,5 @@ class Tracking_Image(grok.View):
         entry['ip_address'] = self.request.getClientAddr()
         entry['path'] = self.context.getPhysicalPath()
 
-        q = get_q('google_analytics_q')
-        q.enqueue(GoogleQueue.deliver, entry)
+        gaq = get_q('google_analytics_q')
+        gaq.enqueue(GoogleQueue.deliver, entry)

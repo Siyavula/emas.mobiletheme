@@ -26,7 +26,7 @@ setup(name='emas.mobiletheme',
       install_requires=[
           'setuptools',
           'gomobiletheme.basic',
-          'upfrontsystems.q',
+          'upfront.analyticsqueue',
           # -*- Extra requirements: -*-
       ],
       entry_points="""
