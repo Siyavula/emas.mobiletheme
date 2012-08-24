@@ -48,7 +48,7 @@ class Tracking_Image(grok.View):
         entry['user_agent'] = self.request.getHeader('HTTP_USER_AGENT')
         entry['path'] = self.context.getPhysicalPath()
         locale = getattr(self.request, 'locale')
-        entry['locale'] = locale.getLocalID()
+        entry['locale'] = locale.getLocaleID()
         entry['unique_id'] = ''
         user = self.request.get('AUTHENTICATED_USER')
         if user:
