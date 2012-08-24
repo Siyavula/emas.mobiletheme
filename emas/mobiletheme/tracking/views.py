@@ -37,20 +37,30 @@ class Tracking_Image(grok.View):
         # get the GA code from the registry
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IEmasMobileThemeSettings)
+
         gacode = getattr(settings, '%s_gacode' %subject)
         if not gacode:
             return
         entry['gacode'] = gacode
 
         entry['referer'] = self.request.getHeader('HTTP_REFERER')
+
         entry['title'] = self.context.Title()
+
         remote_address = self.request.getHeader(
                 'HTTP_X_FORWARDED_FOR', self.request.getHeader('REMOTE_ADDR'))
         entry['remote_address'] = remote_address
         entry['user_agent'] = self.request.getHeader('HTTP_USER_AGENT')
-        entry['path'] = self.context.getPhysicalPath()
+
+        # drop the science or maths from the path
+        path = self.context.getPhysicalPath()
+        path_elements = ('',) + path[3:]
+        path = '/'.join(path_elements)
+        entry['path'] = path
+
         locale = getattr(self.request, 'locale')
         entry['locale'] = locale.getLocaleID()
+
         user = self.request.get('AUTHENTICATED_USER')
         userid = user.getId()
         if userid:
