@@ -41,10 +41,18 @@ class Tracking_Image(grok.View):
             return
         entry['gacode'] = gacode
 
-        entry['ip_address'] = self.request.getHeader('HTTP_REFERER')
+        entry['referer'] = self.request.getHeader('HTTP_REFERER')
+        entry['title'] = self.context.Title()
+        entry['remote_address'] = self.request.getHeader(
+                'HTTP_X_FORWARDED_FOR', self.request.getHeader('REMOTE_ADDR'))
         entry['user_agent'] = self.request.getHeader('HTTP_USER_AGENT')
         entry['path'] = self.context.getPhysicalPath()
-        entry['locale'] = self.request.getHeader('HTTP_ACCEPT_LANGUAGE')
+        locale = getattr(self.request, 'locale')
+        entry['locale'] = locale.getLocalID()
+        entry['unique_id'] = ''
+        user = self.request.get('AUTHENTICATED_USER')
+        if user:
+            entry['unique_id'] = user.getUserName()
 
         gaq = get_q('google_analytics_q')
         gaq.enqueue(GoogleQueue.deliver, entry)
