@@ -1,3 +1,4 @@
+import hashlib
 from five import grok
 from zope.interface import Interface
 from zope.component import queryUtility
@@ -43,16 +44,20 @@ class Tracking_Image(grok.View):
 
         entry['referer'] = self.request.getHeader('HTTP_REFERER')
         entry['title'] = self.context.Title()
-        entry['remote_address'] = self.request.getHeader(
+        remote_address = self.request.getHeader(
                 'HTTP_X_FORWARDED_FOR', self.request.getHeader('REMOTE_ADDR'))
+        entry['remote_address'] = remote_address
         entry['user_agent'] = self.request.getHeader('HTTP_USER_AGENT')
         entry['path'] = self.context.getPhysicalPath()
         locale = getattr(self.request, 'locale')
         entry['locale'] = locale.getLocaleID()
-        entry['unique_id'] = ''
         user = self.request.get('AUTHENTICATED_USER')
-        if user:
-            entry['unique_id'] = user.getUserName()
+        userid = user.getId()
+        if userid:
+            unique_id = int(hashlib.md5(userid).hexdigest(), 16)
+        else: 
+            unique_id = int(hashlib.md5(remote_address).hexdigest(), 16)
+        entry['unique_id'] = unique_id
 
         gaq = get_q('google_analytics_q')
         gaq.enqueue(GoogleQueue.deliver, entry)
