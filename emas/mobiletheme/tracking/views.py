@@ -69,5 +69,6 @@ class Tracking_Image(grok.View):
             unique_id = int(hashlib.md5(remote_address).hexdigest(), 16)
         entry['unique_id'] = unique_id
 
-        gaq = get_q(q_name='google_analytics_q')
+        port = getattr(settings, 'redis_port', 6379)
+        gaq = get_q(q_name='google_analytics_q', port=port)
         gaq.enqueue(GoogleQueue.deliver, entry)
