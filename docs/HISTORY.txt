@@ -1,11 +1,13 @@
 Changelog
 =========
 
-1.13 (unreleased)
+1.13
 ----
 
 - Profile update to stop using /tmp as gomobile image cache.
 - Fix missing import in patces.py.
+- Introduce mobile google analytics.
+- Mobile analytics tracking now works via a redis queue.
 
 1.12
 ----
