@@ -462,6 +462,10 @@ class HTMLImageRewriter(BrowserView):
 
         resizer.init()
         if html is not None and html != "":
+            # hack to remove encoding declaration
+            encoding_declaration = ' encoding="utf-8"'
+            html = ''.join(html.split(encoding_declaration))
+            
             # lxml bails out if input is not sane
             html = resizer.processHTML(html, trusted)
 

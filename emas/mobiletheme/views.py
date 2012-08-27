@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from Products.ATContentTypes.interface import IATDocument
 from five import grok
 from plone.directives import form
 from rhaptos.xmlfile.xmlfile import IXMLFile
@@ -13,6 +14,16 @@ class XMLFile(form.DisplayForm):
     grok.require('zope2.View')
     grok.name('mobilexmlfile')
     grok.template('xmlfile')
+
+
+class Document(form.DisplayForm):
+    grok.context(IATDocument)
+    grok.require('zope2.View')
+    grok.name('mobiledocumentdefault')
+    grok.template('document')
+
+    def update(self):
+        self.w['body'] = self.context.getText()
 
 
 class MobileTool(BaseMobileTool):
