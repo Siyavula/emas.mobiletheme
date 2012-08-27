@@ -65,6 +65,12 @@ class AdditionalHead(base.AdditionalHead):
         # Absolute URL refering to the static media folder
         self.resource_url = self.portal_url + "/" + "++resource++emas.mobiletheme"
 
+
+class ActionsHeader(grok.Viewlet):
+    """ Override and hook in our own template
+    """
+
+
 class Back(base.Back):
     """ Make a custom Back button that does not use the canonical object
     """
@@ -75,7 +81,7 @@ class Back(base.Back):
         portal_helper = getMultiAdapter((context, self.request), name="plone_portal_state")
         
         parent = aq_parent(context)
-        
+
         breadcrumbs_view = base.getView(self.context, self.request, 'breadcrumbs_view')
         breadcrumbs = breadcrumbs_view.breadcrumbs()
         
