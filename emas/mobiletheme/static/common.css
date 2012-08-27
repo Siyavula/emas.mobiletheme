@@ -36,6 +36,10 @@ td, th {
     line-height: 1em;
 }
 
+#up_to_parent {
+    padding: 0.5em;
+}
+
 #content h1 {
     border-bottom: 2px solid #ddd;
     clear: both;
@@ -86,11 +90,10 @@ td, th {
 
 #content div.nextprevious {
     float: right;
+    margin: 0 0.5em;
 }
-#content a.previous:link,
-#content a.next:link {
-    border-bottom: none;
-    text-decoration: underline;
+#content div.nextprevious a:hover {
+    text-decoration: none;
 }
 
 
