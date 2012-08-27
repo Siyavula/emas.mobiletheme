@@ -13,19 +13,25 @@
                          previous view/previous"
              tal:condition="python:previous is not None or next is not None">
 
-          <tal:previous condition="previous">
             <a class="previous" href="" 
-               title="Go to previous item"
-               i18n:attributes="title title_previous_item"
-               tal:attributes="href previous/url"><span i18n:translate="label_previous_item"
-                      tal:omit-tag="">Previous page</span></a>
-          </tal:previous>
-            <tal:pipe tal:condition="python: next and previous">&nbsp;|&nbsp;</tal:pipe>
+                title="Go to previous item"
+                i18n:attributes="title title_previous_item"
+                tal:condition="previous"
+                tal:attributes="href previous/url"><span i18n:translate="label_previous_item"
+                tal:omit-tag="">Previous</span></a>
+
+            <tal:pipe tal:condition="python: previous">&nbsp;|&nbsp;</tal:pipe>
+
+            <a class="up" tal:attributes="href context/aq_parent/absolute_url;
+                                          title context/aq_parent/Title">Up</a>
+
+            <tal:pipe tal:condition="python: next">&nbsp;|&nbsp;</tal:pipe>
+
             <a class="next" href="" 
                title="Go to next item"
                i18n:attributes="title title_next_item"
                tal:condition="next"
-               tal:attributes="href next/url"><span i18n:translate="label_next_item" tal:omit-tag="">Next page</span></a>
+               tal:attributes="href next/url"><span i18n:translate="label_next_item" tal:omit-tag="">Next</span></a>
 
        </div>
 
