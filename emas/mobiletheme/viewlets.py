@@ -66,10 +66,38 @@ class AdditionalHead(base.AdditionalHead):
         self.resource_url = self.portal_url + "/" + "++resource++emas.mobiletheme"
 
 
+class Header(base.Header):
+    """ Render items at the top of the page.
+
+    This includes
+
+    * Log in, Register links
+
+    * Logo
+
+    * Language switcher
+    """
+
+    def update(self):
+        portal_state = base.getView(self.context, self.request, 
+                                    "plone_portal_state")
+        self.anonymous = portal_state.anonymous()
+
+        # Get personal path bar actions
+        context_state = base.getView(self.context, self.request,
+                                     u'plone_context_state')
+        try:
+            self.user_actions = context_state.actions("user")
+        except:
+            self.user_actions = []
+
+
 class ActionsHeader(grok.Viewlet):
     """ Override and hook in our own template
     """
 
+    def render(self):
+        return
 
 class Back(base.Back):
     """ Make a custom Back button that does not use the canonical object
