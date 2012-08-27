@@ -36,6 +36,21 @@ td, th {
     line-height: 1em;
 }
 
+#personalbar {
+    background-color: #DDDDDD;
+    height: 30px;
+    padding: 0.5em 1em;
+}
+#portal-personaltools {
+    background: none repeat scroll 0 0 transparent;
+    font-size: 70%;
+    padding: 0.5em 0 0;
+}
+#portal-personaltools #anon-personalbar a {
+    float: left;
+    margin-right: 0.8em;
+}
+
 #up_to_parent {
     padding: 0.5em;
 }
