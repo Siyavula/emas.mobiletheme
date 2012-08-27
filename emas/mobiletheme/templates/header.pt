@@ -1,0 +1,27 @@
+<div id="personalbar">
+    <div id="portal-personaltools-wrapper">
+        <dl class="actionMenu deactivated" id="portal-personaltools"
+            tal:condition="python:viewlet.user_actions and viewlet.anonymous">
+        <dt id="anon-personalbar">
+            <tal:actions repeat="action viewlet/user_actions">
+                <a href=""
+                tal:attributes="href action/url;
+                                id string:personaltools-${action/id};"
+                tal:content="action/title"
+                i18n:translate="">
+                    action title
+                </a>
+            </tal:actions>
+        </dt>
+        </dl>
+
+    </div> 
+</div>
+<div id="header">
+
+    <div tal:replace="structure context/@@viewlets/logo" />
+
+    <div tal:replace="structure context/@@viewlets/languagechooser" />
+
+    <div style="clear: both"><!-- --></div>
+</div>
