@@ -1,3 +1,4 @@
+import os
 import hashlib
 from five import grok
 from zope.interface import Interface
@@ -12,6 +13,8 @@ from emas.mobiletheme.interfaces import IEmasMobileThemeSettings
 
 grok.layer(IThemeLayer)
 
+dirname = os.path.dirname(__file__)
+
 class Tracking_Image(grok.View):
     """ We use this as a hook to do server side Google Analytics tracking.
     """
@@ -20,8 +23,14 @@ class Tracking_Image(grok.View):
 
         
     def render(self):
-        # Return an empty string, since this is a 'no-user-interface' view.
-        return ''
+        """ Return a transparent 1x1 pixel png image
+        """
+        img = open(os.path.join(dirname, 'tracking.png'), 'rb')
+        img = img.read()
+
+        self.request.RESPONSE.setHeader('Content-Type', 'image/png')
+        self.request.RESPONSE.setHeader('Content-Length', len(img))
+        self.request.RESPONSE.write(img)
     
     def update(self):
         entry = {}
@@ -38,7 +47,7 @@ class Tracking_Image(grok.View):
         registry = queryUtility(IRegistry)
         settings = registry.forInterface(IEmasMobileThemeSettings)
 
-        gacode = getattr(settings, '%s_gacode' %subject)
+        gacode = getattr(settings, '%s_gacode' %subject, None)
         if not gacode:
             return
         entry['gacode'] = gacode
