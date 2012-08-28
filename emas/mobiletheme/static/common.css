@@ -252,3 +252,10 @@ div.listingBar a {
     color: transparent;
     background-color: transparent;
 }
+
+/* practice service  */
+
+div#side-panel {
+    position: static !important;
+}
+
