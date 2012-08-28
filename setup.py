@@ -29,6 +29,11 @@ setup(name='emas.mobiletheme',
           'upfront.analyticsqueue',
           # -*- Extra requirements: -*-
       ],
+      extras_require={
+          'test': [
+              'plone.app.testing',
+          ],
+      },
       entry_points="""
       # -*- Entry points: -*-
 
