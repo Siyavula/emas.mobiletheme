@@ -43,12 +43,12 @@ td, th {
 }
 #portal-personaltools {
     background: none repeat scroll 0 0 transparent;
-    font-size: 70%;
+    font-size: 80%;
     padding: 0.5em 0 0;
 }
 #portal-personaltools #anon-personalbar a {
     float: left;
-    margin-right: 0.8em;
+    margin-right: 1em;
 }
 
 #up_to_parent {
