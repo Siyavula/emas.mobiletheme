@@ -15,12 +15,11 @@
 
     <p class="documentDescription" tal:content="context/Description" />
 
-    <!--tal:rewriteimg define="text view/html;
-                            helper nocall:context/@@mobile_image_mathml_rewriter
-                            text python:helper.processHTML(text)"-->
+    <tal:rewriteimg define="text view/html;
+                            helper nocall:context/@@mobile_image_mathml_rewriter;
+                            text python:helper.processHTML(text);">
     
-    <tal:rewriteimg define="text view/html;">
-    <div tal:replace="structure text" />
+        <div tal:replace="structure text" />
     </tal:rewriteimg>
         
 </metal:content-core>
