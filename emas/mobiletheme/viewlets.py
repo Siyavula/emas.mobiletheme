@@ -87,7 +87,7 @@ class Header(base.Header):
         context_state = base.getView(self.context, self.request,
                                      u'plone_context_state')
         try:
-            self.user_actions = context_state.actions("user")
+            self.user_actions = context_state.actions("mobile_user")
         except:
             self.user_actions = []
 
