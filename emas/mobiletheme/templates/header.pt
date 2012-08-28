@@ -1,7 +1,7 @@
 <div id="personalbar">
     <div id="portal-personaltools-wrapper">
         <dl class="actionMenu deactivated" id="portal-personaltools"
-            tal:condition="python:viewlet.user_actions and viewlet.anonymous">
+            tal:condition="viewlet/user_actions">
         <dt id="anon-personalbar">
             <tal:actions repeat="action viewlet/user_actions">
                 <a href=""
