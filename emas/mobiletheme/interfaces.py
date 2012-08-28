@@ -31,3 +31,10 @@ class IEmasMobileThemeSettings(Interface):
         required=True
     )
 
+    redis_port = Int(
+        title=_(u'Redis port'),
+        description=_(u'Port where redis runs'),
+        default=6666,
+        required=True
+    )
+
