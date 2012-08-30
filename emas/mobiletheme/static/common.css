@@ -62,7 +62,7 @@ td, th {
     line-height: 125%;
 }
 
-#content p, #content div, #content dd, #content dt {
+#content-core p, #content-core div, #content-core dd, #content-core dt {
     line-height: 1.55em;
     margin: 1.2em 0;
 }
