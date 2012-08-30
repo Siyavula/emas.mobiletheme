@@ -34,6 +34,15 @@
                     </span>
                 </a>
             </li>
+            <li class="navTreeItem visualNoMarker">
+                <a href="#" tal:attributes="href string:${context/absolute_url}/@@practice/question">
+                    <span class="button-body">
+                        <span class="button-inner">
+                            Intelligent Practice
+                        </span>
+                    </span>
+                </a>
+            </li>
             </tal:check-visibility>
 
             </metal:rendertoc>              
