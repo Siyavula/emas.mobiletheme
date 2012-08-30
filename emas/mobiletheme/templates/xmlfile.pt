@@ -17,7 +17,7 @@
     <tal:rewriteimg define="text view/w/body/render;
                             helper nocall:context/@@mobile_image_mathml_rewriter;
                             text python:helper.processHTML(text)">
-            <div tal:replace="structure text" />
+        <div id="content-core" tal:content="structure text" />
     </tal:rewriteimg>
 
     <div tal:replace="structure context/@@viewlets/plone.nextprevious" />
