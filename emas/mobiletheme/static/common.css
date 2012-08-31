@@ -259,3 +259,6 @@ div#side-panel {
     position: static !important;
 }
 
+h2.toc {
+    padding-top: 20px;
+}
