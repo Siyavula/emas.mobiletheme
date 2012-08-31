@@ -79,8 +79,7 @@
     <browser:page
          for="*"
          name="practice"
-         class="emas.theme.browser.practice.Practice"
-         template="templates/practice.pt"
+         class=".practice.MXitPractice"
          permission="zope2.View"
          layer=".interfaces.IThemeLayer"
          />

@@ -1,0 +1,69 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="emas.mobiletheme">
+<body>
+
+<metal:content-core fill-slot="main"
+    tal:define="urls view/getURLs;
+                ismxit view/@@mobile_tool/isMXit">
+
+    <div id="practice-content"></div>
+
+    <tal:check-visibility
+        condition="not:context/@@mobile_tool/isMXit"
+        tal:define="urls view/getURLs;
+                    paid_urls urls/paid;
+                    notpaid_urls urls/notpaid;">
+
+    <p class="documentDescription">
+        Practice services
+    </p>
+
+    <tal:paid condition="python:len(paid_urls) > 0">
+        <div>
+            You already have access to:
+        </div>
+
+        <ul id="paid-table-of-contents" class="visualNoMarker button-links">
+            <li class="navTreeItem visualNoMarker" tal:repeat="url paid_urls">
+                <a href="#" tal:attributes="href python:url[1]">
+                    <span class="button-body">
+                        <span class="button-inner"
+                            tal:content="python:url[0]">
+                            Practice service
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </tal:paid>
+
+    <tal:notpaid condition="python:len(notpaid_urls) > 0">
+        <div>
+            You can also buy access to:
+        </div>
+
+        <ul id="notpaid-table-of-contents" class="visualNoMarker button-links">
+            <li class="navTreeItem visualNoMarker" tal:repeat="url notpaid_urls">
+                <a href="#" tal:attributes="href python:url[1]">
+                    <span class="button-body">
+                        <span class="button-inner"
+                            tal:content="python:url[0]">
+                            Practice service
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </tal:notpaid>
+
+    </tal:check-visibility>
+
+</metal:content-core>
+            
+</body>
+</html> 
