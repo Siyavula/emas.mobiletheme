@@ -22,31 +22,53 @@
                 </a>
             </li>
             </tal:items>
-
-            <tal:check-visibility condition="context/@@mobile_tool/isMXit">
-            <li class="navTreeItem visualNoMarker"
-                tal:condition="not:view/isExamPapersFolder">
-                <a href="#" tal:attributes="href view/getExamPapersURL">
-                    <span class="button-body">
-                        <span class="button-inner">
-                            Past Exam Papers
-                        </span>
-                    </span>
-                </a>
-            </li>
-            <li class="navTreeItem visualNoMarker">
-                <a href="#" tal:attributes="href string:${context/absolute_url}/@@practice/question">
-                    <span class="button-body">
-                        <span class="button-inner">
-                            Intelligent Practice
-                        </span>
-                    </span>
-                </a>
-            </li>
-            </tal:check-visibility>
-
             </metal:rendertoc>              
         </ul>
+            
+        <tal:services_list define="services nocall:context/@@list-services;
+                                   urls services/getURLs;
+                                   paid_urls urls/paid;
+                                   notpaid_urls urls/notpaid;">
+
+        <tal:paid condition="python:len(paid_urls) > 0">
+        <h2 class="toc">
+            You already have access to:
+        </h2>
+
+        <ul id="paid-table-of-contents" class="visualNoMarker button-links">
+            <li class="navTreeItem visualNoMarker" tal:repeat="url paid_urls">
+                <a href="#" tal:attributes="href python:url[1]">
+                    <span class="button-body">
+                        <span class="button-inner"
+                            tal:content="python:url[0]">
+                            Practice service
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        </tal:paid>
+
+        <tal:notpaid condition="python:len(notpaid_urls) > 0">
+        <h2 class="toc">
+            You can also buy access to:
+        </h2>
+
+        <ul id="notpaid-table-of-contents" class="visualNoMarker button-links">
+            <li class="navTreeItem visualNoMarker" tal:repeat="url notpaid_urls">
+                <a href="#" tal:attributes="href python:url[1]">
+                    <span class="button-body">
+                        <span class="button-inner"
+                            tal:content="python:url[0]">
+                            Practice service
+                        </span>
+                    </span>
+                </a>
+            </li>
+        </ul>
+        </tal:notpaid>
+
+        </tal:services_list>
 
     </metal:core>
 
