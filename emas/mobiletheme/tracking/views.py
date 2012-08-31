@@ -60,15 +60,18 @@ class Tracking_Image(grok.View):
 
         locale = getattr(self.request, 'locale')
         entry['locale'] = locale.getLocaleID()
-
-        user = self.request.get('AUTHENTICATED_USER')
-        userid = user.getId()
-        if userid:
-            unique_id = int(hashlib.md5(userid).hexdigest(), 16)
-        else: 
-            unique_id = int(hashlib.md5(remote_address).hexdigest(), 16)
-        entry['unique_id'] = unique_id
+        
+        for key in ['REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR', 'HTTP_USER_AGENT',
+                    'HTTP_ACCEPT_LANGUAGE', 'AUTHENTICATED_USER',]:
+            value = self.request.get(key)
+            if hasattr(value, 'aq_inner'):
+                value = self.request.get(key).aq_base
+                if key == 'AUTHENTICATED_USER':
+                    value = value.getId()
+            if value:
+                entry[key] = value
 
         port = getattr(settings, 'redis_port', 6379)
+        entry['redis-port'] = port
         gaq = get_q(q_name='google_analytics_q', port=port)
         gaq.enqueue(GoogleQueue.deliver, entry)
