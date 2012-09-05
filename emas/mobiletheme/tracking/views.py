@@ -4,6 +4,8 @@ from five import grok
 from zope.interface import Interface
 from zope.component import queryUtility
 from plone.registry.interfaces import IRegistry
+from plone.app.caching.operations.utils import formatDateTime
+from plone.app.caching.operations.utils import getExpiration
 
 from upfront.analyticsqueue.factory import get_q
 from upfront.analyticsqueue.googlequeue import GoogleQueue 
@@ -28,9 +30,16 @@ class Tracking_Image(grok.View):
         img = open(os.path.join(dirname, 'tracking.png'), 'rb')
         img = img.read()
 
-        self.request.RESPONSE.setHeader('Content-Type', 'image/png')
-        self.request.RESPONSE.setHeader('Content-Length', len(img))
-        self.request.RESPONSE.write(img)
+        response = self.request.RESPONSE
+        # never cache this image
+        if response.getHeader('Last-Modified'):
+            del response.headers['last-modified']
+        response.setHeader('Expires', formatDateTime(getExpiration(0)))
+        response.setHeader('Cache-Control',
+                           'max-age=0, must-revalidate, private')
+        response.setHeader('Content-Type', 'image/png')
+        response.setHeader('Content-Length', len(img))
+        response.write(img)
     
     def update(self):
         entry = {}
