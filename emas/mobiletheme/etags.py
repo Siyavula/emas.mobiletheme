@@ -3,6 +3,7 @@ from zope.interface import Interface
 
 from zope.component import adapts
 from plone.app.caching.interfaces import IETagValue
+from emas.mobiletheme.views import MXIT_MARKER, MXIT_AGENT_HEADER
 
 class UserAgent(object):
     """ The ``useragent`` etag component, returning the value of the
@@ -33,5 +34,8 @@ class MXit(object):
         self.request = request
 
     def __call__(self):
-        isMXit = "MXit WebBot" in self.request.get('HTTP_USER_AGENT', '')
+        header = self.request.get(MXIT_AGENT_HEADER, '').lower()
+        isMXit = MXIT_MARKER.lower() in header
         return isMXit and 'MXit' or ''
+
+

@@ -9,6 +9,9 @@ from interfaces import IThemeLayer
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
 
+MXIT_MARKER = 'MXit WebBot'
+MXIT_AGENT_HEADER = 'HTTP_USER_AGENT'
+
 class XMLFile(form.DisplayForm):
     grok.context(IXMLFile)
     grok.require('zope2.View')
@@ -38,4 +41,5 @@ class MobileTool(BaseMobileTool):
             return super(MobileTool, self).isLowEndPhone()
 
     def isMXit(self):
-        return "MXit WebBot" in self.request.get('HTTP_USER_AGENT', '')
+        header = self.request.get(MXIT_AGENT_HEADER, '').lower()
+        return MXIT_MARKER.lower() in header
