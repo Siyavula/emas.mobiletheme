@@ -3,5 +3,6 @@
   <dependencies>
     <dependency>profile-gomobiletheme.basic:default</dependency>
     <dependency>profile-plone.app.registry:default</dependency>
+    <dependency>profile-pas.plugins.mxit:default</dependency>
   </dependencies>
 </metadata>
