@@ -28,7 +28,8 @@
         <tal:services_list define="services nocall:context/@@list-services;
                                    urls services/getURLs;
                                    paid_urls urls/paid;
-                                   notpaid_urls urls/notpaid;">
+                                   notpaid_urls urls/notpaid;"
+                           condition="context/@@mobile_tool/isMXit">
 
         <tal:paid condition="python:len(paid_urls) > 0">
         <h2 class="toc">
