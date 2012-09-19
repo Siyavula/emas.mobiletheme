@@ -25,11 +25,11 @@
             </metal:rendertoc>              
         </ul>
             
+        <tal:mxit condition="context/@@mobile_tool/isMXit">
         <tal:services_list define="services nocall:context/@@list-services;
                                    urls services/getURLs;
                                    paid_urls urls/paid;
-                                   notpaid_urls urls/notpaid;"
-                           condition="context/@@mobile_tool/isMXit">
+                                   notpaid_urls urls/notpaid">
 
         <tal:paid condition="python:len(paid_urls) > 0">
         <h2 class="toc">
@@ -70,6 +70,7 @@
         </tal:notpaid>
 
         </tal:services_list>
+        </tal:mxit>
 
     </metal:core>
 
