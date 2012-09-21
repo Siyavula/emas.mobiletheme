@@ -267,6 +267,7 @@ div.listingBar a {
     padding: 0.5em 1em;
 }
 
+
 #mini-dashboard-points-scored {
     margin-left: 2em;
 }
@@ -277,4 +278,34 @@ div#side-panel {
 
 h2.toc {
     padding-top: 20px;
+}
+
+#practice-content input[type="text"], 
+#practice-content textarea, 
+#practice-content select {
+    width: auto;
+}
+
+#practice-content {
+    padding: 0.5em;
+}
+
+#practice-content input[name="retry"],
+#practice-content input[name="nextPage"] {
+    width: 60%;
+    padding: 0.3em;
+}
+
+#question-content {
+    margin-right: 0 !important;
+    padding: 0.5em !important;
+}
+
+div#links {
+    text-align: center;
+}
+
+div#links a:link {
+    border: medium none;
+    text-decoration: none;
 }
