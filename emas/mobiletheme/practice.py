@@ -30,6 +30,10 @@ class MobilePractice(BasePractice):
         return PRACTICE_URL in path.split('/')
 
     def update(self):
+        pps = self.context.restrictedTraverse('@@plone_portal_state')
+        portal_url = pps.portal_url()
+        self.dashboard_url = '%s/@@practice/dashboard' % portal_url
+        self.reportproblem_url = '%s/@@practice/reportproblem' % portal_url
         path = self.request.get_header('PATH_INFO')
         self.dashboard = path.endswith('dashboard')
         self.question = path.endswith('question')
