@@ -61,6 +61,8 @@ class MobilePractice(BasePractice):
             html.find('.//*[@id="mini-dashboard-question-count"]').text
         self.pointsscored = \
             html.find('.//*[@id="mini-dashboard-points-attained"]').text
+        self.pointstotal = \
+            html.find('.//*[@id="mini-dashboard-points-total"]').text
 
         sidepanel = html.find('.//*[@id="side-panel"]')
         sidepanel.getparent().remove(sidepanel)
