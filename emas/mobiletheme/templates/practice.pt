@@ -9,14 +9,33 @@
 
 <metal:content-core fill-slot="main">
 
-    <div id="practice-content"></div>
+    <div id="practice-content">
 
-    <tal:rewriteimg define="text view/html;
+    <tal:update tal:condition="view/update"/>
+
+    <tal:rewriteimg define="html view/html;
                             helper nocall:context/@@mobile_image_mathml_rewriter;
-                            text python:helper.processHTML(text);">
+                            html python:helper.processHTML(html);">
     
-        <div tal:replace="structure text" />
+        <tal:dashboard tal:condition="view/dashboard">
+            <h1 id="parent-fieldname-title">Practice Home</h1>
+
+            <h3 id="booktitle" tal:content="view/booktitle">Maths Grade 10</h3>
+
+            <ul>
+                <li tal:repeat="section view/sections">
+                    <span class="dashboard-section-title-1"><a href="#" title="Click to practise Algebraic expressions" tal:attributes="href section/href; title section/alttitle" tal:content="section/title">Algebraic expressions</a></span>
+                </li>
+            </ul>
+        </tal:dashboard>
+
+        <tal:other tal:condition="not:view/dashboard">
+            <div tal:replace="structure html" />
+        </tal:other>
+
     </tal:rewriteimg>
+
+    </div>
         
 </metal:content-core>
             

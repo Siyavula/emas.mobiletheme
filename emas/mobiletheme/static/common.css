@@ -255,6 +255,10 @@ div.listingBar a {
 
 /* practice service  */
 
+#booktitle {
+    padding: 0.5em 0;
+}
+
 div#side-panel {
     position: static !important;
 }
