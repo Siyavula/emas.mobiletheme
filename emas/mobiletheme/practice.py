@@ -32,10 +32,14 @@ class MobilePractice(BasePractice):
     def update(self):
         path = self.request.get_header('PATH_INFO')
         self.dashboard = path.endswith('dashboard')
+        self.question = path.endswith('question')
 
-        if not self.dashboard:
-            return
+        if self.dashboard:
+            self.prepdashboard()
+        elif self.question:
+            self.prepquestion()
 
+    def prepdashboard(self):
         html = lxml.html.fromstring(self.html)
 
         self.booktitle = html.find('.//*[@id="dashboard-book-title"]').text
@@ -49,3 +53,15 @@ class MobilePractice(BasePractice):
                 }
             )
         self.sections = sections
+
+    def prepquestion(self):
+        html = lxml.html.fromstring(self.html)
+
+        self.questionscompleted = \
+            html.find('.//*[@id="mini-dashboard-question-count"]').text
+        self.pointsscored = \
+            html.find('.//*[@id="mini-dashboard-points-attained"]').text
+
+        sidepanel = html.find('.//*[@id="side-panel"]')
+        sidepanel.getparent().remove(sidepanel)
+        self.html = lxml.html.tostring(html)

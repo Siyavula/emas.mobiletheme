@@ -13,6 +13,14 @@
 
     <tal:update tal:condition="view/update"/>
 
+    <tal:question tal:condition="view/question">
+        <div id="practice-mini-dashboard">
+            <span id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/questionscompleted">1</strong></span>
+            <span id="mini-dashboard-points-scored">Points: <strong tal:content="view/pointsscored">1 / 3</strong></span>
+        </div>
+    </tal:question>
+
+
     <tal:rewriteimg define="html view/html;
                             helper nocall:context/@@mobile_image_mathml_rewriter;
                             html python:helper.processHTML(html);">
@@ -29,10 +37,9 @@
             </ul>
         </tal:dashboard>
 
-        <tal:other tal:condition="not:view/dashboard">
+        <tal:question tal:condition="view/question">
             <div tal:replace="structure html" />
-        </tal:other>
-
+        </tal:question>
     </tal:rewriteimg>
 
     </div>
