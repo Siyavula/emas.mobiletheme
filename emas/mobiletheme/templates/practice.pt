@@ -9,8 +9,6 @@
 
 <metal:content-core fill-slot="main">
 
-    <div id="practice-content">
-
     <tal:update tal:condition="view/update"/>
 
     <tal:question tal:condition="view/question">
@@ -39,11 +37,13 @@
 
         <tal:question tal:condition="view/question">
             <div tal:replace="structure html" />
+            <div id="links">
+                <a href="#" class="dashboard" tal:attributes="href view/dashboard_url"><img src="++resource++emas.mobiletheme/home_blue.png">Return to practice home</a> 
+                <a href="#" class="problem" tal:attributes="href view/reportproblem_url"><img src="++resource++emas.mobiletheme/exclamation-circle-frame_red.png">Report a problem</a>
+            </div>
         </tal:question>
     </tal:rewriteimg>
 
-    </div>
-        
 </metal:content-core>
             
 </body>
