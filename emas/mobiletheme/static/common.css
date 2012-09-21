@@ -259,6 +259,18 @@ div.listingBar a {
     padding: 0.5em 0;
 }
 
+#practice-mini-dashboard {
+    margin-left: -0.5em;
+    margin-bottom: 1em;
+    background: #efefef;
+    border: #efefef;
+    padding: 0.5em 1em;
+}
+
+#mini-dashboard-points-scored {
+    margin-left: 2em;
+}
+
 div#side-panel {
     position: static !important;
 }
