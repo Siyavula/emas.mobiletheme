@@ -9,15 +9,10 @@
 
 <metal:content-core fill-slot="main"
     tal:define="urls view/getURLs;
-                ismxit view/@@mobile_tool/isMXit">
+                paid_urls urls/paid;
+                notpaid_urls urls/notpaid;">
 
     <div id="practice-content"></div>
-
-    <tal:check-visibility
-        condition="not:context/@@mobile_tool/isMXit"
-        tal:define="urls view/getURLs;
-                    paid_urls urls/paid;
-                    notpaid_urls urls/notpaid;">
 
     <p class="documentDescription">
         Practice services
@@ -60,8 +55,6 @@
             </li>
         </ul>
     </tal:notpaid>
-
-    </tal:check-visibility>
 
 </metal:content-core>
             
