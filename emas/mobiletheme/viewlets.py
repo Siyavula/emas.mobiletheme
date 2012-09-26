@@ -90,6 +90,7 @@ class Header(base.Header):
             self.user_actions = context_state.actions("mobile_user")
         except:
             self.user_actions = []
+        self.isMxit = self.context.restrictedTraverse('@@mobile_tool').isMXit()
 
 
 class ActionsHeader(grok.Viewlet):

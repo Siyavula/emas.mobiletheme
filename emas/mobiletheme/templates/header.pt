@@ -1,4 +1,4 @@
-<div id="personalbar">
+<div id="personalbar" tal:condition="not:viewlet/isMxit">
     <div id="portal-personaltools-wrapper">
         <dl class="actionMenu deactivated" id="portal-personaltools"
             tal:condition="viewlet/user_actions">
