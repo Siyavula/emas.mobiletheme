@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.14
+----
+
+- Render transparent image when tracking view is called
+- Add the necessary headers to the redis queue to enable better tracking
+  of visitors
+
 1.13
 ----
 
