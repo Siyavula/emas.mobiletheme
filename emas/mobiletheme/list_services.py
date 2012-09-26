@@ -5,6 +5,9 @@ from zope.interface import Interface
 from pas.plugins.mxit.plugin import member_id
 from pas.plugins.mxit.plugin import USER_ID_TOKEN
 
+from emas.app.browser.utils import practice_service_uuids
+from emas.app.browser.utils import member_services
+
 from interfaces import IThemeLayer
 
 PRACTICE_URL = '@@practice'
@@ -27,23 +30,23 @@ class List_Services(grok.View):
         super(List_Services, self).__init__(context, request)
         self.pps = self.context.restrictedTraverse('@@plone_portal_state')
         self.portal = self.pps.portal()
+        self.portal_url = self.pps.portal_url()
         self.member = self.pps.member()
         self.memberservices = []
         self.msfolder = self.portal.memberservices
         self.services = self.getServices()
         self.isMxit = self.context.restrictedTraverse('@@mobile_tool').isMXit()
         self.navroot = self.pps.navigation_root()
-        
 
         memberid = self.member.getId()
         if memberid:
-            cf = {'portal_type' :'emas.app.memberservice'}
-            self.memberservices = \
-                self.msfolder.getFolderContents(contentFilter=cf)
+            uids = practice_service_uuids(self.context)
+            self.memberservices =  member_services(self.context, uids)
 
 
     def craftPaidLink(self, navroot, service):
-        link = ['%s' %service.Title(), '%s/question' %navroot.absolute_url()]
+        link = ['%s' %service.Title(),
+                '%s/@@practice/%s' %(self.portal_url, service.grade)] 
         return link
 
 
@@ -95,7 +98,7 @@ class List_Services(grok.View):
         paid = []
         notpaid = []
         related_services = \
-            [s for s.related_service.to_object in memberservices]
+            [s.related_service.to_object for s in memberservices]
 
         for service in services:
             # we are only interested in the mxit services now
