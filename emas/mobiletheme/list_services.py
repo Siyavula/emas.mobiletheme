@@ -45,8 +45,9 @@ class List_Services(grok.View):
 
 
     def craftPaidLink(self, navroot, service):
+        access_path = service.access_path
         link = ['%s' %service.Title(),
-                '%s/@@practice/%s' %(self.portal_url, service.grade)] 
+                '%s/%s' %(navroot.absolute_url(), access_path)] 
         return link
 
 
