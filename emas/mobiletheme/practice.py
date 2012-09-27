@@ -79,9 +79,18 @@ class MobilePractice(BasePractice):
         if div:
             div.getparent().remove(div)
 
+        # remove please wait image
+        img = html.find('.//*[@id="checking_please_wait"]')
+        if img is not None:
+            img.getparent().remove(img)
+
+        # remove onclick javascript from submit buttons
+        for submit in html.findall('.//input[@type="submit"]'):
+            submit.attrib.pop('onclick')
+
         # strip &nbsp; between buttons
         navbuttons = html.find('.//*[@id="nav-buttons"]')
-        if navbuttons:
+        if navbuttons is not None:
             navbuttons.clear()
             navbuttons.extend(lxml.html.fromstring(
                 """<button type="submit" name="retry">Try another question """
