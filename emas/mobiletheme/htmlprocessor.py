@@ -380,7 +380,7 @@ class LatexProcessor(BrowserView):
     latexHeader = r"""
 \documentclass{article}
 \usepackage{amsmath,amssymb,amsfonts}
-\usepackage[utf8]{inputenc}""" + latexUnicode + """
+\usepackage[utf8]{inputenc}""" + latexUnicode + r"""
 \begin{document}
 \pagestyle{empty}
 """
