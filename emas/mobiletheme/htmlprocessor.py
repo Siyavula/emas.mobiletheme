@@ -3,7 +3,6 @@ import os
 import re
 import subprocess
 import tempfile
-import xml.sax.saxutils as saxutils
 from cStringIO import StringIO
 try:
     import Image
@@ -455,7 +454,7 @@ class LatexProcessor(BrowserView):
         workfile = tempfile.mkstemp(dir=cachedir)
         fp = open(workfile[1], 'wb')
         fp.write(self.latexHeader)
-        fp.write(saxutils.unescape(latex))
+        fp.write(html.fromstring(latex).text.encode('utf-8'))
         fp.write(self.latexFooter)
         fp.close()
 
