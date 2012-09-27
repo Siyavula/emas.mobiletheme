@@ -33,7 +33,8 @@ class MobilePractice(BasePractice):
         pps = self.context.restrictedTraverse('@@plone_portal_state')
         portal_url = pps.portal_url()
         self.dashboard_url = '%s/@@practice/dashboard' % portal_url
-        self.reportproblem_url = '%s/@@practice/reportproblem' % portal_url
+        self.reportproblem_url = \
+            '%s/@@practice/user-feedback-mobi' % portal_url
         path = self.request.get_header('PATH_INFO')
         self.dashboard = path.endswith('dashboard')
         self.question = path.endswith('question')
@@ -67,6 +68,25 @@ class MobilePractice(BasePractice):
             html.find('.//*[@id="mini-dashboard-points-attained"]').text
         self.pointstotal = \
             html.find('.//*[@id="mini-dashboard-points-total"]').text
+
+        # copy the how-to-write content for use in the template
+        self.howtowrite = ''
+        for elem in html.findall('.//*[@id="how-to-write-open"]/*'):
+            self.howtowrite += lxml.html.tostring(elem)
+
+        # remove div in practice service html
+        div = html.find('.//*[@id="how-to-write"]')
+        if div:
+            div.getparent().remove(div)
+
+        # strip &nbsp; between buttons
+        navbuttons = html.find('.//*[@id="nav-buttons"]')
+        if navbuttons:
+            navbuttons.clear()
+            navbuttons.extend(lxml.html.fromstring(
+                """<button type="submit" name="retry">Try another question """
+                """like this</button><button type="submit" name="nextPage">"""
+                """Go to next question</button>"""))
 
         sidepanel = html.find('.//*[@id="side-panel"]')
         sidepanel.getparent().remove(sidepanel)

@@ -260,20 +260,21 @@ div.listingBar a {
 }
 
 #practice-mini-dashboard {
-    margin-left: -0.5em;
     margin-bottom: 1em;
     background: #efefef;
     border: #efefef;
     padding: 0.5em 1em;
+    font-size: 80%;
 }
 
-
-#mini-dashboard-points-scored {
-    margin-left: 2em;
-}
 
 div#side-panel {
     position: static !important;
+}
+
+#practice-content h1 {
+    font-size: 120%;
+    margin-bottom: 0.5em;
 }
 
 h2.toc {
@@ -290,22 +291,32 @@ h2.toc {
     padding: 0.5em;
 }
 
-#practice-content input[name="retry"],
-#practice-content input[name="nextPage"] {
-    width: 60%;
+#practice-content button[name="retry"],
+#practice-content button[name="nextPage"] {
+    margin-bottom: 0.5em;
     padding: 0.3em;
+    display: block;
+    width: 100%;
 }
 
 #question-content {
     margin-right: 0 !important;
     padding: 0.5em !important;
 }
+#question-content input[type="submit"] {
+    padding: 0.3em;
+}
 
-div#links {
-    text-align: center;
+#howtowrite {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    font-size: 80%;
 }
 
 div#links a:link {
     border: medium none;
     text-decoration: none;
+    display: block;
+    font-size: 80%;
 }

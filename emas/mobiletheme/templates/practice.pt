@@ -13,8 +13,8 @@
 
     <tal:question tal:condition="view/question">
         <div id="practice-mini-dashboard">
-            <span id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/questionscompleted">1</strong></span>
-            <span id="mini-dashboard-points-scored">Points: <strong tal:content="view/pointsscored">1</strong> / <strong tal:content="view/pointstotal">3</strong></span>
+            <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/questionscompleted">1</strong></div>
+            <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/pointsscored">1</strong> / <strong tal:content="view/pointstotal">3</strong></div>
         </div>
     </tal:question>
 
@@ -37,6 +37,10 @@
 
         <tal:question tal:condition="view/question">
             <div tal:replace="structure html" />
+            <div id="howtowrite" tal:condition="view/howtowrite">
+                <h2>How should I type my answer?</h2>
+                <div tal:content="structure view/howtowrite"/>
+            </div>
             <div id="links">
                 <a href="#" class="dashboard" tal:attributes="href view/dashboard_url"><img src="++resource++emas.mobiletheme/home_blue.png">Return to practice home</a> 
                 <a href="#" class="problem" tal:attributes="href view/reportproblem_url"><img src="++resource++emas.mobiletheme/exclamation-circle-frame_red.png">Report a problem</a>
