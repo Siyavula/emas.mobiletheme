@@ -294,24 +294,100 @@ class LatexProcessor(BrowserView):
     Convert latex to png for mobile devices. 
     """
 
+    latexUnicode = r"""
+% Punctuation
+\DeclareUnicodeCharacter{00A0}{~}
+\DeclareUnicodeCharacter{2019}{'}
+\DeclareUnicodeCharacter{201C}{``}
+\DeclareUnicodeCharacter{201D}{''}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{2014}{---}
+
+% Greek upper case
+\DeclareUnicodeCharacter{0393}{\ensuremath{\Gamma{}}}
+\DeclareUnicodeCharacter{0394}{\ensuremath{\Delta{}}}
+\DeclareUnicodeCharacter{0398}{\ensuremath{\Theta{}}}
+\DeclareUnicodeCharacter{039B}{\ensuremath{\Lambda{}}}
+\DeclareUnicodeCharacter{039E}{\ensuremath{\Xi{}}}
+\DeclareUnicodeCharacter{03A0}{\ensuremath{\Pi{}}}
+\DeclareUnicodeCharacter{03A3}{\ensuremath{\Sigma{}}}
+\DeclareUnicodeCharacter{03A5}{\ensuremath{\Upsilon{}}}
+\DeclareUnicodeCharacter{03A6}{\ensuremath{\Phi{}}}
+\DeclareUnicodeCharacter{03A8}{\ensuremath{\Psi{}}}
+\DeclareUnicodeCharacter{03A9}{\ensuremath{\Omega{}}}
+
+% Greek lower case
+\DeclareUnicodeCharacter{03B1}{\ensuremath{\alpha{}}}
+\DeclareUnicodeCharacter{03B2}{\ensuremath{\beta{}}}
+\DeclareUnicodeCharacter{03B3}{\ensuremath{\gamma{}}}
+\DeclareUnicodeCharacter{03B4}{\ensuremath{\delta{}}}
+\DeclareUnicodeCharacter{03B5}{\ensuremath{\varepsilon{}}}
+\DeclareUnicodeCharacter{03B6}{\ensuremath{\zeta{}}}
+\DeclareUnicodeCharacter{03B7}{\ensuremath{\eta{}}}
+\DeclareUnicodeCharacter{03B8}{\ensuremath{\theta{}}}
+\DeclareUnicodeCharacter{03B9}{\ensuremath{\iota{}}}
+\DeclareUnicodeCharacter{03BA}{\ensuremath{\kappa{}}}
+\DeclareUnicodeCharacter{03BB}{\ensuremath{\lambda{}}}
+\DeclareUnicodeCharacter{03BC}{\ensuremath{\mu{}}}
+\DeclareUnicodeCharacter{03BD}{\ensuremath{\nu{}}}
+\DeclareUnicodeCharacter{03BE}{\ensuremath{\xi{}}}
+\DeclareUnicodeCharacter{03BF}{\ensuremath{\omicron{}}}
+\DeclareUnicodeCharacter{03C0}{\ensuremath{\pi{}}}
+\DeclareUnicodeCharacter{03C1}{\ensuremath{\rho{}}}
+\DeclareUnicodeCharacter{03C2}{\ensuremath{\varsigma{}}}
+\DeclareUnicodeCharacter{03C3}{\ensuremath{\sigma{}}}
+\DeclareUnicodeCharacter{03C4}{\ensuremath{\tau{}}}
+\DeclareUnicodeCharacter{03C5}{\ensuremath{\upsilon{}}}
+\DeclareUnicodeCharacter{03C6}{\ensuremath{\phi{}}}
+\DeclareUnicodeCharacter{03C7}{\ensuremath{\chi{}}}
+\DeclareUnicodeCharacter{03C8}{\ensuremath{\psi{}}}
+\DeclareUnicodeCharacter{03C9}{\ensuremath{\omega{}}}
+\DeclareUnicodeCharacter{03F5}{\ensuremath{\epsilon{}}}
+
+% Units
+\DeclareUnicodeCharacter{00B0}{\ensuremath{^{\circ}}}
+\DeclareUnicodeCharacter{2103}{\ensuremath{^{\circ}\text{C}}}
+
+% Blackboard math
+\DeclareUnicodeCharacter{2115}{\ensuremath{\mathbb{N}}}
+\DeclareUnicodeCharacter{211A}{\ensuremath{\mathbb{Q}}}
+\DeclareUnicodeCharacter{211D}{\ensuremath{\mathbb{R}}}
+\DeclareUnicodeCharacter{2124}{\ensuremath{\mathbb{Z}}}
+
+% Math symbols
+\DeclareUnicodeCharacter{00B1}{\ensuremath{\pm{}}}
+\DeclareUnicodeCharacter{00B7}{\ensuremath{\cdot{}}}
+\DeclareUnicodeCharacter{00D7}{\ensuremath{\times{}}}
+\DeclareUnicodeCharacter{00F7}{\ensuremath{\div{}}}
+\DeclareUnicodeCharacter{2113}{\ensuremath{\ell{}}}
+\DeclareUnicodeCharacter{2192}{\ensuremath{\rightarrow{}}}
+\DeclareUnicodeCharacter{21CB}{\ensuremath{\leftrightharpoons{}}}
+\DeclareUnicodeCharacter{21CC}{\ensuremath{\rightleftharpoons{}}}
+\DeclareUnicodeCharacter{2208}{\ensuremath{\in{}}}
+\DeclareUnicodeCharacter{2211}{\ensuremath{\sum{}}}
+\DeclareUnicodeCharacter{2212}{\ensuremath{-}} % minus sign
+\DeclareUnicodeCharacter{221D}{\ensuremath{\propto{}}}
+\DeclareUnicodeCharacter{221E}{\ensuremath{\infty{}}}
+\DeclareUnicodeCharacter{2225}{\ensuremath{\parallel{}}}
+\DeclareUnicodeCharacter{2234}{\ensuremath{\therefore{}}}
+\DeclareUnicodeCharacter{2248}{\ensuremath{\approx{}}}
+\DeclareUnicodeCharacter{2260}{\ensuremath{\ne{}}}
+\DeclareUnicodeCharacter{2264}{\ensuremath{\le{}}}
+\DeclareUnicodeCharacter{22A5}{\ensuremath{\perp{}}}
+\DeclareUnicodeCharacter{22EF}{\ensuremath{\cdots{}}}
+"""
+
     latexHeader = r"""
-    \documentclass{article}
-    \usepackage{amsmath,amssymb}
-
-    % Maths commands
-    \newcommand{\pdist}[3]{#1\left(#2 \,\middle|\, #3\right)} % probability distribution (conditional)
-    \newcommand{\pdista}[2]{#1\left(#2\right)} % probability distribution (unconditional)
-    \renewcommand{\vec}[1]{{\boldsymbol{#1}}} % vector symbol
-    \newcommand{\mat}[1]{{\boldsymbol{#1}}} % matrix symbol
-    \newcommand{\prop}[1]{\mathbb{#1}} % proposition symbol
-    \newcommand{\model}[1]{\mathcal{#1}} % model symbol
-
-    \begin{document}
-    \pagestyle{empty}
-    """
+\documentclass{article}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[utf8]{inputenc}""" + latexUnicode + """
+\begin{document}
+\pagestyle{empty}
+"""
 
     latexFooter = r"""
-    \end{document}"""
+\end{document}
+"""
 
     
     def process(self, source):
