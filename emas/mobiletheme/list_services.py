@@ -2,11 +2,13 @@ from five import grok
 
 from zope.interface import Interface
 
+from plone.uuid.interfaces import IUUID
+
 from pas.plugins.mxit.plugin import member_id
 from pas.plugins.mxit.plugin import USER_ID_TOKEN
 
-from emas.app.browser.utils import practice_service_uuids
-from emas.app.browser.utils import member_services
+from emas.app.browser.utils import practice_service_uuids_for_subject
+from emas.app.browser.utils import member_services_for_subject
 
 from interfaces import IThemeLayer
 
@@ -34,15 +36,21 @@ class List_Services(grok.View):
         self.member = self.pps.member()
         self.memberservices = []
         self.msfolder = self.portal.memberservices
-        self.services = self.getServices()
         self.isMxit = self.context.restrictedTraverse('@@mobile_tool').isMXit()
         self.navroot = self.pps.navigation_root()
+        self.subject = self.getSubject(self.navroot)
+        self.services = self._getServices(self.portal, self.subject)
 
         memberid = self.member.getId()
         if memberid:
-            uids = practice_service_uuids(self.context)
-            self.memberservices =  member_services(self.context, uids)
+            uuids = [IUUID(service) for service in self.services]
+            self.memberservices = member_services_for_subject(self.context,
+                                                              uuids,
+                                                              memberid,
+                                                              self.subject)
 
+    def getSubject(self, navroot):
+        return navroot.absolute_url().split('/')[-1]    
 
     def craftPaidLink(self, navroot, service):
         access_path = service.access_path
@@ -85,14 +93,15 @@ class List_Services(grok.View):
         return urls
 
     
-    def getServices(self):
-        products_and_services = self.portal.products_and_services
+    def _getServices(self, portal, subject):
+        products_and_services = portal.products_and_services
         services = products_and_services.getFolderContents(
             full_objects=True, 
-            contentFilter={'portal_type': 'emas.app.service'})
+            contentFilter={'portal_type': 'emas.app.service',
+                           'subject': subject})
         return services
 
-
+    
     def getMXitServices(self, services, memberservices):
         """ Probably good idea to @memoize this.
         """
