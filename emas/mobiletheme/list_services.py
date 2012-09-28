@@ -38,7 +38,7 @@ class List_Services(grok.View):
         self.msfolder = self.portal.memberservices
         self.isMxit = self.context.restrictedTraverse('@@mobile_tool').isMXit()
         self.navroot = self.pps.navigation_root()
-        self.subject = self.getSubject(self.navroot)
+        self.subject = self.getSubject(self.context)
         self.services = self._getServices(self.portal, self.subject)
 
         memberid = self.member.getId()
@@ -49,8 +49,11 @@ class List_Services(grok.View):
                                                               memberid,
                                                               self.subject)
 
-    def getSubject(self, navroot):
-        return navroot.absolute_url().split('/')[-1]    
+    def getSubject(self, context):
+        elements = context.getPhysicalPath()
+        if len(elements) > 2:
+            return elements[2]
+        return ''
 
     def craftPaidLink(self, navroot, service):
         access_path = service.access_path
