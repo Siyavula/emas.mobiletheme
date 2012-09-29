@@ -86,7 +86,7 @@ class MobilePractice(BasePractice):
 
         # remove onclick javascript from submit buttons
         for submit in html.findall('.//input[@type="submit"]'):
-            submit.attrib.pop('onclick')
+            submit.attrib.pop('onclick', None)
 
         # strip &nbsp; between buttons
         navbuttons = html.find('.//*[@id="nav-buttons"]')
