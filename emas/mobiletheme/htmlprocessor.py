@@ -1,8 +1,10 @@
 import sys
 import os
 import re
+import logging
 import subprocess
 import tempfile
+import urllib
 from cStringIO import StringIO
 try:
     import Image
@@ -20,10 +22,14 @@ from Products.CMFCore.utils import getToolByName
 from ZPublisher import NotFound
 
 from zope.component import getMultiAdapter, getUtility
+from gomobile.imageinfo.interfaces import IImageInfoUtility
 from gomobile.mobile.interfaces import IMobileImageProcessor
+from gomobile.mobile.browser.imageprocessor import MobileImageProcessor \
+    as BaseMobileImageProcessor
 from gomobile.mobile.browser.imageprocessor import ResizeViewHelper
 from gomobile.mobile.interfaces import IMobileRequestDiscriminator, \
     MobileRequestType
+from mobile.sniffer.utilities import get_user_agent_hash
 from upfront.mathmlimage import convert
 
 
@@ -49,6 +55,70 @@ ENTITIES = [
     '&#119836;',
     '&#119838;',
 ]
+
+logger = logging.getLogger("Resizer")
+
+VIEW_NAME = "@@mobile_image"
+
+class MobileImageProcessor(BaseMobileImageProcessor):
+    """ Modify gomobile image processor to resize and cache when html is
+        processed.
+    """
+
+    def getImageDownloadURL(self, url, properties={}):
+        """
+        Return download URL for image which is put through image resizer.
+
+        @param url: Source image URI, relative to context, or absolite URL
+
+        @param properties: Extra options needed to be given to the
+        resizer, e.g. padding, max width, etc.
+
+        @return: String, URL where to resized image can be downloaded.
+            This URL varies by the user agent.
+        """
+        self.init()
+
+        url = self.mapURL(url)
+
+        path = self.cache.makePathKey(url)
+        file = self.cache.get(path)
+        if file is None:
+            helper = ResizeViewHelper(self.context, self.request)
+            helper.init()
+            helper.parseParameters({'conserve_aspect_ration': True, 'url': url})
+            width, height = helper.resolveDimensions()
+            tool = getUtility(IImageInfoUtility)
+
+            logger.debug(
+                "Resizing image to mobile dimensions %d %d" % (
+                    width, height)
+                )
+            data, format = tool.getURLResizedImage(url, width, height,
+                                                   conserve_aspect_ration=True)
+
+            # Mercifully cache broken images from remote HTTP downloads
+            if data is None:
+                value = ""
+            else:
+                value = data.getvalue()
+
+            self.cache.set(path, value)
+
+        # Prepare arguments for the image resizer view
+        new_props = {"conserve_aspect_ration" : "true"}
+        new_props.update(properties)
+
+        new_props["key"] = path
+
+        if self.isUserAgentSpecific(url, new_props):
+            # Check if the result may vary by user agnt
+            new_props["user_agent_md5"] = get_user_agent_hash(self.request)
+
+        new_props = self.finalizeViewArguments(new_props)
+
+        return (self.site.absolute_url() + "/" + VIEW_NAME + "?" +
+                urllib.urlencode(new_props))
 
 
 class MathMLProcessor(ResizeViewHelper):
@@ -94,7 +164,8 @@ class MathMLProcessor(ResizeViewHelper):
                 except ExpatError:
                     path = 'notfound.png'
 
-            img_tag = '<img class="mathml" src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
+            img_tag = '<img class="mathml" src="%s/%s?key=%s.png"/>' % (
+                portal_url, VIEW_NAME, path)
             if display == 'block':
                 img_tag = '<div class="mathml">%s</div>' % img_tag
 
@@ -193,7 +264,7 @@ class UnicodeProcessor(HTMLEntityProcessor):
         return source
 
 
-class MobileMathMLImage(BrowserView):
+class MobileImage(BrowserView):
 
     def __call__(self):
         key = self.request.get('key')
@@ -213,8 +284,20 @@ class MobileMathMLImage(BrowserView):
         else:
             raise NotFound("MathML image for key %s not found" % filename)
 
-        self.request.response.setHeader("Content-type", "image/png")
+        content_type = "image/" + self.resolveCacheFormat(data)
+        self.request.response.setHeader("Content-type", content_type)
         return data
+
+    def resolveCacheFormat(self, data):
+        """
+        Peek cached file first bytes to get the format.
+        """
+        if data[0:3] == "PNG":
+            return "png"
+        elif data[0:3] == "GIF":
+            return "gif"
+        else:
+            return "jpeg"
 
 
 class MxitTableProcessor(BrowserView):
@@ -532,8 +615,7 @@ class HTMLImageRewriter(BrowserView):
             if not MobileRequestType.MOBILE in flags:
                 return html
         
-        resizer = getMultiAdapter((self.context, self.request),
-                                  IMobileImageProcessor)
+        resizer = MobileImageProcessor(self.context, self.request)
 
         resizer.init()
         if html is not None and html != "":
