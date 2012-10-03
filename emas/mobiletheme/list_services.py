@@ -4,10 +4,6 @@ from zope.interface import Interface
 
 from plone.uuid.interfaces import IUUID
 
-from pas.plugins.mxit.plugin import member_id
-from pas.plugins.mxit.plugin import USER_ID_TOKEN
-
-from emas.app.browser.utils import practice_service_uuids_for_subject
 from emas.app.browser.utils import member_services_for_subject
 
 from interfaces import IThemeLayer
@@ -38,7 +34,7 @@ class List_Services(grok.View):
         self.msfolder = self.portal.memberservices
         self.isMxit = self.context.restrictedTraverse('@@mobile_tool').isMXit()
         self.navroot = self.pps.navigation_root()
-        self.subject = self.getSubject(self.context)
+        self.subject = self.getSubject(self.navroot)
         self.services = self._getServices(self.portal, self.subject)
 
         memberid = self.member.getId()
@@ -49,38 +45,33 @@ class List_Services(grok.View):
                                                               memberid,
                                                               self.subject)
 
-    def getSubject(self, context):
-        elements = context.getPhysicalPath()
-        if len(elements) > 2:
-            return elements[2]
-        return ''
+    def getSubject(self, navroot):
+        return navroot.getId()
 
     def craftPaidLink(self, navroot, service):
         access_path = service.access_path
-        link = ['%s' %service.Title(),
-                '%s/%s' %(navroot.absolute_url(), access_path)] 
+        link = ['%s' % service.Title(),
+                '%s/%s' % (navroot.absolute_url(), access_path)]
         return link
-
 
     def craftNotPaidLink(self, navroot, service):
         if self.isMxit:
-            link = ['%s' %service.Title(),
-                    '%s/@@mxitpaymentrequest?productId=%s' %(
+            link = ['%s' % service.Title(),
+                    '%s/@@mxitpaymentrequest?productId=%s' % (
                         navroot.absolute_url(), service.getId())]
         else:
-            link = ['%s' %service.Title(),
-                    '%s/@@purchase?productId=%s' %(
+            link = ['%s' % service.Title(),
+                    '%s/@@purchase?productId=%s' % (
                         navroot.absolute_url(), service.getId())]
         return link
-
 
     def getURLs(self):
         urls = {
                 'paid': [],
-                'notpaid': [] 
+                'notpaid': []
                }
         
-        if self.isMxit:  
+        if self.isMxit:
             paid, notpaid = self.getMXitServices(
                                 self.services, self.memberservices)
         else:
@@ -95,16 +86,14 @@ class List_Services(grok.View):
 
         return urls
 
-    
     def _getServices(self, portal, subject):
         products_and_services = portal.products_and_services
         services = products_and_services.getFolderContents(
-            full_objects=True, 
+            full_objects=True,
             contentFilter={'portal_type': 'emas.app.service',
                            'subject': subject})
         return services
 
-    
     def getMXitServices(self, services, memberservices):
         """ Probably good idea to @memoize this.
         """
@@ -122,14 +111,13 @@ class List_Services(grok.View):
                     notpaid.append(service)
         return paid, notpaid
         
-
     def getWebAndMobileServices(self, services, memberservices):
         """ Probably good idea to @memoize this too.
         """
         paid = []
         notpaid = []
         related_services = \
-            [s for s.related_service.to_object in memberservices]
+            [s.related_service.to_object for s in memberservices]
 
         for service in services:
             if MXIT_SERVICE not in service.channels:
@@ -139,7 +127,6 @@ class List_Services(grok.View):
                     notpaid.append(service)
         return paid, notpaid
         
-
     def isPracticeService(self):
         """
         """
