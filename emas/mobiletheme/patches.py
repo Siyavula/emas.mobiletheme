@@ -128,6 +128,7 @@ MobileImageProcessor.mapURL = mapURL
 def downloadImage(self, url):
     """ Get remote image data and store.
     """
+    LOG.info('Image URL=%s' % url)
     req = urllib2.Request(url)
     try:
         response = urllib2.urlopen(req)
