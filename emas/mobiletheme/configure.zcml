@@ -94,9 +94,9 @@
 
     <browser:page
         for="*"
-        name="mobile_mathml_image"
+        name="mobile_image"
         permission="zope2.View"
-        class=".htmlprocessor.MobileMathMLImage"
+        class=".htmlprocessor.MobileImage"
         />
 
     <browser:viewlet  
@@ -108,7 +108,7 @@
         />
 
     <cache:ruleset
-        for=".htmlprocessor.MobileMathMLImage"
+        for=".htmlprocessor.MobileImage"
         ruleset="plone.stableResource"
         />
 
