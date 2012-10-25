@@ -159,7 +159,7 @@ class HTMLEntityProcessor(ResizeViewHelper):
                 else:
                     self.resizer.cache.set(path, data)
 
-            img_tag = '<img class="mathml" src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
+            img_tag = '<img class="mathml" src="%s/@@mobile_image?key=%s.png"/>' % (portal_url, path)
             self.entities_image_map[entity] = img_tag
     
     def convert(self, entity_code):
@@ -242,7 +242,7 @@ class MxitTableProcessor(BrowserView):
                 else:
                     resizer.cache.set(path, data)
 
-            img_tag = '<img src="%s/@@mobile_mathml_image?key=%s.png"/>' % (portal_url, path)
+            img_tag = '<img src="%s/@@mobile_image?key=%s.png"/>' % (portal_url, path)
             element = html.fromstring(img_tag)
             table.getparent().replace(table, element)
         return html.tostring(doc, method='xml')
@@ -442,7 +442,7 @@ class LatexProcessor(BrowserView):
                     resizer.cache.set(path, data)
 
             img_tag = (
-                '%s<img src="%s/@@mobile_mathml_image?key=%s.png"/>'
+                '%s<img src="%s/@@mobile_image?key=%s.png"/>'
                 % (extra, portal_url, path)
             )
             tmp_dict[latex] = img_tag
@@ -552,9 +552,9 @@ class HTMLImageRewriter(BrowserView):
             mxitprocessor = MxitHTMLProcessor(self.context, self.request)
             html = mxitprocessor.process(html)
 
-            mxit_table_processor = MxitTableProcessor(self.context,
-                                                      self.request)
-            html = mxit_table_processor.process(html)
+            #mxit_table_processor = MxitTableProcessor(self.context,
+            #                                          self.request)
+            #html = mxit_table_processor.process(html)
 
         if mob_tool.isLowEndPhone():
             entity_processor = HTMLEntityProcessor(self.context, self.request)

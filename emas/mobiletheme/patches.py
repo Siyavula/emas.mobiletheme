@@ -1,23 +1,33 @@
+import base64
 import copy
 
 import PIL
 import urllib2
 import cStringIO
+from urlparse import urlparse
 
 from Acquisition import aq_base
 from ZPublisher import NotFound
 from zExceptions import Unauthorized
+from zope.component import queryUtility
 from zope.app.component.hooks import getSite
+from AccessControl import getSecurityManager
 
 from lxml.etree import ParserError 
 from lxml.html import fromstring, tostring
 
+from Products.CMFCore import permissions
+from plone.registry.interfaces import IRegistry
 from plone.app.redirector.storage import RedirectionStorage
 from mobile.htmlprocessing.transformers.basic import BasicCleaner
 
 from gomobile.mobile.browser.imageprocessor import MobileImageProcessor
 from gomobile.imageinfo.utilities import ImageInfoUtility
 from mobile.sniffer import utilities as snifferutils
+
+from emas.theme.interfaces import IEmasSettings
+from emas.app.browser.utils import practice_service_uuids
+from emas.app.browser.utils import member_services 
 
 from logging import getLogger
 LOG = getLogger('MobileTheme: patches')
@@ -125,9 +135,9 @@ def mapURL(self, url):
 
 MobileImageProcessor.mapURL = mapURL
 
-def downloadImage(self, url):
-    """ Get remote image data and store.
-    """
+PRACTICE_SERVICE_NAME = '@@practice'
+
+def fetch_normal_image(url):
     req = urllib2.Request(url)
     try:
         response = urllib2.urlopen(req)
@@ -136,5 +146,40 @@ def downloadImage(self, url):
     data = response.read()
     io = cStringIO.StringIO(data)
     return PIL.Image.open(io)
+
+def fetch_practice_service_image(url):
+    # the monassis dashboard template adds '; to the image url.
+    # TODO: remove this hack when the latest monassis is deployed!
+    url = url.strip("';")
+
+    settings = queryUtility(IRegistry).forInterface(IEmasSettings)
+    upracticeurl = urlparse(settings.practiceurl)
+    practiceserver = upracticeurl.netloc
+    
+    uurl = urlparse(url)
+    idx = uurl.path.find(PRACTICE_SERVICE_NAME)
+    offset = len(PRACTICE_SERVICE_NAME)
+    image_path = uurl.path[idx + offset:]
+
+    image_url = "%s://%s%s" % (uurl.scheme, practiceserver, image_path)
+
+    req = urllib2.Request(image_url)
+    try:
+        response = urllib2.urlopen(req)
+    except urllib2.HTTPError:
+        raise NotFound('The URL:%s could not be found' %url)
+    data = response.read()
+    io = cStringIO.StringIO(data)
+    return PIL.Image.open(io)
+
+def downloadImage(self, url):
+    """ Get remote image data and store.
+    """
+    LOG.info('Image URL=%s' % url)
+
+    if PRACTICE_SERVICE_NAME in url:
+        return fetch_practice_service_image(url)
+    else:
+        return fetch_normal_image(url)
 
 ImageInfoUtility.downloadImage = downloadImage
