@@ -1,12 +1,6 @@
 Changelog
 =========
 
-1.15
-----
-
-- Change how we fetch monassis image urls, because we have to strip away all
-the path bits that will confuse monassis.
-
 1.14
 ----
 
