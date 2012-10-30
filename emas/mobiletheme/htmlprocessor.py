@@ -638,9 +638,9 @@ class HTMLImageRewriter(BrowserView):
             mxitprocessor = MxitHTMLProcessor(self.context, self.request)
             html = mxitprocessor.process(html)
 
-            #mxit_table_processor = MxitTableProcessor(self.context,
-            #                                          self.request)
-            #html = mxit_table_processor.process(html)
+            mxit_table_processor = MxitTableProcessor(self.context,
+                                                      self.request)
+            html = mxit_table_processor.process(html)
 
         if mob_tool.isLowEndPhone():
             entity_processor = HTMLEntityProcessor(self.context, self.request)
