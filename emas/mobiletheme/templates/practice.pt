@@ -9,48 +9,80 @@
 
 <metal:content-core fill-slot="main">
 
-    <tal:update tal:condition="view/update"/>
+    <tal:no_active_services condition="not:view/services_active">
+        <h3>You don't have access to Intelligent Practice right now</h3>
 
-    <tal:question tal:condition="view/question">
-        <div id="practice-mini-dashboard">
-            <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/questionscompleted">1</strong></div>
-            <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/pointsscored">1</strong> / <strong tal:content="view/pointstotal">3</strong></div>
-        </div>
-    </tal:question>
+        <p>Why?</p>
 
+        <p>When your account was created you either:</p>
+        <ul>
+            <li>paid for subscribtion and your subscription has expired, or</li>
+            <li>you automatically had access via our time-limited, free trial and that has expired.</li>
+        </ul>
 
-    <tal:rewriteimg define="html view/html;
-                            helper nocall:context/@@mobile_image_mathml_rewriter;
-                            html python:helper.processHTML(html);">
-    
-        <tal:dashboard tal:condition="view/dashboard">
-            <h1 id="parent-fieldname-title">Practice Home</h1>
+        <p>What can you do about this?</p>
 
-            <h3 id="booktitle" tal:content="view/booktitle">Maths Grade 10</h3>
+        <p>You need to <a href="#" tal:attributes="href string:${context/absolute_url}/@@order">subscribe to Intelligent Practice</a>. 
+            If your school signed you up then you should ask your 
+            teacher what the status of the school's subscription is. 
+            If you signed up individually you need to renew your 
+            subscription via the <a href="#" tal:attributes="href string:${context/absolute_url}/@@order">orders page</a>.</p>
 
-            <ul>
-                <li tal:repeat="section view/sections">
-                    <span class="dashboard-section-title-1"><a href="#" title="Click to practise Algebraic expressions" tal:attributes="href section/href; title section/alttitle" tal:content="section/title">Algebraic expressions</a></span>
-                </li>
-            </ul>
-        </tal:dashboard>
+        <p>Even if your school signed you up originally, you can make an 
+            individual order to extend your account.</p>
+
+        <p>What about my previous data?</p>
+
+        <p>We don't delete your Intelligent Practice history for 3 months. As 
+        long as you subscribe again within 3 months your history will still be 
+        available and Intelligent Practice will be able to use that 
+        information to give you better advice.</p>
+    </tal:no_active_services>
+
+    <tal:services_active condition="view/services_active">
+        <tal:update tal:condition="view/update"/>
 
         <tal:question tal:condition="view/question">
-            <div id="howtowrite" tal:condition="view/howtowrite">
-                <h2>How should I type my answer?</h2>
-                <div tal:content="structure view/howtowrite"/>
+            <div id="practice-mini-dashboard">
+                <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/questionscompleted">1</strong></div>
+                <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/pointsscored">1</strong> / <strong tal:content="view/pointstotal">3</strong></div>
             </div>
-            <div id="links">
-                <a href="#" class="dashboard" tal:attributes="href view/dashboard_url">
-                    Return to practice home
-                </a> 
-                <a href="#" class="problem" tal:attributes="href view/reportproblem_url">
-                    Report a problem
-                </a>
-            </div>
-            <div tal:replace="structure html" />
         </tal:question>
-    </tal:rewriteimg>
+
+
+        <tal:rewriteimg define="html view/html;
+                                helper nocall:context/@@mobile_image_mathml_rewriter;
+                                html python:helper.processHTML(html);">
+        
+            <tal:dashboard tal:condition="view/dashboard">
+                <h1 id="parent-fieldname-title">Practice Home</h1>
+
+                <h3 id="booktitle" tal:content="view/booktitle">Maths Grade 10</h3>
+
+                <ul>
+                    <li tal:repeat="section view/sections">
+                        <span class="dashboard-section-title-1"><a href="#" title="Click to practise Algebraic expressions" tal:attributes="href section/href; title section/alttitle" tal:content="section/title">Algebraic expressions</a></span>
+                    </li>
+                </ul>
+            </tal:dashboard>
+
+            <tal:question tal:condition="view/question">
+                <div id="howtowrite" tal:condition="view/howtowrite">
+                    <h2>How should I type my answer?</h2>
+                    <div tal:content="structure view/howtowrite"/>
+                </div>
+                <div id="links">
+                    <a href="#" class="dashboard" tal:attributes="href view/dashboard_url">
+                        Return to practice home
+                    </a> 
+                    <a href="#" class="problem" tal:attributes="href view/reportproblem_url">
+                        Report a problem
+                    </a>
+                </div>
+                <div tal:replace="structure html" />
+            </tal:question>
+        </tal:rewriteimg>
+    </tal:services_active>
 
 </metal:content-core>
             
