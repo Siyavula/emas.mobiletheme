@@ -132,6 +132,12 @@ class Back(base.Back):
 class FooterText(base.FooterText):
     """ Override to put our own template into play """
 
+    def update(self):
+        super(grok.Viewlet, self).update()
+        self.portal_state = getView(self.context, self.request,
+            "plone_portal_state")
+        self.site_url = self.portal_state.navigation_root_url()
+
 class MobileFolderListing(base.MobileFolderListing):
     """ Disable mobile folder listing """
 
