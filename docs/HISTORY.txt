@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.16
+----
+
+- Add new logo
+
+- Use absolute url for tracking image
+
+- Clean up unused tracking templates
+
 1.15
 ----
 
