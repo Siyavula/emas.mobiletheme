@@ -46,9 +46,10 @@ class Tracking_Image(grok.View):
 
         # get the nav root
         pps = self.context.restrictedTraverse('@@plone_portal_state')
-        navroot = pps.navigation_root()
+        self.site_url = pps.navigation_root()
+
         # get the subject
-        subject = navroot.getId()
+        subject = self.site_url.getId()
         entry['subject'] = subject
         entry['domain'] = 'everything%s.co.za' %subject
 
