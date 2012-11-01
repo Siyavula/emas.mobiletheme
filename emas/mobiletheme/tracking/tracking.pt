@@ -1,1 +1,0 @@
-<img tal:attributes="src ${view/site_url}/@@tracking_image" />

@@ -2,11 +2,5 @@
     xmlns="http://namespaces.zope.org/zope"
     i18n_domain="emas.mobiletheme">
 
-    <adapter
-        for="* zope.publisher.interfaces.IRequest"
-        name="Mobile tracking"
-        factory=".plugins.AnalyticsMobileTrackingPlugin"
-        />
-
 </configure>
 

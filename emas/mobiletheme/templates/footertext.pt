@@ -1,5 +1,5 @@
 <div id="footer-text" i18n:domain="gomobiletheme.basic">
-    <a href="http://www.siyavula.com"><img tal:attributes="src ${view/site_url}/++theme++emas.theme/images/Logo_transparentBackground-tiny.png"></a>
-    <a href="http://www.shuttleworthfoundation.org"><img tal:attributes="src ${view/site_url}/++theme++emas.theme/images/shuttleworthfoundation.jpg"></a>
-    <a href="http://www.psggroup.co.za"><img tal:attributes="src ${view/site_url}/++theme++emas.theme/images/psggroup.jpg"></a>
+    <a href="http://www.siyavula.com"><img tal:attributes="src string:${viewlet/site_url}/++theme++emas.theme/images/Logo_transparentBackground-tiny.png"></a>
+    <a href="http://www.shuttleworthfoundation.org"><img tal:attributes="src string:${viewlet/site_url}/++theme++emas.theme/images/shuttleworthfoundation.jpg"></a>
+    <a href="http://www.psggroup.co.za"><img tal:attributes="src string:${viewlet/site_url}/++theme++emas.theme/images/psggroup.jpg"></a>
 </div>

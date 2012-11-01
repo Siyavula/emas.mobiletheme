@@ -1,7 +1,4 @@
 <div id="analytics">
-    <div tal:replace="structure viewlet/tracking_code" />
-
-    <!-- Piggy back the google analytics server side tracking -->
-    <img src="@@tracking_image" />
+    <img tal:attributes="src string:${viewlet/site_url}/@@tracking_image" />
 </div>
 

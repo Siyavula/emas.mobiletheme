@@ -134,7 +134,7 @@ class FooterText(base.FooterText):
 
     def update(self):
         super(grok.Viewlet, self).update()
-        self.portal_state = getView(self.context, self.request,
+        self.portal_state = base.getView(self.context, self.request,
             "plone_portal_state")
         self.site_url = self.portal_state.navigation_root_url()
 
@@ -172,11 +172,14 @@ class Sections(base.Sections):
     """ Override to customise template
     """
 
-class TrackingImage(grok.Viewlet):
-    """ Render link to tracking image.
-    """
-
 class MobileTracker(base.MobileTracker):
     """ Site visitors tracking code for mobile analytics 
         Redeclared to override template.
     """
+
+    def update(self):
+        context = aq_inner(self.context)
+
+        self.portal_state = base.getView(context, self.request,
+                                         "plone_portal_state")
+        self.site_url = self.portal_state.navigation_root_url()
