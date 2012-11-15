@@ -8,9 +8,10 @@ from five import grok
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 
 from gomobiletheme.basic import viewlets as base
-from gomobile.mobile.interfaces import IMobileImageProcessor
 
 from plone.app.layout.nextprevious import view as navbase
+
+from emas.mobiletheme.tracking.views import log_page_view
 from emas.mobiletheme import MessageFactory as _
 
 # Layer for which against all our viewlets are registered
@@ -183,3 +184,5 @@ class MobileTracker(base.MobileTracker):
         self.portal_state = base.getView(context, self.request,
                                          "plone_portal_state")
         self.site_url = self.portal_state.navigation_root_url()
+
+        log_page_view(self.request, context)

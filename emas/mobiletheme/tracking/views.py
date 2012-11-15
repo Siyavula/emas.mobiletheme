@@ -42,54 +42,57 @@ class Tracking_Image(grok.View):
         response.write(img)
     
     def update(self):
-        entry = {}
+        log_page_view(self.request, self.context)
 
-        # get the nav root
-        pps = self.context.restrictedTraverse('@@plone_portal_state')
-        navroot = pps.navigation_root()
-        # get the subject
-        subject = navroot.getId()
-        entry['subject'] = subject
-        entry['domain'] = 'everything%s.co.za' %subject
+def log_page_view(request, context):
+    entry = {}
 
-        # get the GA code from the registry
-        registry = queryUtility(IRegistry)
-        settings = registry.forInterface(IEmasMobileThemeSettings)
+    # get the nav root
+    pps = context.restrictedTraverse('@@plone_portal_state')
+    navroot = pps.navigation_root()
+    # get the subject
+    subject = navroot.getId()
+    entry['subject'] = subject
+    entry['domain'] = 'everything%s.co.za' %subject
 
-        gacode = getattr(settings, '%s_gacode' %subject, None)
-        if not gacode:
-            return
-        entry['gacode'] = gacode
+    # get the GA code from the registry
+    registry = queryUtility(IRegistry)
+    settings = registry.forInterface(IEmasMobileThemeSettings)
 
-        entry['referer'] = self.request.getHeader('HTTP_REFERER')
+    gacode = getattr(settings, '%s_gacode' %subject, None)
+    if not gacode:
+        return
+    entry['gacode'] = gacode
 
-        entry['title'] = self.context.Title()
+    entry['referer'] = request.getHeader('HTTP_REFERER')
 
-        remote_address = self.request.getHeader(
-                'HTTP_X_FORWARDED_FOR', self.request.getHeader('REMOTE_ADDR'))
-        entry['remote_address'] = remote_address
-        entry['user_agent'] = self.request.getHeader('HTTP_USER_AGENT')
+    entry['title'] = context.Title()
 
-        # drop the science or maths from the path
-        path = self.context.getPhysicalPath()
-        path_elements = ('',) + path[3:]
-        path = '/'.join(path_elements)
-        entry['path'] = path
+    remote_address = request.getHeader(
+            'HTTP_X_FORWARDED_FOR', request.getHeader('REMOTE_ADDR'))
+    entry['remote_address'] = remote_address
+    entry['user_agent'] = request.getHeader('HTTP_USER_AGENT')
 
-        locale = getattr(self.request, 'locale')
-        entry['locale'] = locale.getLocaleID()
-        
-        for key in ['REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR', 'HTTP_USER_AGENT',
-                    'HTTP_ACCEPT_LANGUAGE', 'AUTHENTICATED_USER',]:
-            value = self.request.get(key)
-            if hasattr(value, 'aq_inner'):
-                value = self.request.get(key).aq_base
-                if key == 'AUTHENTICATED_USER':
-                    value = value.getId()
-            if value:
-                entry[key] = value
+    # drop the science or maths from the path
+    path = context.getPhysicalPath()
+    path_elements = ('',) + path[3:]
+    path = '/'.join(path_elements)
+    entry['path'] = path
 
-        port = getattr(settings, 'redis_port', 6379)
-        entry['redis-port'] = port
-        gaq = get_q(q_name='google_analytics_q', port=port)
-        gaq.enqueue(GoogleQueue.deliver, entry)
+    locale = getattr(request, 'locale')
+    entry['locale'] = locale.getLocaleID()
+    
+    for key in ['REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR', 'HTTP_USER_AGENT',
+                'HTTP_ACCEPT_LANGUAGE', 'AUTHENTICATED_USER',]:
+        value = request.get(key)
+        if hasattr(value, 'aq_inner'):
+            value = request.get(key).aq_base
+            if key == 'AUTHENTICATED_USER':
+                value = value.getId()
+        if value:
+            entry[key] = value
+
+    port = getattr(settings, 'redis_port', 6379)
+    entry['redis-port'] = port
+    gaq = get_q(q_name='google_analytics_q', port=port)
+    gaq.enqueue(GoogleQueue.deliver, entry)

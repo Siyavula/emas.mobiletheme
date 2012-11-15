@@ -1,4 +1,4 @@
 <div id="analytics">
-    <img tal:attributes="src string:${viewlet/site_url}/@@tracking_image" />
+    <!--img tal:attributes="src string:${viewlet/site_url}/@@tracking_image" /-->
 </div>
 
