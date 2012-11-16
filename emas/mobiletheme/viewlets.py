@@ -1,3 +1,6 @@
+import logging
+import traceback
+from redis.connection import ConnectionError
 from Acquisition import aq_inner, aq_parent
 
 from zope.component import getMultiAdapter
@@ -16,6 +19,8 @@ from emas.mobiletheme import MessageFactory as _
 
 # Layer for which against all our viewlets are registered
 from interfaces import IThemeLayer
+
+logger = logging.getLogger('emas.mobiletheme')
 
 # Viewlets are on all content by default.
 grok.context(Interface)
@@ -173,7 +178,7 @@ class Sections(base.Sections):
     """ Override to customise template
     """
 
-class MobileTracker(base.MobileTracker):
+class MobileTracker(grok.Viewlet):
     """ Site visitors tracking code for mobile analytics 
         Redeclared to override template.
     """
@@ -185,4 +190,12 @@ class MobileTracker(base.MobileTracker):
                                          "plone_portal_state")
         self.site_url = self.portal_state.navigation_root_url()
 
-        log_page_view(self.request, context)
+        # we don't want to blow up in the face of the user if we restart
+        # redis. we log as ERROR so we'll still get a flood ERROR emails
+        try:
+            log_page_view(self.request, context)
+        except ConnectionError:
+            logger.error(traceback.format_exc())
+
+    def render(self):
+        return u""
