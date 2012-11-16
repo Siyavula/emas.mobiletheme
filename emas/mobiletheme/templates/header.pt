@@ -1,3 +1,22 @@
+<div id="personalbar" tal:condition="not:viewlet/isMxit">
+    <div id="portal-personaltools-wrapper">
+        <dl class="actionMenu deactivated" id="portal-personaltools"
+            tal:condition="viewlet/user_actions">
+        <dt id="anon-personalbar">
+            <tal:actions repeat="action viewlet/user_actions">
+                <a href=""
+                tal:attributes="href action/url;
+                                id string:personaltools-${action/id};"
+                tal:content="action/title"
+                i18n:translate="">
+                    action title
+                </a>
+            </tal:actions>
+        </dt>
+        </dl>
+
+    </div> 
+</div>
 <div id="header">
 
     <div tal:replace="structure context/@@viewlets/logo" />
