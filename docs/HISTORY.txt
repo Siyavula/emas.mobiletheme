@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.17
+----
+
+- Track page views using viewlet
+
+- Fix accidental merge of personal header
+
 1.16
 ----
 
