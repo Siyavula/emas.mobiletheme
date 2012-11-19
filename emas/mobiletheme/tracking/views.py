@@ -8,7 +8,7 @@ from plone.app.caching.operations.utils import formatDateTime
 from plone.app.caching.operations.utils import getExpiration
 
 from upfront.analyticsqueue.factory import get_q
-from upfront.analyticsqueue.googlequeue import GoogleQueue 
+from upfront.analyticsqueue.googlequeue import GAQueueProcessor
 
 from emas.mobiletheme.interfaces import IThemeLayer
 from emas.mobiletheme.interfaces import IEmasMobileThemeSettings
@@ -92,4 +92,4 @@ class Tracking_Image(grok.View):
         port = getattr(settings, 'redis_port', 6379)
         entry['redis-port'] = port
         gaq = get_q(q_name='google_analytics_q', port=port)
-        gaq.enqueue(GoogleQueue.deliver, entry)
+        gaq.enqueue(GAQueueProcessor.deliver, entry)
