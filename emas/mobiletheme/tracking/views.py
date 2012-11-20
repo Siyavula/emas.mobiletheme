@@ -1,5 +1,6 @@
 import os
 import hashlib
+import logging
 from five import grok
 from zope.interface import Interface
 from zope.component import queryUtility
@@ -12,6 +13,8 @@ from upfront.analyticsqueue.googlequeue import GoogleQueue
 
 from emas.mobiletheme.interfaces import IThemeLayer
 from emas.mobiletheme.interfaces import IEmasMobileThemeSettings
+
+LOGGER = logging.getLogger(__name__)
 
 grok.layer(IThemeLayer)
 
@@ -95,4 +98,5 @@ def log_page_view(request, context):
     port = getattr(settings, 'redis_port', 6379)
     entry['redis-port'] = port
     gaq = get_q(q_name='google_analytics_q', port=port)
+    LOGGER.debug(entry)
     gaq.enqueue(GoogleQueue.deliver, entry)
