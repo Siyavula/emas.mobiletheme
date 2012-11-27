@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.18
+----
+
+- Don't make external urllib calls for images in the same Plone site,
+  traverse to them instead.
+
 1.17
 ----
 
