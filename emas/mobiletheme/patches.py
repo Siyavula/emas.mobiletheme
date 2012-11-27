@@ -6,6 +6,7 @@ import urlparse
 import cStringIO
 
 from Acquisition import aq_base
+from Acquisition import aq_inner
 from ZPublisher import NotFound
 from zExceptions import Unauthorized
 from zope.app.component.hooks import getSite
@@ -13,6 +14,7 @@ from zope.app.component.hooks import getSite
 from lxml.etree import ParserError 
 from lxml.html import fromstring, tostring
 
+from plone.app.layout.navigation.root import getNavigationRootObject
 from plone.app.redirector.storage import RedirectionStorage
 from mobile.htmlprocessing.transformers.basic import BasicCleaner
 
@@ -136,14 +138,19 @@ def downloadImage(self, url):
         # we strip the leading slash since we are traversing from the
         # site root
         path = image_url_parts.path[1:]
+
+        # get the navigation root which might be different to the site
+        context = aq_inner(site.REQUEST.PARENTS[0])
+        navroot = getNavigationRootObject(context, site)
+
         # check for ImageScaling view
         if '/@@images/' in path:
             path, name = path.split('/@@images/')
-            scalingview = site.restrictedTraverse(path + '/@@images/')
+            scalingview = navroot.restrictedTraverse(path + '/@@images/')
             imagescale = scalingview.publishTraverse(site.REQUEST, name)
             io = cStringIO.StringIO(imagescale.data)
         else:
-            image = site.restrictedTraverse(path)
+            image = navroot.restrictedTraverse(path)
             io = cStringIO.StringIO(image.getImage().data)
         return PIL.Image.open(io)
     else:
