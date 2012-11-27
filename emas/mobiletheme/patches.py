@@ -2,6 +2,7 @@ import copy
 
 import PIL
 import urllib2
+import urlparse
 import cStringIO
 
 from Acquisition import aq_base
@@ -128,13 +129,31 @@ MobileImageProcessor.mapURL = mapURL
 def downloadImage(self, url):
     """ Get remote image data and store.
     """
-    req = urllib2.Request(url)
-    try:
-        response = urllib2.urlopen(req)
-    except urllib2.HTTPError:
-        raise NotFound('The URL:%s could not be found' %url)
-    data = response.read()
-    io = cStringIO.StringIO(data)
-    return PIL.Image.open(io)
+    # check if the image is inside the Plone site
+    site = getSite()
+    if url.startswith(site.absolute_url()):
+        image_url_parts = urlparse.urlparse(url)
+        # we strip the leading slash since we are traversing from the
+        # site root
+        path = image_url_parts.path[1:]
+        # check for ImageScaling view
+        if '/@@images/' in path:
+            path, name = path.split('/@@images/')
+            scalingview = site.restrictedTraverse(path + '/@@images/')
+            imagescale = scalingview.publishTraverse(site.REQUEST, name)
+            io = cStringIO.StringIO(imagescale.data)
+        else:
+            image = site.restrictedTraverse(path)
+            io = cStringIO.StringIO(image.getImage().data)
+        return PIL.Image.open(io)
+    else:
+        req = urllib2.Request(url)
+        try:
+            response = urllib2.urlopen(req)
+        except urllib2.HTTPError:
+            raise NotFound('The URL:%s could not be found' %url)
+        data = response.read()
+        io = cStringIO.StringIO(data)
+        return PIL.Image.open(io)
 
 ImageInfoUtility.downloadImage = downloadImage
