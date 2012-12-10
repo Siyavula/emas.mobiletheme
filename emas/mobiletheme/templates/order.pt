@@ -1,0 +1,120 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="emas.theme">
+<body>
+
+    <metal:core fill-slot="main">
+        <h1 class="documentFirstHeading">Order form</h1>
+
+        <div id="content-core"
+            tal:define="action python:view.action(False);">
+            <div id="individual-order-form" class="selectpackage">
+
+                <form id="individual-orderform" name="orderform" 
+                      class="update-action" method="POST"
+                    tal:attributes="action action;
+                                    base_action action;">
+
+                    <input type="hidden" name="order.form.submitted" value="true"/>
+                    <input type="hidden" name="isAnon" value="False" />
+                    <input type="hidden" name="ordernumber" value=""
+                        tal:attributes="value view/ordernumber"/>
+                    
+                    <h2>Subject</h2>
+                    <fieldset
+                        tal:define="selected view/subjects">
+                        <legend>
+                            Choose your subject(s) and grade:
+                        </legend>
+                        <p>
+                            <input name="subjects"
+                                   checked=""
+                                   tal:attributes="checked python:view.subject_selected('Maths', selected)"
+                                   value="Maths"
+                                   type="radio"
+                                   multiplier="1"> Maths
+
+                           <input name="subjects"
+                                  checked=""
+                                  tal:attributes="checked python:view.subject_selected('Science', selected)"
+                                  value="Science"
+                                  multiplier="1"
+                                  type="radio"> Science
+
+                        </p>
+
+                        <p
+                            tal:define="selected view/grade">
+                            <input name="grade"
+                                   checked=""
+                                   tal:attributes="checked python:view.grade_selected('grade10', selected)"
+                                   value="grade10"
+                                   type="radio"> Grade 10 (CAPS)
+                            <input name="grade" 
+                                   checked=""
+                                   tal:attributes="checked python:view.grade_selected('grade11', selected)"
+                                   value="grade11" 
+                                   type="radio"> Grade 11 (CAPS)
+                            <input name="grade"
+                                   checked=""
+                                   tal:attributes="checked python:view.grade_selected('grade12', selected)"
+                                   value="grade12" 
+                                   type="radio"> Grade 12 (NCS)
+                        </p>
+                    </fieldset>
+
+                    <h2>Product</h2>
+
+                    <fieldset
+                        tal:define="selected view/prod_practice_book">
+
+                        <legend>
+                            Select your product:
+                        </legend>
+
+                        <fieldset>
+                            <p>
+                                <input name="prod_practice_book" 
+                                   checked=""
+                                   tal:attributes="checked python:view.prod_practice_book_selected('Practice', selected)"
+                                   class="no-textbook" 
+                                   value="Practice" 
+                                   type="radio" 
+                                   price="150"> Intelligent Practice only (no textbook) [per subject: one year subscription <strong>R150</strong>]
+                            </p>
+                        </fieldset>
+
+                    </fieldset>
+                    <h2>How would you like to pay?</h2>
+                    <fieldset
+                        tal:define="selected view/prod_payment">
+                        <p>
+                            <input name="prod_payment"
+                                checked=""
+                                tal:attributes="checked python:view.prod_payment_selected('sms', selected)"
+                                value="sms"
+                                type="radio"> Premium SMS <br />
+                        </p>
+                    </fieldset>
+
+                    <div class="ordertotal">
+                        <div>
+                            Total = <span id="totalcost" class="amount">R0</span>
+                        </div>
+
+                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Submit
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </metal:core>
+
+</body>
+</html>

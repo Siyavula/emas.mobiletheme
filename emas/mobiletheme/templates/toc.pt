@@ -15,13 +15,6 @@
         <ul id="table-of-contents" class="visualNoMarker button-links"
             tal:define="toc_container nocall:context">
             <metal:rendertoc define-macro="rendertoc">
-            <li class="navTreeItem visualNoMarker">
-                <a href="@@practice">
-                    <span class="button-body">
-                        <span class="button-inner">Practice</span>
-                    </span>
-                </a>
-            </li>
             <tal:items repeat="item python:view.getContentItems(toc_container)">
             <li class="navTreeItem visualNoMarker">
                 <a href="#" tal:attributes="href item/absolute_url">
