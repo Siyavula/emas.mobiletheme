@@ -40,6 +40,10 @@
     </tal:no_active_services>
 
     <tal:services_active condition="view/services_active">
+        <div id="expiry-warning" tal:condition="view/show_expirywarning">
+            Your Intelligent Practice access expires in <span tal:replace="view/get_days_to_expiry_date">30</span> days.
+        </div>
+
         <tal:update tal:condition="view/update"/>
 
         <tal:question tal:condition="view/question">

@@ -19,6 +19,9 @@ class MobilePractice(BasePractice):
     """
         Custom view for mobile practice service
     """
+    # mobile practice expiry warning period is only 7 days as per Siyavula team
+    # request.
+    NUM_DAYS = 7
 
     index = ViewPageTemplateFile('templates/practice.pt')
     
