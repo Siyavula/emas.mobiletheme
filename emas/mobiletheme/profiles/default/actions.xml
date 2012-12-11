@@ -13,7 +13,7 @@
             <property name="permissions">
                 <element value="View"/>
             </property>
-            <property name="visible">True</property>
+            <property name="visible">False</property>
         </object>
         <object name="order" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Order</property>
@@ -67,6 +67,21 @@
             <property name="url_expr">string:${globals_view/navigationRootUrl}/logout</property>
             <property name="icon_expr"></property>
             <property name="available_expr">python:member is not None</property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+    </object>
+    <object name="extra_mobile_links" meta_type="CMF Action Category">
+        <property name="title">Extra mobile links</property>
+        <object name="practice" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Extra mobile links</property>
+            <property name="description" i18n:translate="">Extra mobile links</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/@@practice</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
             <property name="permissions">
                 <element value="View"/>
             </property>
