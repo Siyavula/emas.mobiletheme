@@ -76,8 +76,8 @@
     <object name="extra_mobile_links" meta_type="CMF Action Category">
         <property name="title">Extra mobile links</property>
         <object name="practice" meta_type="CMF Action" i18n:domain="plone">
-            <property name="title" i18n:translate="">Extra mobile links</property>
-            <property name="description" i18n:translate="">Extra mobile links</property>
+            <property name="title" i18n:translate="">Practice</property>
+            <property name="description" i18n:translate="">Practice</property>
             <property
                 name="url_expr">string:${globals_view/navigationRootUrl}/@@practice</property>
             <property name="icon_expr"></property>
