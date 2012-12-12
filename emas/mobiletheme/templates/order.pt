@@ -82,9 +82,9 @@
                                    checked=""
                                    tal:attributes="checked python:view.prod_practice_book_selected('Practice', selected)"
                                    class="no-textbook" 
-                                   value="Practice" 
+                                   value="monthly-practice" 
                                    type="radio" 
-                                   price="150"> Intelligent Practice only (no textbook) [per subject: one year subscription <strong>R150</strong>]
+                                   price="15"> Intelligent Practice only [one month subscription] <strong>R15</strong>]
                             </p>
                         </fieldset>
 
