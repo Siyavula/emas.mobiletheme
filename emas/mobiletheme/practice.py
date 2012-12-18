@@ -41,7 +41,8 @@ class MobilePractice(BasePractice):
         path = self.request.get_header('PATH_INFO')
         self.dashboard = path.endswith('dashboard')
         self.question = path.endswith('question')
-        self.reportproblem = path.endswith('user-feedback-mobi')
+        self.reportproblem = path.endswith('user-feedback-mobi') or \
+                             path.endswith('user-feedback-mobi-success')
 
         if self.dashboard:
             self.prepdashboard()
