@@ -74,7 +74,8 @@ class TableOfContents(BaseTOC):
         for action in actions.get('extra_mobile_links'):
             tmp_dict = {
                 'Title': action['title'],
-                'absolute_url': action['url']
+                'absolute_url': action['url'],
+                'css_class': 'practice-link',
             }
             mobile_items.append(tmp_dict)
         mobile_items.extend(items)

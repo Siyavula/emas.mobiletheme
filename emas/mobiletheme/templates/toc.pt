@@ -17,7 +17,8 @@
             <metal:rendertoc define-macro="rendertoc">
             <tal:items repeat="item python:view.getContentItems(toc_container)">
             <li class="navTreeItem visualNoMarker">
-                <a href="#" tal:attributes="href item/absolute_url">
+                <a href="#" tal:attributes="href item/absolute_url;
+                                            class item/css_class|nothing;">
                     <span class="button-body"><span class="button-inner" tal:content="item/Title">Title</span></span>
                 </a>
             </li>
