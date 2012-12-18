@@ -53,6 +53,11 @@
             </div>
         </tal:question>
 
+        <tal:question tal:condition="view/reportproblem">
+            <div id="report-problem" tal:replace="structure view/reportproblem_form">
+                Report problem form
+            </div>
+        </tal:question>
 
         <tal:rewriteimg define="html view/html;
                                 helper nocall:context/@@mobile_image_mathml_rewriter;
