@@ -43,7 +43,7 @@
                                   tal:attributes="checked python:view.subject_selected('Science', selected)"
                                   value="Science"
                                   multiplier="1"
-                                  type="radio"> Science
+                                  type="radio"> Physical Sciences
 
                         </p>
 
@@ -84,7 +84,7 @@
                                    class="no-textbook" 
                                    value="monthly-practice" 
                                    type="radio" 
-                                   price="15"> Intelligent Practice only [one month subscription] <strong>R15</strong>]
+                                   price="15"> Intelligent Practice only [one month subscription <strong>R15</strong>]
                             </p>
                         </fieldset>
 
@@ -102,10 +102,6 @@
                     </fieldset>
 
                     <div class="ordertotal">
-                        <div>
-                            Total = <span id="totalcost" class="amount">R0</span>
-                        </div>
-
                         <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Submit
                         </button>
                     </div>
