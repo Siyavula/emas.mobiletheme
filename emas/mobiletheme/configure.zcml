@@ -52,7 +52,7 @@
     <browser:page
         for="Products.ATContentTypes.interfaces.IATFolder"
         name="toc"
-        class="emas.theme.browser.toc.TableOfContents"
+        class="emas.mobiletheme.views.TableOfContents"
         template="templates/toc.pt"
         permission="zope2.View"
         layer=".interfaces.IThemeLayer"

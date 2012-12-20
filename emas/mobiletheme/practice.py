@@ -19,6 +19,9 @@ class MobilePractice(BasePractice):
     """
         Custom view for mobile practice service
     """
+    # mobile practice expiry warning period is only 7 days as per Siyavula team
+    # request.
+    NUM_DAYS = 7
 
     index = ViewPageTemplateFile('templates/practice.pt')
     
@@ -38,11 +41,15 @@ class MobilePractice(BasePractice):
         path = self.request.get_header('PATH_INFO')
         self.dashboard = path.endswith('dashboard')
         self.question = path.endswith('question')
+        self.reportproblem = path.endswith('user-feedback-mobi') or \
+                             path.endswith('user-feedback-mobi-success')
 
         if self.dashboard:
             self.prepdashboard()
         elif self.question:
             self.prepquestion()
+        elif self.reportproblem:
+            self.prep_reportproblem()
 
     def prepdashboard(self):
         html = lxml.html.fromstring(self.html)
@@ -100,3 +107,8 @@ class MobilePractice(BasePractice):
         sidepanel = html.find('.//*[@id="side-panel"]')
         sidepanel.getparent().remove(sidepanel)
         self.html = lxml.html.tostring(html)
+    
+    def prep_reportproblem(self):
+        html = lxml.html.fromstring(self.html)
+        element = html.find('.//*[@id="reportproblem"]')
+        self.reportproblem_form = lxml.html.tostring(element)

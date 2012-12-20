@@ -1,10 +1,16 @@
-from zope.interface import Interface
-from Products.ATContentTypes.interface import IATDocument
 from five import grok
+from zope.interface import Interface
+
+from Products.ATContentTypes.interface import IATDocument
 from plone.directives import form
+from Products.CMFCore.utils import getToolByName
+
 from rhaptos.xmlfile.xmlfile import IXMLFile
 from gomobile.mobile.browser.views import MobileTool as BaseMobileTool
 from interfaces import IThemeLayer
+
+from emas.app.browser.order import Order as BaseOrder
+from emas.theme.browser.toc import TableOfContents as BaseTOC
 
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
@@ -43,3 +49,34 @@ class MobileTool(BaseMobileTool):
     def isMXit(self):
         header = self.request.get(MXIT_AGENT_HEADER, '').lower()
         return MXIT_MARKER.lower() in header
+
+
+class Order(BaseOrder):
+    """ Specialised to accommodate mobile workflow and template and to add
+        security constraint.
+    """
+    grok.require('cmf.SetOwnProperties')
+    def update(self):
+        return super(Order, self).update()
+
+
+class TableOfContents(BaseTOC):
+    """ Helper methods and a template that renders only the table of contents.
+    """
+    def getContentItems(self, container=None):
+        """ Add the actions specified in the portal_actions category,
+            'extra_mobile_links'.
+        """
+        items = super(TableOfContents, self).getContentItems()
+        portal_actions = getToolByName(self.context, 'portal_actions')
+        actions = portal_actions.listFilteredActionsFor(self.context)
+        mobile_items = []
+        for action in actions.get('extra_mobile_links'):
+            tmp_dict = {
+                'Title': action['title'],
+                'absolute_url': action['url'],
+                'css_class': 'practice-link',
+            }
+            mobile_items.append(tmp_dict)
+        mobile_items.extend(items)
+        return mobile_items

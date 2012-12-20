@@ -40,6 +40,10 @@
     </tal:no_active_services>
 
     <tal:services_active condition="view/services_active">
+        <div id="expiry-warning" tal:condition="view/show_expirywarning">
+            Your Intelligent Practice access expires in <span tal:replace="view/get_days_to_expiry_date">30</span> days.
+        </div>
+
         <tal:update tal:condition="view/update"/>
 
         <tal:question tal:condition="view/question">
@@ -49,6 +53,11 @@
             </div>
         </tal:question>
 
+        <tal:question tal:condition="view/reportproblem">
+            <div id="report-problem" tal:replace="structure view/reportproblem_form">
+                Report problem form
+            </div>
+        </tal:question>
 
         <tal:rewriteimg define="html view/html;
                                 helper nocall:context/@@mobile_image_mathml_rewriter;

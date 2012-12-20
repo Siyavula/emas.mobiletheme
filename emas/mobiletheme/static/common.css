@@ -321,3 +321,7 @@ div#links a:link {
     display: block;
     font-size: 80%;
 }
+
+div#content a.practice-link {
+    color: darkgreen;
+}

@@ -9,10 +9,14 @@ from zope.interface import Interface
 
 from five import grok
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from gomobiletheme.basic import viewlets as base
 
 from plone.app.layout.nextprevious import view as navbase
+
+from emas.theme.browser.viewlets import PracticeServiceMessagesViewlet as \
+    PracticeServiceMessagesViewletBase
 
 from emas.mobiletheme.tracking.views import log_page_view
 from emas.mobiletheme import MessageFactory as _
@@ -199,3 +203,7 @@ class MobileTracker(grok.Viewlet):
 
     def render(self):
         return u""
+
+class Messages(base.Messages):
+    """ Override base.Messages to customise template.
+    """
