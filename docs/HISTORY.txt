@@ -1,6 +1,23 @@
 Changelog
 =========
 
+1.19 (unreleased)
+-----------------
+
+- Make sure we display the result page from monassis too.
+- Add report-a-problem form to mobile theme.
+- Fix issue 12833
+- Use correct product.
+- Fix title and description
+- New category and action for mobile theme.
+- Add expiry warning and reduce warning window to 7 days.
+- Custom order form.
+- Add practice link as requested.
+- Make practice and order links visible for non-authed users.
+- Use structure to render our specialised status messages.
+- Add logging of analytics entry.
+
+
 1.18
 ----
 
