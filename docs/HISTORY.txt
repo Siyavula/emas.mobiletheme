@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.19 (unreleased)
------------------
+1.19
+----
 
 - Make sure we display the result page from monassis too.
 - Add report-a-problem form to mobile theme.
