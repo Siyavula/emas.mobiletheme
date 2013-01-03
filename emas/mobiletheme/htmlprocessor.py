@@ -124,6 +124,9 @@ class MobileImageProcessor(BaseMobileImageProcessor):
 class MathMLProcessor(ResizeViewHelper):
 
     def process(self, source):
+        if not source:
+            return source
+
         self.init()
 
         doc = html.fromstring(source)
