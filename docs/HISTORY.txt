@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.20
+----
+
+- Short circuit MathML processing if there is nothing to process.
+
+- Add bold styling to duplicate payment warning.
+
 1.19
 ----
 
