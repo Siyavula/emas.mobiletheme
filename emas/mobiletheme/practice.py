@@ -50,6 +50,9 @@ class MobilePractice(BasePractice):
             self.prepquestion()
         elif self.reportproblem:
             self.prep_reportproblem()
+        
+        # do final cleanup on html
+        self.cleanup()
 
     def prepdashboard(self):
         html = lxml.html.fromstring(self.html)
@@ -112,3 +115,22 @@ class MobilePractice(BasePractice):
         html = lxml.html.fromstring(self.html)
         element = html.find('.//*[@id="reportproblem"]')
         self.reportproblem_form = lxml.html.tostring(element)
+
+    def cleanup(self):
+        """ Remove all unnecessary or problematic pieces of html from the local
+            'html' attribute. It has an internal list of xpath statements used
+            to find and remove the relevant html elements.
+
+            We use this to do final cleanup before returning the html to the
+            requesting client.
+        """
+        html = lxml.html.fromstring(self.html)
+        elements_to_remove = [
+            './/*[@id="dashboard-future-preload"]',
+        ]
+        for xpath in elements_to_remove:
+            element = html.find(xpath)
+            if element:
+                element.getparent().remove(element)
+
+        self.html = lxml.html.tostring(html)
