@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.22
+----
+
+- treat practice images as external and download them with an urllib
+  call
+
 1.21
 ----
 
