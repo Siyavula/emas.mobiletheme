@@ -81,7 +81,7 @@
             <property
                 name="url_expr">string:${globals_view/navigationRootUrl}/@@practice</property>
             <property name="icon_expr"></property>
-            <property name="available_expr"></property>
+            <property name="available_expr">not:context/@@mobile_tool/isMXit</property>
             <property name="permissions">
                 <element value="View"/>
             </property>
