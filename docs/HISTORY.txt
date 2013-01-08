@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.21
+----
+
+- Clean up html served by Monassis 
+
 1.20
 ----
 
