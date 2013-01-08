@@ -133,7 +133,7 @@ def downloadImage(self, url):
     """
     # check if the image is inside the Plone site
     site = getSite()
-    if url.startswith(site.absolute_url()):
+    if url.startswith(site.absolute_url()) and not '@@practice' in url:
         image_url_parts = urlparse.urlparse(url)
         # we strip the leading slash since we are traversing from the
         # site root

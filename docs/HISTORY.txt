@@ -1,6 +1,17 @@
 Changelog
 =========
 
+1.22
+----
+
+- treat practice images as external and download them with an urllib
+  call
+
+1.21
+----
+
+- Clean up html served by Monassis 
+
 1.20
 ----
 

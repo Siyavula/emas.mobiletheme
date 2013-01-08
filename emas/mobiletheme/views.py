@@ -71,7 +71,7 @@ class TableOfContents(BaseTOC):
         portal_actions = getToolByName(self.context, 'portal_actions')
         actions = portal_actions.listFilteredActionsFor(self.context)
         mobile_items = []
-        for action in actions.get('extra_mobile_links'):
+        for action in actions.get('extra_mobile_links', []):
             tmp_dict = {
                 'Title': action['title'],
                 'absolute_url': action['url'],
