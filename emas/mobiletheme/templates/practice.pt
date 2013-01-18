@@ -64,16 +64,38 @@
                                 html python:helper.processHTML(html);">
         
             <tal:dashboard tal:condition="view/dashboard">
-                <h1 id="parent-fieldname-title">Practice Home</h1>
+                <h1 id="parent-fieldname-title">Dashboard</h1>
 
                 <h3 id="booktitle" tal:content="view/booktitle">Maths Grade 10</h3>
+		<p tal:replace="structure view/change_grade"/>
+
+		<p tal:replace="structure view/message"/>
 
                 <ul>
-                    <li tal:repeat="section view/sections">
-                        <span class="dashboard-section-title-1"><a href="#" title="Click to practise Algebraic expressions" tal:attributes="href section/href; title section/alttitle" tal:content="section/title">Algebraic expressions</a></span>
+                  <tal:block repeat="section view/sections">
+		    <li>
+                      <span class="dashboard-section-title-1"><a href="#" title="Click to practise Algebraic expressions" tal:attributes="href section/href; title section/alttitle" tal:content="section/title">Algebraic expressions</a><span tal:condition="python:len(section['subsections']) == 0"> (<a href="#" tal:attributes="href section/expandurl">show subsections</a>)</span></span>
                     </li>
+		    <ul tal:condition="python:len(section['subsections']) &gt; 0">
+		      <li tal:repeat="subsection section/subsections">
+                        <span class="dashboard-section-title-2"><a href="#" title="Click to practise The real number system" tal:attributes="href subsection/href; title subsection/alttitle" tal:content="subsection/title">The real number system</a></span>
+		      </li>
+		    </ul>
+		  </tal:block>
                 </ul>
             </tal:dashboard>
+
+            <tal:selectgrade tal:condition="view/selectgrade">
+                <h1 id="parent-fieldname-title" tal:content="view/title">Select grade</h1>
+		<p tal:content="view/message">Please select a grade from the list below</p>
+                <ul>
+                  <tal:block repeat="grade view/grades">
+		    <li>
+                      <a href="#" tal:attributes="href grade/href" tal:content="grade/text">Grade 10</a>
+                    </li>
+		  </tal:block>
+                </ul>
+            </tal:selectgrade>
 
             <tal:question tal:condition="view/question">
                 <div id="howtowrite" tal:condition="view/howtowrite">
@@ -82,7 +104,7 @@
                 </div>
                 <div id="links">
                     <a href="#" class="dashboard" tal:attributes="href view/dashboard_url">
-                        Return to practice home
+                        Return to dashboard
                     </a> 
                     <a href="#" class="problem" tal:attributes="href view/reportproblem_url">
                         Report a problem

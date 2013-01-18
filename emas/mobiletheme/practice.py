@@ -38,14 +38,18 @@ class MobilePractice(BasePractice):
         self.dashboard_url = '%s/@@practice/dashboard' % portal_url
         self.reportproblem_url = \
             '%s/@@practice/user-feedback-mobi' % portal_url
+        self.expand_chapter_url = '%s/@@practice/dashboard/chapter-' % portal_url
         path = self.request.get_header('PATH_INFO')
-        self.dashboard = path.endswith('dashboard')
+        self.dashboard = 'dashboard' in path
+        self.selectgrade = path.endswith('select_grade')
         self.question = path.endswith('question')
         self.reportproblem = path.endswith('user-feedback-mobi') or \
                              path.endswith('user-feedback-mobi-success')
 
         if self.dashboard:
             self.prepdashboard()
+        elif self.selectgrade:
+            self.prepselectgrade()
         elif self.question:
             self.prepquestion()
         elif self.reportproblem:
@@ -57,17 +61,53 @@ class MobilePractice(BasePractice):
     def prepdashboard(self):
         html = lxml.html.fromstring(self.html)
 
+        # Subject, grade
         self.booktitle = html.find('.//*[@id="dashboard-book-title"]').text
+
+        # Link to page for changing your grade (if available)
+        element = html.find('.//*[@id="dashboard-change-grade"]')
+        if element is not None:
+            element.tag = 'p'
+            self.change_grade = lxml.html.tostring(element)
+        else:
+            self.change_grade = ''
+
+        # Welcome message
+        self.message = html.find('.//*[@id="dashboard-message"]')
+
         sections = []
-        for section in html.findall(
-                './/*[@class="dashboard-section-title-1"]/a'):
-            sections.append({
-                'href': section.get('href'),
-                'alttitle': "Click to practice %s" % section.text,
-                'title': section.text
-                }
-            )
+        for element in html.findall('.//*[@class]'):
+            classes = element.get('class').split()
+            if 'dashboard-section-title-1' in classes:
+                anchorElement = element.find('a')
+                sections.append({
+                    'href': anchorElement.get('href'),
+                    'alttitle': "Click to practice %s" % anchorElement.text,
+                    'title': anchorElement.text,
+                    'expandurl': self.expand_chapter_url + str(len(sections)),
+                    'subsections': [],
+                })
+            if 'dashboard-section-title-2' in classes:
+                anchorElement = element.find('a')
+                sections[-1]['subsections'].append({
+                    'href': anchorElement.get('href'),
+                    'alttitle': "Click to practice %s" % anchorElement.text,
+                    'title': anchorElement.text,
+                })
         self.sections = sections
+
+    def prepselectgrade(self):
+        html = lxml.html.fromstring(self.html)
+        self.title = html.find('.//*[@id="select-grade-title"]').text
+        self.message = html.find('.//*[@id="select-grade-message"]').text
+        grades = []
+        for element in html.findall('.//*[@class="select-grade-item"]'):
+            anchorElement = element.find('a')
+            grades.append({
+                'href': anchorElement.get('href'),
+                'text': anchorElement.text,
+            })
+        self.grades = grades
 
     def prepquestion(self):
         html = lxml.html.fromstring(self.html)
