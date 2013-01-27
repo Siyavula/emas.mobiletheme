@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.25
+----
+
+- Catch exceptions when resizing images to ensure broken images don't
+  prevent the page from rendering
+
 1.24
 ----
 
