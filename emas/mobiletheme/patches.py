@@ -1,4 +1,5 @@
 import copy
+import traceback
 
 import PIL
 import urllib2
@@ -21,6 +22,7 @@ from mobile.htmlprocessing.transformers.basic import BasicCleaner
 from gomobile.mobile.browser.imageprocessor import MobileImageProcessor
 from gomobile.imageinfo.utilities import ImageInfoUtility
 from mobile.sniffer import utilities as snifferutils
+from mobile.htmlprocessing.transformers.imageresizer import ImageResizer
 
 from logging import getLogger
 LOG = getLogger('MobileTheme: patches')
@@ -54,6 +56,38 @@ def process(self, html):
     return tostring(doc, method="xml")
 
 BasicCleaner.process = process
+
+
+def process_img(self, doc, el):
+    """ Process <img> tag in the source docu,ent.
+    """
+    self.add_alt_tags(el)
+    
+    src = el.attrib.get("src", None)
+    if src:
+        # catch exceptions to ensure broken images don't
+        # prevent the page from rendering 
+        try:
+            el.attrib["src"] = self.rewrite(src)
+        except:
+            # blank alt text
+            del el.attrib["alt"]
+            el.attrib["src"] = src
+            LOG.error(traceback.format_exc())
+        
+        # Remove explicit width declarations
+        if "width" in el.attrib:            
+            del el.attrib["width"]
+
+        if "height" in el.attrib:            
+            del el.attrib["height"]
+        
+    if self.needs_clearing(el):
+        self.clear_floats(el)
+    
+    self.add_processed_class(el)
+
+ImageResizer.process_img = process_img
 
 
 def mapURL(self, url):
