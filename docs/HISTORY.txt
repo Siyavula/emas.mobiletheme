@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.26
+----
+
+- Update check for MXit
+
 1.25
 ----
 
