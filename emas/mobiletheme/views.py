@@ -15,7 +15,7 @@ from emas.theme.browser.toc import TableOfContents as BaseTOC
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
 
-MXIT_MARKER = 'MXit WebBot'
+MXIT_MARKER = 'MXit'
 MXIT_AGENT_HEADER = 'HTTP_USER_AGENT'
 
 class XMLFile(form.DisplayForm):

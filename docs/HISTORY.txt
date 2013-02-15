@@ -1,6 +1,27 @@
 Changelog
 =========
 
+1.26
+----
+
+- Update check for MXit
+
+1.25
+----
+
+- Catch exceptions when resizing images to ensure broken images don't
+  prevent the page from rendering
+
+1.24
+----
+
+- Improved navigation for practice service
+
+1.23
+----
+
+- Disable practice on Mxit
+
 1.22
 ----
 
