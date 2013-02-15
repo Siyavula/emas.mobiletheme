@@ -84,7 +84,7 @@ class MobilePractice(BasePractice):
                     'href': anchorElement.get('href'),
                     'alttitle': "Click to practice %s" % anchorElement.text,
                     'title': anchorElement.text,
-                    'expandurl': self.expand_chapter_url + str(len(sections)),
+                    'expandurl': self.expand_chapter_url + str(len(sections)) + '#now',
                     'subsections': [],
                 })
             if 'dashboard-section-title-2' in classes:
