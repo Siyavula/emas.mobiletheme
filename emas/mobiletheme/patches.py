@@ -20,6 +20,8 @@ from plone.app.redirector.storage import RedirectionStorage
 from mobile.htmlprocessing.transformers.basic import BasicCleaner
 
 from gomobile.mobile.browser.imageprocessor import MobileImageProcessor
+from gomobile.mobile.browser.imageprocessor import safe_width
+from gomobile.mobile.browser.imageprocessor import safe_height
 from gomobile.imageinfo.utilities import ImageInfoUtility
 from mobile.sniffer import utilities as snifferutils
 from mobile.htmlprocessing.transformers.imageresizer import ImageResizer
@@ -27,6 +29,9 @@ from mobile.htmlprocessing.transformers.imageresizer import ImageResizer
 from logging import getLogger
 LOG = getLogger('MobileTheme: patches')
 
+# increase dimensions that are safe slightly
+safe_width = 1024
+safe_height = 1024
 
 def process(self, html):
     """ patched method to not encode result when converting back to
@@ -73,7 +78,14 @@ def process_img(self, doc, el):
             # blank alt text
             del el.attrib["alt"]
             el.attrib["src"] = src
-            LOG.error(traceback.format_exc())
+            site = getSite()
+            error = ['URL: %s' % site.REQUEST.URL,
+                     'Referer: %s' % site.REQUEST.HTTP_REFERER,
+                     'User Agent: %s' % site.REQUEST.get('HTTP_USER_AGENT', 
+                                                         'Unknown'),
+                     traceback.format_exc()]
+            error = '\n'.join(error)
+            LOG.error(error)
         
         # Remove explicit width declarations
         if "width" in el.attrib:            
