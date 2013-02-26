@@ -5,7 +5,7 @@ class IMobileImageShortURLStorage(Interface):
     """ Marker interface
     """
 
-class MobileImageShortURLStorage(ShortURLStorage)
+class MobileImageShortURLStorage(ShortURLStorage):
     """ utility to keep track of shortened urls for mobile images
     """
 
