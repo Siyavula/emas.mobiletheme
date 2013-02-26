@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.27
+----
+
+- Try harder to hide practice links from Mxit users
+
+- Add more logging when images fail to convert
+
 1.26
 ----
 
