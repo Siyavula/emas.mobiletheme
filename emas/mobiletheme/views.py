@@ -71,12 +71,15 @@ class TableOfContents(BaseTOC):
         portal_actions = getToolByName(self.context, 'portal_actions')
         actions = portal_actions.listFilteredActionsFor(self.context)
         mobile_items = []
-        for action in actions.get('extra_mobile_links', []):
-            tmp_dict = {
-                'Title': action['title'],
-                'absolute_url': action['url'],
-                'css_class': 'practice-link',
-            }
-            mobile_items.append(tmp_dict)
+
+        # don't add the extra links (which includes practice) on MXit
+        if not self.context.restrictedTraverse('@@mobile_tool').isMXit():
+            for action in actions.get('extra_mobile_links', []):
+                tmp_dict = {
+                    'Title': action['title'],
+                    'absolute_url': action['url'],
+                    'css_class': 'practice-link',
+                }
+                mobile_items.append(tmp_dict)
         mobile_items.extend(items)
         return mobile_items
