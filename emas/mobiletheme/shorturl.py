@@ -1,4 +1,5 @@
 from zope.interface import Interface
+from zope.interface import implements
 from upfront.shorturl.storage import ShortURLStorage
 
 class IMobileImageShortURLStorage(Interface):
