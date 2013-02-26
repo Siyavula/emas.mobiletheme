@@ -10,6 +10,10 @@
 <metal:content-core fill-slot="main">
 
     <tal:no_active_services condition="not:view/services_active">
+        <tal:mxit condition="context/@@mobile_tool/isMXit">
+            <h3>Intelligent Practice is not currently available on Mxit.</h3>
+        </tal:mxit>
+        <tal:not_mxit condition="not:context/@@mobile_tool/isMXit">
         <h3>You don't have access to Intelligent Practice right now</h3>
 
         <p>Why?</p>
@@ -37,6 +41,7 @@
         long as you subscribe again within 3 months your history will still be 
         available and Intelligent Practice will be able to use that 
         information to give you better advice.</p>
+        </tal:not_mxit>
     </tal:no_active_services>
 
     <tal:services_active condition="view/services_active">
