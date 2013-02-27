@@ -74,7 +74,8 @@ def process_img(self, doc, el):
             del el.attrib["alt"]
             el.attrib["src"] = src
             site = getSite()
-            error = ['URL: %s' % site.REQUEST.URL,
+            error = ['src': src,
+                     'URL: %s' % site.REQUEST.URL,
                      'Referer: %s' % site.REQUEST.HTTP_REFERER,
                      'User Agent: %s' % site.REQUEST.get('HTTP_USER_AGENT', 
                                                          'Unknown'),
