@@ -315,7 +315,14 @@ h2.toc {
     font-size: 80%;
 }
 
-div#links a:link {
+div#dashboard-link a:link {
+    border: medium none;
+    text-decoration: none;
+    display: block;
+    font-size: 80%;
+}
+
+div#report-a-problem-link a:link {
     border: medium none;
     text-decoration: none;
     display: block;

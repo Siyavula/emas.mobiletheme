@@ -112,12 +112,11 @@ class MobilePractice(BasePractice):
     def prepquestion(self):
         html = lxml.html.fromstring(self.html)
 
-        self.questionscompleted = \
-            html.find('.//*[@id="mini-dashboard-question-count"]').text
-        self.pointsscored = \
-            html.find('.//*[@id="mini-dashboard-points-attained"]').text
-        self.pointstotal = \
-            html.find('.//*[@id="mini-dashboard-points-total"]').text
+        self.values = {
+            'questions_completed': html.find('.//*[@id="mini-dashboard-question-count"]').text,
+            'points_scored': html.find('.//*[@id="mini-dashboard-points-attained"]').text,
+            'points_total': html.find('.//*[@id="mini-dashboard-points-total"]').text,
+        }
 
         # copy the how-to-write content for use in the template
         self.howtowrite = ''

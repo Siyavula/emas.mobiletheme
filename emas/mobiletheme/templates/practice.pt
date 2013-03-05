@@ -46,15 +46,16 @@
 
     <tal:services_active condition="view/services_active">
         <div id="expiry-warning" tal:condition="view/show_expirywarning">
-            Your Intelligent Practice access expires in <span tal:replace="view/get_days_to_expiry_date">30</span> days.
+            Your Intelligent Practice access will expire in <span tal:replace="view/get_days_to_expiry_date">30</span> days.
+	    Click <a href="#" tal:attributes="href string:${context/absolute_url}/@@order">here</a> to renew now.
         </div>
 
         <tal:update tal:condition="view/update"/>
 
         <tal:question tal:condition="view/question">
             <div id="practice-mini-dashboard">
-                <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/questionscompleted">1</strong></div>
-                <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/pointsscored">1</strong> / <strong tal:content="view/pointstotal">3</strong></div>
+                <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/values/questions_completed">1</strong></div>
+                <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/values/points_scored">1</strong> / <strong tal:content="view/values/points_total">3</strong></div>
             </div>
         </tal:question>
 
@@ -103,19 +104,21 @@
             </tal:selectgrade>
 
             <tal:question tal:condition="view/question">
-                <div id="howtowrite" tal:condition="view/howtowrite">
-                    <h2>How should I type my answer?</h2>
-                    <div tal:content="structure view/howtowrite"/>
-                </div>
-                <div id="links">
-                    <a href="#" class="dashboard" tal:attributes="href view/dashboard_url">
-                        Return to dashboard
-                    </a> 
-                    <a href="#" class="problem" tal:attributes="href view/reportproblem_url">
-                        Report a problem
-                    </a>
-                </div>
-                <div tal:replace="structure html" />
+	      <div id="dashboard-link">
+                <a href="#" class="dashboard" tal:attributes="href view/dashboard_url">
+                  Return to dashboard
+                </a>
+	      </div>
+              <div tal:replace="structure html" />
+              <div id="howtowrite" tal:condition="view/howtowrite">
+                <h2>How should I type my answer?</h2>
+                <div tal:content="structure view/howtowrite"/>
+              </div>
+              <div id="report-a-problem-link">
+                <a href="#" class="problem" tal:attributes="href view/reportproblem_url">
+                  Report a problem
+                </a>
+              </div>
             </tal:question>
         </tal:rewriteimg>
     </tal:services_active>
