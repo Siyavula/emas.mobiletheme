@@ -19,7 +19,7 @@
 </div>
 <div id="header">
 
-    <div tal:replace="structure context/@@viewlets/logo" />
+    <div tal:condition="viewlet/isMxit" tal:replace="structure context/@@viewlets/logo" />
 
     <div tal:replace="structure context/@@viewlets/languagechooser" />
 
