@@ -1,6 +1,12 @@
 Changelog
 =========
 
+- Fixed anchor for expanded chapter in practice dashboard view
+
+- Show points on practice dashboard
+
+- Remove Siyavula logo from mobi view (but not Mxit view)
+
 1.28
 ----
 
