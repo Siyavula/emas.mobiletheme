@@ -1,6 +1,15 @@
 Changelog
 =========
 
+1.28
+----
+
+- patch resolveDimensions to allow dimensions up to 1680x1680 for mobile
+  devices
+
+- even more logging when image conversion fails
+
+
 1.27
 ----
 
