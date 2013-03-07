@@ -75,6 +75,7 @@ class MobilePractice(BasePractice):
         # Welcome message
         self.message = html.find('.//*[@id="dashboard-message"]')
 
+        anchored = False # <a name="now"/> handled a bit differently from other elements since it comes before the chapter name
         sections = []
         for element in html.findall('.//*[@class]'):
             classes = element.get('class').split()
@@ -87,7 +88,9 @@ class MobilePractice(BasePractice):
                     'expandurl': self.expand_chapter_url + str(len(sections)) + '#now',
                     'subsections': [],
                     'points': [0,0],
+                    'anchor': anchored,
                 })
+                anchored = False
             if 'dashboard-section-title-2' in classes:
                 anchorElement = element.find('a')
                 sections[-1]['subsections'].append({
@@ -99,6 +102,8 @@ class MobilePractice(BasePractice):
                 sections[-1]['points'][0] = element.text
             if 'dashboard-section-points-total' in classes:
                 sections[-1]['points'][1] = element.text
+            if 'dashboard-section-anchor' in classes:
+                anchored = True
         self.sections = sections
 
     def prepselectgrade(self):
