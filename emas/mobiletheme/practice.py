@@ -86,6 +86,7 @@ class MobilePractice(BasePractice):
                     'title': anchorElement.text,
                     'expandurl': self.expand_chapter_url + str(len(sections)) + '#now',
                     'subsections': [],
+                    'points': [0,0],
                 })
             if 'dashboard-section-title-2' in classes:
                 anchorElement = element.find('a')
@@ -94,6 +95,10 @@ class MobilePractice(BasePractice):
                     'alttitle': "Click to practice %s" % anchorElement.text,
                     'title': anchorElement.text,
                 })
+            if 'dashboard-section-points' in classes:
+                sections[-1]['points'][0] = element.text
+            if 'dashboard-section-points-total' in classes:
+                sections[-1]['points'][1] = element.text
         self.sections = sections
 
     def prepselectgrade(self):
