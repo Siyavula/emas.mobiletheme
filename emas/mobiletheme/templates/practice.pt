@@ -52,13 +52,6 @@
 
         <tal:update tal:condition="view/update"/>
 
-        <tal:question tal:condition="view/question">
-            <div id="practice-mini-dashboard">
-                <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/values/questions_completed">1</strong></div>
-                <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/values/points_scored">1</strong> / <strong tal:content="view/values/points_total">3</strong></div>
-            </div>
-        </tal:question>
-
         <tal:question tal:condition="view/reportproblem">
             <div id="report-problem" tal:replace="structure view/reportproblem_form">
                 Report problem form
@@ -111,6 +104,10 @@
                   Return to dashboard
                 </a>
 	      </div>
+              <div id="practice-mini-dashboard">
+                <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/values/questions_completed">1</strong></div>
+                <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/values/points_scored">1</strong> / <strong tal:content="view/values/points_total">3</strong></div>
+              </div>
               <div tal:replace="structure html" />
               <div id="howtowrite" tal:condition="view/howtowrite">
                 <h2>How should I type my answer?</h2>
