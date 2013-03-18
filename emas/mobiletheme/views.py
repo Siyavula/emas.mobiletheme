@@ -11,6 +11,7 @@ from Products.ATContentTypes.interface import IATDocument
 from plone.directives import form
 from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
+from zExceptions import NotFound
 
 from rhaptos.xmlfile.xmlfile import IXMLFile
 from gomobile.mobile.browser.views import MobileTool as BaseMobileTool
