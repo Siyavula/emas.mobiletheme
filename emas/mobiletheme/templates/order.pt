@@ -13,12 +13,12 @@
         <div id="content-core"
             tal:define="action python:view.action(False);">
 
-            <div tal:condition="context/@@mobile_tool/isMxit">
+            <div tal:condition="context/@@mobile_tool/isMXit">
                 Intelligent Practice is not available for order on Mxit
             </div>
 
             <div id="individual-order-form" class="selectpackage"
-                tal:condition="not:context/@@mobile_tool/isMxit">
+                tal:condition="not:context/@@mobile_tool/isMXit">
 
                 <form id="individual-orderform" name="orderform" 
                       class="update-action" method="POST"
