@@ -77,6 +77,8 @@ def process_img(self, doc, el):
             key = shorturl.getkey(src)
             if key is None:
                 key = shorturl.suggest()
+                # just check that suggest() is working as expected
+                assert shorturl.get(key) is None
                 shorturl.add(key, src)
             src = '%s/@@shortimageurl/%s' % (site.absolute_url(), key)
             el.attrib["src"] = src
