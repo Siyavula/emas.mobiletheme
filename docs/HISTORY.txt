@@ -1,11 +1,19 @@
 Changelog
 =========
 
-1.28
+1.29
 ----
 
 - Add url shortener for image to ensure image urls are not to long for
   Mxit to render. If they are to long, Mxit simply shows a 404 image.
+
+1.28
+----
+
+- patch resolveDimensions to allow dimensions up to 1680x1680 for mobile
+  devices
+
+- even more logging when image conversion fails
 
 1.27
 ----
