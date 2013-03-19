@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.28
+----
+
+- Add url shortener for image to ensure image urls are not to long for
+  Mxit to render. If they are to long, Mxit simply shows a 404 image.
+
 1.27
 ----
 
