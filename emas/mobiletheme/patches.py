@@ -11,6 +11,7 @@ from Acquisition import aq_inner
 from ZPublisher import NotFound
 from zExceptions import Unauthorized
 from zope.app.component.hooks import getSite
+from zope.component import getUtility
 
 from lxml.etree import ParserError 
 from lxml.html import fromstring, tostring
@@ -20,18 +21,15 @@ from plone.app.redirector.storage import RedirectionStorage
 from mobile.htmlprocessing.transformers.basic import BasicCleaner
 
 from gomobile.mobile.browser.imageprocessor import MobileImageProcessor
-from gomobile.mobile.browser.imageprocessor import safe_width
-from gomobile.mobile.browser.imageprocessor import safe_height
+from gomobile.mobile.browser.imageprocessor import ResizeViewHelper
 from gomobile.imageinfo.utilities import ImageInfoUtility
 from mobile.sniffer import utilities as snifferutils
 from mobile.htmlprocessing.transformers.imageresizer import ImageResizer
 
+from emas.mobiletheme.shorturl import IMobileImageShortURLStorage
+
 from logging import getLogger
 LOG = getLogger('MobileTheme: patches')
-
-# increase dimensions that are safe slightly
-safe_width = 1024
-safe_height = 1024
 
 def process(self, html):
     """ patched method to not encode result when converting back to
@@ -70,16 +68,26 @@ def process_img(self, doc, el):
     
     src = el.attrib.get("src", None)
     if src:
+        site = getSite()
         # catch exceptions to ensure broken images don't
         # prevent the page from rendering 
         try:
-            el.attrib["src"] = self.rewrite(src)
+            src = self.rewrite(src)
+            shorturl = getUtility(IMobileImageShortURLStorage)
+            key = shorturl.getkey(src)
+            if key is None:
+                key = shorturl.suggest()
+                # just check that suggest() is working as expected
+                assert shorturl.get(key) is None
+                shorturl.add(key, src)
+            src = '%s/@@shortimageurl/%s' % (site.absolute_url(), key)
+            el.attrib["src"] = src
         except:
             # blank alt text
             del el.attrib["alt"]
             el.attrib["src"] = src
-            site = getSite()
-            error = ['URL: %s' % site.REQUEST.URL,
+            error = ['src: %s' % src,
+                     'URL: %s' % site.REQUEST.URL,
                      'Referer: %s' % site.REQUEST.HTTP_REFERER,
                      'User Agent: %s' % site.REQUEST.get('HTTP_USER_AGENT', 
                                                          'Unknown'),
@@ -210,3 +218,57 @@ def downloadImage(self, url):
         return PIL.Image.open(io)
 
 ImageInfoUtility.downloadImage = downloadImage
+
+
+# increase dimensions that are safe 
+safe_width = 1680
+safe_height = 1680
+
+def resolveDimensions(self):
+    """ Calculate final dimensions for the image.
+    """
+
+    if self.ua:
+        LOG.debug("Using user agent:" + str(self.ua.getMatchedUserAgent()))
+    else:
+        LOG.debug("No user agent available for resolving the target image size")
+
+    if self.ua:
+        canvas_width = self.ua.get("usableDisplayWidth")
+        canvas_height = self.ua.get("usableDisplayHeight")
+    else:
+        canvas_width = None
+        canvas_height = None
+
+    # Fill in default info if user agent records are incomplete
+    if not canvas_width:
+        canvas_width = self.context.portal_properties.mobile_properties.default_canvas_width
+
+    if not canvas_height:
+        canvas_height = self.context.portal_properties.mobile_properties.default_canvas_height
+
+    # Solve wanted width
+    if self.width == "auto":
+        width = canvas_width
+    else:
+        width = self.width
+
+    # Make sure we have some margin available if defined
+    width -= self.padding_width
+
+    # Solve wanted height
+    if self.height == "auto":
+        height = canvas_height
+    else:
+        # Defined as a param
+        height = self.height
+
+    if width < 1 or width > safe_width:
+        raise Unauthorized("Invalid width: %d" % width)
+
+    if height < 1 or height > safe_height:
+        raise Unauthorized("Invalid height: %d" % height)
+
+    return width, height
+
+ResizeViewHelper.resolveDimensions = resolveDimensions

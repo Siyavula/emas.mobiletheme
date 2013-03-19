@@ -1,16 +1,28 @@
+import urlparse
+
 from five import grok
+
+from zope.component import getUtility
 from zope.interface import Interface
+from zope.interface import implements
+from zope.publisher.interfaces import IPublishTraverse
 
 from Products.ATContentTypes.interface import IATDocument
 from plone.directives import form
 from Products.CMFCore.utils import getToolByName
+from Products.Five import BrowserView
+from zExceptions import NotFound
 
 from rhaptos.xmlfile.xmlfile import IXMLFile
 from gomobile.mobile.browser.views import MobileTool as BaseMobileTool
+from gomobiletheme.basic.viewlets import getView
 from interfaces import IThemeLayer
+
+from upfront.shorturl.browser.views import SHORTURLRE
 
 from emas.app.browser.order import Order as BaseOrder
 from emas.theme.browser.toc import TableOfContents as BaseTOC
+from emas.mobiletheme.shorturl import IMobileImageShortURLStorage
 
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
@@ -83,3 +95,47 @@ class TableOfContents(BaseTOC):
                 mobile_items.append(tmp_dict)
         mobile_items.extend(items)
         return mobile_items
+
+
+class ShortImageURL(BrowserView):
+    """ 
+    """
+    implements(IPublishTraverse)
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.traversecode = None
+
+    def lookup(self, code):
+        if SHORTURLRE.match(code) is None:
+            return None
+
+        storage = getUtility(IMobileImageShortURLStorage)
+        return storage.get(code, None)
+
+    def publishTraverse(self, request, name):
+        """ This method is called if someone appends the shortcode to the end
+            of the url. To prevent the silliness of multiple parts being
+            appended, we raise NotFound if we already have one. """
+        if self.traversecode is None:
+            self.traversecode = name
+        else:
+            raise NotFound(name)
+        return self
+
+    def __call__(self):
+        shortcode = self.request.get('shortcode', None) or self.traversecode
+        error = None
+        if shortcode:
+            target = self.lookup(shortcode)
+            if target is not None:
+                urlparts = urlparse.urlparse(target)
+                qdict = urlparse.parse_qs(urlparts.query)
+                key = qdict.get('key')[0]
+                self.request.set('key', key)
+                mobile_image = getView(self.context, self.request,
+                                       "mobile_image")
+                return mobile_image() 
+
+        raise NotFound()
