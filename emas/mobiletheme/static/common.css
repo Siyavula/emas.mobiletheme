@@ -340,3 +340,7 @@ div#duplicate-payment-warning {
 #search-box-bottom table td, th {
     vertical-align: middle;
 }
+
+#portal-breadcrumbs a {
+    text-decoration: underline;
+}
