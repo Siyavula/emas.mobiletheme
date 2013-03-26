@@ -126,4 +126,10 @@
 
     <adapter factory=".etags.MXit" name="mxit" />
 
+      <cmf:registerDirectory
+          name="skins"
+          directory="skins"
+          recursive="True"
+          />
+
 </configure>
