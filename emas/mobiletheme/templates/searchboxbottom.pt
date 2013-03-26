@@ -1,5 +1,4 @@
 <div id="search-box-bottom" class="clear"  tal:condition="not: context/@@mobile_tool/isLowEndPhone">
-	<h2>Search</h2>
 	<form action="@@emas.search">
 		<table width="100%" cellspacing="0" cellpadding="0">
 			<tbody>
