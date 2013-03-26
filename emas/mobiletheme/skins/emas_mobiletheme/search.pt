@@ -38,7 +38,8 @@
                  use_view_action site_properties/typesUseViewActionInListings|python:();
                  portal_url context/portal_url;
                  advanced_search_url string:${context/@@plone_portal_state/navigation_root_url}/search_form;
-                 searchterm request/SearchableText|nothing">
+                 searchterm request/SearchableText|nothing;
+                 search_came_from nocall:request/search_came_from | nothing;">
 
     <div id="content-core">
     	
@@ -48,6 +49,7 @@
 	
         <form name="searchform"
               action="search"
+              method="POST"
               class="searchPage">
             <input class="searchPage"
                    name="SearchableText"
@@ -62,26 +64,35 @@
                    value="Search"
                    i18n:attributes="value label_search;"/>
 
+            <input type="hidden"
+                   name="search_came_from"
+                   value=""
+                   tal:attributes="value search_came_from">
+
         <script type="text/javascript">
 
-            jq(document).ready(function(){
-              jq('#show-form a').click(function(event) {
+            $(document).ready(function(){
+              $('#show-form a').click(function(event) {
                  event.preventDefault();
-                 jq('#hide-form').show('slow');
-                 jq('#show-form').hide('slow');
+                 $('#hide-form').show('slow');
+                 $('#show-form').hide('slow');
               });
             });
-            jq(document).ready(function(){
-              jq('#hide-form a').click(function(event) {
+            $(document).ready(function(){
+              $('#hide-form a').click(function(event) {
                  event.preventDefault();
-                 jq('#show-form').show('slow');
-                 jq('#hide-form').hide('slow');
+                 $('#show-form').show('slow');
+                 $('#hide-form').hide('slow');
               });
             });
 
 
         </script>
-	
+    
+    <div>
+        <a href="#" tal:attributes="href search_came_from">Back to where I was.</a>
+    </div>
+
 	<div class="results-intro" tal:condition="not:results">
 	
 	        <h1 class="documentFirstHeading">
