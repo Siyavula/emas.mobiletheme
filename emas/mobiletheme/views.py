@@ -10,7 +10,6 @@ from rhaptos.xmlfile.xmlfile import IXMLFile
 from gomobile.mobile.browser.views import MobileTool as BaseMobileTool
 from interfaces import IThemeLayer
 
-from emas.app.browser.utils import get_subject_from_path
 from emas.app.browser.order import Order as BaseOrder
 from emas.theme.browser.toc import TableOfContents as BaseTOC
 
@@ -84,9 +83,7 @@ class TableOfContents(BaseTOC):
                 mobile_items.append(tmp_dict)
 
         if INavigationRoot.providedBy(self.context):
-            path = self.request.get_header('PATH_INFO', '')
-            subject = get_subject_from_path(path)
-            category = '%s_mobile_links' % subject
+            category = '%s_mobile_links' % self.context.getId()
             for action in actions.get(category, []):
                 tmp_dict = {
                     'Title': action['title'],
