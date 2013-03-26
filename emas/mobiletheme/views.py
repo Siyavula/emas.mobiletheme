@@ -4,11 +4,13 @@ from zope.interface import Interface
 from Products.ATContentTypes.interface import IATDocument
 from plone.directives import form
 from Products.CMFCore.utils import getToolByName
+from plone.app.layout.navigation.interfaces import INavigationRoot
 
 from rhaptos.xmlfile.xmlfile import IXMLFile
 from gomobile.mobile.browser.views import MobileTool as BaseMobileTool
 from interfaces import IThemeLayer
 
+from emas.app.browser.utils import get_subject_from_path
 from emas.app.browser.order import Order as BaseOrder
 from emas.theme.browser.toc import TableOfContents as BaseTOC
 
@@ -67,10 +69,9 @@ class TableOfContents(BaseTOC):
         """ Add the actions specified in the portal_actions category,
             'extra_mobile_links'.
         """
-        items = super(TableOfContents, self).getContentItems()
+        mobile_items = []
         portal_actions = getToolByName(self.context, 'portal_actions')
         actions = portal_actions.listFilteredActionsFor(self.context)
-        mobile_items = []
 
         # don't add the extra links (which includes practice) on MXit
         if not self.context.restrictedTraverse('@@mobile_tool').isMXit():
@@ -81,5 +82,19 @@ class TableOfContents(BaseTOC):
                     'css_class': 'practice-link',
                 }
                 mobile_items.append(tmp_dict)
-        mobile_items.extend(items)
+
+        if INavigationRoot.providedBy(self.context):
+            path = self.request.get_header('PATH_INFO', '')
+            subject = get_subject_from_path(path)
+            category = '%s_mobile_links' % subject
+            for action in actions.get(category, []):
+                tmp_dict = {
+                    'Title': action['title'],
+                    'absolute_url': action['url'],
+                    'css_class': 'practice-link',
+                }
+                mobile_items.append(tmp_dict)
+        else:
+            mobile_items.append(super(TableOfContents, self).getContentItems())
+            
         return mobile_items

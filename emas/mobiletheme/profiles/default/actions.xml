@@ -88,4 +88,178 @@
             <property name="visible">True</property>
         </object>
     </object>
+    <object name="maths_mobile_links" meta_type="CMF Action Category">
+        <property name="title">Maths mobile links</property>
+        <object name="maths_grade_10" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Maths 10</property>
+            <property name="description" i18n:translate="">Read Maths 10</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-10</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="maths_grade_11" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Maths 11</property>
+            <property name="description" i18n:translate="">Read Maths 11</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-11</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="maths_grade_12" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Maths 12</property>
+            <property name="description" i18n:translate="">Read Maths 12</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-12</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="wiskunde_graad_10" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Lees Wiskunde 10</property>
+            <property name="description" i18n:translate="">Lees Wiskunde 10</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-10</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="wiskunde_graad_11" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Lees Wiskunde 11</property>
+            <property name="description" i18n:translate="">Lees Wiskunde 11</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-11</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="maths_lit_grade_10" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Maths Lit 10</property>
+            <property name="description" i18n:translate="">Read Maths Lit 10</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-10-mathematical-literacy</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="Wiskundige_geletterdheid_graad_10" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Lees Wiskundige Geletterdheid 10</property>
+            <property name="description" i18n:translate=""></property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-10-mathematical-literacy</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="everythingscience_link" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Go to Everything Science</property>
+            <property name="description" i18n:translate=""></property>
+            <property
+                name="url_expr">string:http://www.everythingscience.co.za</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+    </object>
+    <object name="science_mobile_links" meta_type="CMF Action Category">
+        <property name="title">Science mobile links</property>
+        <object name="science_grade_10" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Physical Sciences 10</property>
+            <property name="description" i18n:translate="">Read Physical Sciences 10</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-10</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="science_grade_11" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Physical Sciences 11</property>
+            <property name="description" i18n:translate="">Read Physical Sciences 11</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-11</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="science_grade_12" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Physical Sciences 12</property>
+            <property name="description" i18n:translate="">Read Physical Sciences 12</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-12</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="fisiese_wetenskap_graad_10" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Lees Fisiese Wetenskappe 10</property>
+            <property name="description" i18n:translate="">Lees Fisiese Wetenskappe 10</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-10</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="fisiese_wetenskap_graad_11" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Lees Fisiese Wetenskappe 11</property>
+            <property name="description" i18n:translate="">Lees Fisiese Wetenskappe 11</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/grade-11</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="everythingmaths_link" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Go to Everything Maths</property>
+            <property name="description" i18n:translate="">Go to Everything Maths</property>
+            <property
+                name="url_expr">string:http://www.everythingmaths.co.za</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+    </object>
 </object>
