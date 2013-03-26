@@ -1,5 +1,8 @@
 <div id="search-box-bottom" class="clear"  tal:condition="not: context/@@mobile_tool/isLowEndPhone">
-	<form action="@@emas.search">
+	<form action="@@emas.search" method="POST"
+        tal:attributes="action string:${context/absolute_url}/@@emas.search">
+        <input type="hidden" name="search_came_from" value=""
+            tal:attributes="value string:${context/absolute_url}">
 		<table width="100%" cellspacing="0" cellpadding="0">
 			<tbody>
 				<tr>
