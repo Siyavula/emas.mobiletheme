@@ -15,25 +15,13 @@
             </property>
             <property name="visible">True</property>
         </object>
-        <object name="practice" meta_type="CMF Action" i18n:domain="plone">
-            <property name="title" i18n:translate="">Practice</property>
-            <property name="description" i18n:translate=""></property>
-            <property
-                name="url_expr">string:${globals_view/navigationRootUrl}/@@practice</property>
-            <property name="icon_expr"></property>
-            <property name="available_expr">not:context/@@mobile_tool/isMXit</property>
-            <property name="permissions">
-                <element value="View"/>
-            </property>
-            <property name="visible">True</property>
-        </object>
         <object name="order" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Order</property>
             <property name="description" i18n:translate=""></property>
             <property
                 name="url_expr">string:${globals_view/navigationRootUrl}/@@order</property>
             <property name="icon_expr"></property>
-            <property name="available_expr"></property>
+            <property name="available_expr">not:context/@@mobile_tool/isMXit</property>
             <property name="permissions">
                 <element value="View"/>
             </property>
@@ -43,7 +31,19 @@
             <property name="title" i18n:translate="">Preferences</property>
             <property name="description" i18n:translate=""></property>
             <property
-                name="url_expr">string:${globals_view/navigationRootUrl}/@@personal-preferences</property>
+                name="url_expr">string:${globals_view/navigationRootUrl}/@@personal-information</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr">python:member is not None</property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="password" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Password</property>
+            <property name="description" i18n:translate=""></property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/@@change-password</property>
             <property name="icon_expr"></property>
             <property name="available_expr">python:member is not None</property>
             <property name="permissions">

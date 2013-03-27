@@ -99,6 +99,13 @@
         class=".htmlprocessor.MobileImage"
         />
 
+    <browser:page
+        for="*"
+        name="shortimageurl"
+        permission="zope2.View"
+        class=".views.ShortImageURL"
+        />
+
     <browser:viewlet  
         name="plone.nextprevious"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"

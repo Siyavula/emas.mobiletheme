@@ -11,6 +11,7 @@ from Acquisition import aq_inner
 from ZPublisher import NotFound
 from zExceptions import Unauthorized
 from zope.app.component.hooks import getSite
+from zope.component import getUtility
 
 from lxml.etree import ParserError 
 from lxml.html import fromstring, tostring
@@ -24,6 +25,8 @@ from gomobile.mobile.browser.imageprocessor import ResizeViewHelper
 from gomobile.imageinfo.utilities import ImageInfoUtility
 from mobile.sniffer import utilities as snifferutils
 from mobile.htmlprocessing.transformers.imageresizer import ImageResizer
+
+from emas.mobiletheme.shorturl import IMobileImageShortURLStorage
 
 from logging import getLogger
 LOG = getLogger('MobileTheme: patches')
@@ -65,15 +68,24 @@ def process_img(self, doc, el):
     
     src = el.attrib.get("src", None)
     if src:
+        site = getSite()
         # catch exceptions to ensure broken images don't
         # prevent the page from rendering 
         try:
-            el.attrib["src"] = self.rewrite(src)
+            src = self.rewrite(src)
+            shorturl = getUtility(IMobileImageShortURLStorage)
+            key = shorturl.getkey(src)
+            if key is None:
+                key = shorturl.suggest()
+                # just check that suggest() is working as expected
+                assert shorturl.get(key) is None
+                shorturl.add(key, src)
+            src = '%s/@@shortimageurl/%s' % (site.absolute_url(), key)
+            el.attrib["src"] = src
         except:
             # blank alt text
             del el.attrib["alt"]
             el.attrib["src"] = src
-            site = getSite()
             error = ['src: %s' % src,
                      'URL: %s' % site.REQUEST.URL,
                      'Referer: %s' % site.REQUEST.HTTP_REFERER,

@@ -7,6 +7,17 @@ Changelog
 
 - Remove Siyavula logo from mobi view (but not Mxit view)
 
+1.30
+----
+
+- MVP fixes
+
+1.29
+----
+
+- Add url shortener for image to ensure image urls are not to long for
+  Mxit to render. If they are to long, Mxit simply shows a 404 image.
+
 1.28
 ----
 
@@ -14,7 +25,6 @@ Changelog
   devices
 
 - even more logging when image conversion fails
-
 
 1.27
 ----

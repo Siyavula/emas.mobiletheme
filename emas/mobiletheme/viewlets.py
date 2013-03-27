@@ -1,5 +1,6 @@
 import logging
 import traceback
+import Globals
 from redis.connection import ConnectionError
 from Acquisition import aq_inner, aq_parent
 
@@ -199,7 +200,9 @@ class MobileTracker(grok.Viewlet):
         try:
             log_page_view(self.request, context)
         except ConnectionError:
-            logger.error(traceback.format_exc())
+            if not Globals.DevelopmentMode:
+                # Zope is in debug mode
+                logger.error(traceback.format_exc())
 
     def render(self):
         return u""
