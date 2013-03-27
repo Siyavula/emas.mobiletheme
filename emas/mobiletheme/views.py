@@ -69,6 +69,8 @@ class TableOfContents(BaseTOC):
             'extra_mobile_links'.
         """
         mobile_items = []
+        mobile_items.append(self._practice_url())
+
         portal_actions = getToolByName(self.context, 'portal_actions')
         actions = portal_actions.listFilteredActionsFor(self.context)
 
@@ -95,3 +97,23 @@ class TableOfContents(BaseTOC):
             mobile_items.extend(super(TableOfContents, self).getContentItems())
             
         return mobile_items
+    
+    def _practice_url(self):
+        title = self.context.Title().lower()
+        if INavigationRoot.providedBy(self.context):
+            title = 'Practice %s' % self.context.getId().capitalize()
+        elif 'grade' in title:
+            title = 'Practice this grade'
+        elif 'grade' in self.context.aq_parent():
+            title = 'Practice this chapter'
+        elif self.context.endswith('.cnxmlplus'):
+            title = 'Practice this section'
+        else:
+            title = 'Practice'
+             
+        tmp_dict = {
+            'Title': title,
+            'absolute_url': self.context.absolute_url(),
+            'css_class': 'practice-link',
+        }
+        return tmp_dict
