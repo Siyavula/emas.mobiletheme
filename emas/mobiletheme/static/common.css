@@ -344,3 +344,7 @@ div#duplicate-payment-warning {
 #portal-breadcrumbs a {
     text-decoration: underline;
 }
+
+#content > div > div {
+    padding-top: 10px;
+}
