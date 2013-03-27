@@ -1,11 +1,24 @@
 Changelog
 =========
 
+1.31
+----
+
 - Fixed anchor for expanded chapter in practice dashboard view
 
 - Show points on practice dashboard
 
 - Remove Siyavula logo from mobi view (but not Mxit view)
+
+- Context sensitive practice urls
+
+- Back url on search results
+
+- Copy changes to table of contents
+
+- Order form updates
+
+- More actions on menu bar
 
 1.30
 ----
