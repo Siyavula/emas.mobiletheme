@@ -190,7 +190,7 @@
             <property name="title" i18n:translate="">Go to Everything Science</property>
             <property name="description" i18n:translate=""></property>
             <property
-                name="url_expr">string:http://www.everythingscience.co.za</property>
+                name="url_expr">string:http://m.everythingscience.co.za</property>
             <property name="icon_expr"></property>
             <property name="available_expr"></property>
             <property name="permissions">
@@ -265,7 +265,7 @@
             <property name="title" i18n:translate="">Go to Everything Maths</property>
             <property name="description" i18n:translate="">Go to Everything Maths</property>
             <property
-                name="url_expr">string:http://www.everythingmaths.co.za</property>
+                name="url_expr">string:http://m.everythingmaths.co.za</property>
             <property name="icon_expr"></property>
             <property name="available_expr"></property>
             <property name="permissions">
