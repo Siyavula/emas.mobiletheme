@@ -113,7 +113,7 @@ class TableOfContents(BaseTOC):
              
         tmp_dict = {
             'Title': title,
-            'absolute_url': self.context.absolute_url(),
+            'absolute_url': self.context.absolute_url() + '/@@practice',
             'css_class': 'practice-link',
         }
         return tmp_dict
