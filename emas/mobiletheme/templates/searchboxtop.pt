@@ -1,5 +1,8 @@
 <div id="search-box-top">
-	<form action="@@emas.search" class="searchform searchform-top">
+    <form action="@@emas.search" class="searchform searchform-top" method="POST"
+        tal:attributes="action string:${context/absolute_url}/@@emas.search">
+        <input type="hidden" name="search_came_from" value=""
+            tal:attributes="value string:${request/search_came_from | context/absolute_url}">
 		<table width="100%" cellspacing="0" cellpadding="0">
 			<tbody>
 				<tr>
