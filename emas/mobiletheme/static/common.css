@@ -355,6 +355,7 @@ div#duplicate-payment-warning {
 
 #individual-orderform label {
     padding-left: 5px;
+    width: 100%;
 }
 
 #individual-orderform button {
@@ -362,13 +363,27 @@ div#duplicate-payment-warning {
     width: 7em;
 }
 
-.button {
-    -webkit-box-align: center;
-    cursor: default;
-    color: buttontext;
-    padding: 2px 6px 3px;
-    border: 2px outset buttonface;
-    border-image: initial;
-    background-color: buttonface;
-    box-sizing: border-box;
+#individual-orderform ul.button-links {
+    padding: 5px 15px 5px 0;
+    display: block;
+    margin: 1em 0 1em 0;
+    width: 97%;
+    padding-left: 5px;
+}
+
+#individual-orderform input {
+    margin: 1em 0 1em 0;
+    padding-left: 5px;
+}
+
+.mouse_over {
+    background-color: #DDDDDD;
+}
+
+#individual-orderform label {
+    font-weight: normal;
+}
+
+#individual-orderform h2 {
+    margin-bottom: 0;
 }

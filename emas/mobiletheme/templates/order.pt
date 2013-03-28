@@ -5,9 +5,29 @@
       lang="en"
       metal:use-macro="context/main_template/macros/master"
       i18n:domain="emas.theme">
+    
 <body>
 
     <metal:core fill-slot="main">
+        <script type="text/javascript">
+            $('document').ready(function(evt) {
+                $('li').hover(
+                    function(evt) {
+                        $(this).addClass('mouse_over');
+                    },
+                    function(evt) {
+                        $(this).removeClass('mouse_over');
+                    }
+                );
+                $('li').click(function(evt) {
+                    $(this).find('input').click();
+                    evt.stopPropagation();
+                });
+                $('li input').click(function(evt) {
+                    evt.stopPropagation();
+                });
+            });
+        </script>
         <h1 class="documentFirstHeading">Order form</h1>
 
         <div id="content-core"
@@ -30,110 +50,95 @@
                     <input type="hidden" name="ordernumber" value=""
                         tal:attributes="value view/ordernumber"/>
                     
-                    <div class="label">
-                        <ul class="checkbox"
-                            tal:define="selected_subjects view/subjects;
-                                        selected_product view/prod_practice_book;
-                                        selected_grade view/grade">
+                    <ul id="table-of-contents" class="visualNoMarker button-links"
+                        tal:define="selected_subjects view/subjects;">
+                        <h2>Subject</h2>
+                        <li class="navTreeItem visualNoMarker">
+                            <input name="subjects"
+                                   id="subjects-maths"
+                                   checked=""
+                                   tal:attributes="checked python:view.subject_selected('Maths', selected_subjects)"
+                                   value="Maths"
+                                   type="radio" />
+                            <label for="subjects-maths">Maths</label>
+                        </li>
+                        <li class="navTreeItem visualNoMarker">
+                            <input name="subjects"
+                                   id="subjects-science"
+                                   checked=""
+                                   tal:attributes="checked python:view.subject_selected('Science', selected_subjects)"
+                                   value="Science"
+                                   multiplier="1"
+                                   type="radio" />
+                            <label for="subjects-science">Physical Sciences</label>
+                        </li>
+                    </ul>
 
-                            <li class="title">
-                                <h2>Subject</h2>
-                            </li>
+                    <ul id="table-of-contents" class="visualNoMarker button-links"
+                        tal:define="selected_grade view/grade">
+                        <h2>Grade</h2>
+                        <li class="navTreeItem visualNoMarker">
+                            <input name="grade"
+                                   id="grade10"
+                                   checked=""
+                                   tal:attributes="checked python:view.grade_selected('grade10', selected_grade)"
+                                   value="grade10"
+                                   type="radio" />
+                            <label for="grade10">Grade 10 (CAPS)</label>
+                        </li>
+                        <li class="navTreeItem visualNoMarker">
+                            <input name="grade" 
+                                   id="grade11"
+                                   checked=""
+                                   tal:attributes="checked python:view.grade_selected('grade11', selected_grade)"
+                                   value="grade11" 
+                                   type="radio" />
+                            <label for="grade11">Grade 11 (CAPS)</label>
+                        </li>
 
-                            <li class="button">
-                                <input name="subjects"
-                                       id="subjects-maths"
-                                       checked=""
-                                       tal:attributes="checked python:view.subject_selected('Maths', selected_subjects)"
-                                       value="Maths"
-                                       type="radio"
-                                       multiplier="1">
-                                <label for="subjects-maths">Maths</label>
-                            </li>
+                        <li class="navTreeItem visualNoMarker">
+                            <input name="grade"
+                                   id="grade12"
+                                   checked=""
+                                   tal:attributes="checked python:view.grade_selected('grade12', selected_grade)"
+                                   value="grade12" 
+                                   type="radio" />
+                            <label for="grade12">Grade 12 (CAPS)</label>
+                        </li>
+                    </ul>
 
-                            <li class="button">
-                                <input name="subjects"
-                                       id="subjects-science"
-                                       checked=""
-                                       tal:attributes="checked python:view.subject_selected('Science', selected_subjects)"
-                                       value="Science"
-                                       multiplier="1"
-                                       type="radio">
-                                <label for="subjects-science">Physical Sciences</label>
-                            </li>
-
-                            <li class="title">
-                                <h2>Grade</h2>
-                            </li>
-
-                            <li class="button">
-                                <input name="grade"
-                                       id="grade10"
-                                       checked=""
-                                       tal:attributes="checked python:view.grade_selected('grade10', selected_grade)"
-                                       value="grade10"
-                                       type="radio">
-                                <label for="grade10">Grade 10 (CAPS)</label>
-                            </li>
-
-                            <li class="button">
-                                <input name="grade" 
-                                       id="grade11"
-                                       checked=""
-                                       tal:attributes="checked python:view.grade_selected('grade11', selected_grade)"
-                                       value="grade11" 
-                                       type="radio">
-                                <label for="grade11">Grade 11 (CAPS)</label>
-                            </li>
-
-                            <li class="button">
-                                <input name="grade"
-                                       id="grade12"
-                                       checked=""
-                                       tal:attributes="checked python:view.grade_selected('grade12', selected_grade)"
-                                       value="grade12" 
-                                       type="radio">
-                                <label for="grade12">Grade 12 (CAPS)</label>
-                            </li>
-
-                            <li>
-                                <h2>Product</h2>
-                            </li>
-
-                            <li class="button">
-                                <input name="prod_practice_book" 
-                                    id="prod_practice_book"
-                                    checked=""
-                                    tal:attributes="checked python:view.prod_practice_book_selected('Practice', selected_product)"
-                                    class="no-textbook" 
-                                    value="monthly-practice" 
-                                    type="radio" 
-                                    price="15">
-                                <label for="prod_practice_book">Intelligent Practice one month subscription <strong>R15</strong></label>
-                            </li>
-
-                            <li>
-                                <h2>How would you like to pay?</h2>
-                            </li>
-
-                            <li class="button" tal:define="selected view/prod_payment">
-                                <input name="prod_payment"
-                                    id="prod_payment"
-                                    checked="checked"
-                                    value="sms"
-                                    type="radio">
-                                <label for="prod_payment">Premium SMS</label>
-                            </li>
-
-                            <li>
-                                <div class="ordertotal">
-                                    <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Submit
-                                    </button>
-                                </div>
-                            </li>
-
-                        </ul>
-                    <div>
+                    <ul id="table-of-contents" class="visualNoMarker button-links"
+                        tal:define="selected_product view/prod_practice_book;">
+                        <h2>Product</h2>
+                        <li class="navTreeItem visualNoMarker">
+                            <input name="prod_practice_book" 
+                                id="prod_practice_book"
+                                checked=""
+                                tal:attributes="checked python:view.prod_practice_book_selected('Practice', selected_product)"
+                                class="no-textbook" 
+                                value="monthly-practice" 
+                                type="radio" 
+                                price="15" />
+                            <label for="prod_practice_book">Intelligent Practice one month subscription <strong>R15</strong></label>
+                        </li>
+                    </ul>
+                    
+                    <ul id="table-of-contents" class="visualNoMarker button-links">
+                        <h2>How would you like to pay?</h2>
+                        <li>
+                        <li class="button" tal:define="selected view/prod_payment">
+                            <input name="prod_payment"
+                                id="prod_payment"
+                                checked="checked"
+                                value="sms"
+                                type="radio" />
+                            <label for="prod_payment">Premium SMS</label>
+                        </li>
+                    </ul>
+                    <div class="ordertotal">
+                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Submit
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
