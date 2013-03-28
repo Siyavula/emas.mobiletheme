@@ -32,7 +32,9 @@
                     
                     <div class="label">
                         <ul class="checkbox"
-                            tal:define="selected view/prod_practice_book">
+                            tal:define="selected_subjects view/subjects;
+                                        selected_product view/prod_practice_book;
+                                        selected_grade view/grade">
                             <li class="title">
                                 <h2>Subject</h2>
                             </li>
@@ -40,7 +42,7 @@
                                 <input name="subjects"
                                        id="subjects-maths"
                                        checked=""
-                                       tal:attributes="checked python:view.subject_selected('Maths', selected)"
+                                       tal:attributes="checked python:view.subject_selected('Maths', selected_subjects)"
                                        value="Maths"
                                        type="radio"
                                        multiplier="1">
@@ -50,7 +52,7 @@
                                 <input name="subjects"
                                        id="subjects-science"
                                        checked=""
-                                       tal:attributes="checked python:view.subject_selected('Science', selected)"
+                                       tal:attributes="checked python:view.subject_selected('Science', selected_subjects)"
                                        value="Science"
                                        multiplier="1"
                                        type="radio">
@@ -63,7 +65,7 @@
                                 <input name="grade"
                                        id="grade10"
                                        checked=""
-                                       tal:attributes="checked python:view.grade_selected('grade10', selected)"
+                                       tal:attributes="checked python:view.grade_selected('grade10', selected_grade)"
                                        value="grade10"
                                        type="radio">
                                 <label for="grade10">Grade 10 (CAPS)</label>
@@ -72,7 +74,7 @@
                                 <input name="grade" 
                                        id="grade11"
                                        checked=""
-                                       tal:attributes="checked python:view.grade_selected('grade11', selected)"
+                                       tal:attributes="checked python:view.grade_selected('grade11', selected_grade)"
                                        value="grade11" 
                                        type="radio">
                                 <label for="grade11">Grade 11 (CAPS)</label>
@@ -81,7 +83,7 @@
                                 <input name="grade"
                                        id="grade12"
                                        checked=""
-                                       tal:attributes="checked python:view.grade_selected('grade12', selected)"
+                                       tal:attributes="checked python:view.grade_selected('grade12', selected_grade)"
                                        value="grade12" 
                                        type="radio">
                                 <label for="grade12">Grade 12 (CAPS)</label>
@@ -93,7 +95,7 @@
                                 <input name="prod_practice_book" 
                                     id="prod_practice_book"
                                     checked=""
-                                    tal:attributes="checked python:view.prod_practice_book_selected('Practice', selected)"
+                                    tal:attributes="checked python:view.prod_practice_book_selected('Practice', selected_product)"
                                     class="no-textbook" 
                                     value="monthly-practice" 
                                     type="radio" 
@@ -106,8 +108,7 @@
                             <li tal:define="selected view/prod_payment">
                                 <input name="prod_payment"
                                     id="prod_payment"
-                                    checked=""
-                                    tal:attributes="checked python:view.prod_payment_selected('sms', selected)"
+                                    checked="checked"
                                     value="sms"
                                     type="radio">
                                 <label for="prod_payment">Premium SMS</label>
