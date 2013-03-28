@@ -35,10 +35,12 @@
                             tal:define="selected_subjects view/subjects;
                                         selected_product view/prod_practice_book;
                                         selected_grade view/grade">
+
                             <li class="title">
                                 <h2>Subject</h2>
                             </li>
-                            <li>
+
+                            <li class="button">
                                 <input name="subjects"
                                        id="subjects-maths"
                                        checked=""
@@ -48,7 +50,8 @@
                                        multiplier="1">
                                 <label for="subjects-maths">Maths</label>
                             </li>
-                            <li>
+
+                            <li class="button">
                                 <input name="subjects"
                                        id="subjects-science"
                                        checked=""
@@ -58,10 +61,12 @@
                                        type="radio">
                                 <label for="subjects-science">Physical Sciences</label>
                             </li>
+
                             <li class="title">
                                 <h2>Grade</h2>
                             </li>
-                            <li>
+
+                            <li class="button">
                                 <input name="grade"
                                        id="grade10"
                                        checked=""
@@ -70,7 +75,8 @@
                                        type="radio">
                                 <label for="grade10">Grade 10 (CAPS)</label>
                             </li>
-                            <li>
+
+                            <li class="button">
                                 <input name="grade" 
                                        id="grade11"
                                        checked=""
@@ -79,7 +85,8 @@
                                        type="radio">
                                 <label for="grade11">Grade 11 (CAPS)</label>
                             </li>
-                            <li>
+
+                            <li class="button">
                                 <input name="grade"
                                        id="grade12"
                                        checked=""
@@ -88,10 +95,12 @@
                                        type="radio">
                                 <label for="grade12">Grade 12 (CAPS)</label>
                             </li>
+
                             <li>
                                 <h2>Product</h2>
                             </li>
-                            <li>
+
+                            <li class="button">
                                 <input name="prod_practice_book" 
                                     id="prod_practice_book"
                                     checked=""
@@ -102,10 +111,12 @@
                                     price="15">
                                 <label for="prod_practice_book">Intelligent Practice one month subscription <strong>R15</strong></label>
                             </li>
+
                             <li>
                                 <h2>How would you like to pay?</h2>
                             </li>
-                            <li tal:define="selected view/prod_payment">
+
+                            <li class="button" tal:define="selected view/prod_payment">
                                 <input name="prod_payment"
                                     id="prod_payment"
                                     checked="checked"
@@ -113,12 +124,14 @@
                                     type="radio">
                                 <label for="prod_payment">Premium SMS</label>
                             </li>
+
                             <li>
                                 <div class="ordertotal">
                                     <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Submit
                                     </button>
                                 </div>
                             </li>
+
                         </ul>
                     <div>
                 </form>
