@@ -125,7 +125,6 @@
                     
                     <ul id="table-of-contents" class="visualNoMarker button-links">
                         <h2>How would you like to pay?</h2>
-                        <li>
                         <li class="button" tal:define="selected view/prod_payment">
                             <input name="prod_payment"
                                 id="prod_payment"
