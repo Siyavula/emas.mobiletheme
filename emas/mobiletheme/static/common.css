@@ -348,3 +348,16 @@ div#duplicate-payment-warning {
 #welcome-message {
     padding-top: 10px;
 }
+
+#content ul.checkbox, #content ul.nodots {
+    list-style: none;
+}
+
+#individual-orderform label {
+    padding-left: 5px;
+}
+
+#individual-orderform button {
+    height: 3.5em;
+    width: 7em;
+}
