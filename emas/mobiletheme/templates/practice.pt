@@ -75,7 +75,7 @@
 		    <li>
 		      <a tal:condition="section/anchor" name="now"></a>
                       <span class="dashboard-section-title-1"><a href="#" title="Click to practise Algebraic expressions" tal:attributes="href section/href; title section/alttitle" tal:content="section/title">Algebraic expressions</a><span tal:condition="python:len(section['subsections']) == 0">&nbsp;&nbsp;<a href="#" title="Show subsections" tal:attributes="href section/expandurl">(+)</a></span></span>
-		      <span tal:condition="python:section['points'][1] > 0"><br/>Points: <span class="dashboard-section-points" tal:content="python:section['points'][0]">5</span> / <span class="dashboard-section-points-total" tal:content="python:section['points'][1]">10</span> = <span class="dashboard-section-percentage" tal:content="python:'%.0f%%'%(float(section['points'][0])/float(section['points'][1])*100)">50%</span></span>
+		      <span tal:condition="python:section['points'][1] > 0"><br/>Points: <span class="dashboard-section-points" tal:content="python:section['points'][0]">5</span>/<span class="dashboard-section-points-total" tal:content="python:section['points'][1]">10</span> = <span class="dashboard-section-percentage" tal:content="python:'%.0f%%'%(float(section['points'][0])/float(section['points'][1])*100)">50%</span></span>
                     </li>
 		    <ul tal:condition="python:len(section['subsections']) &gt; 0">
 		      <li tal:repeat="subsection section/subsections">
