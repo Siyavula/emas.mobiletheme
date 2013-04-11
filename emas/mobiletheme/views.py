@@ -29,6 +29,13 @@ from emas.mobiletheme.shorturl import IMobileImageShortURLStorage
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
 
+WELCOME_MSG = \
+    """
+    Read textbooks for free or <a href="@@register">sign up</a>
+    and <a href="login">login</a> to Intelligent Practice, for
+    unlimited homework practice.
+    """
+
 MXIT_MARKER = 'MXit'
 MXIT_AGENT_HEADER = 'HTTP_USER_AGENT'
 
@@ -111,6 +118,15 @@ class TableOfContents(BaseTOC):
             mobile_items.extend(super(TableOfContents, self).getContentItems())
             
         return mobile_items
+    
+    def welcome_message(self):
+        pps = self.context.restrictedTraverse('@@plone_portal_state')
+        pmt = getToolByName(self.context, 'portal_membership')
+        navroot = pps.navigation_root()
+        message = ''
+        if pmt.isAnonymousUser() and self.context == navroot:
+            message = WELCOME_MSG
+        return message
     
     def has_practise_content(self, context):
         retVal = True
