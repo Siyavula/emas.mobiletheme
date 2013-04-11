@@ -148,7 +148,7 @@
             <property name="permissions">
                 <element value="View"/>
             </property>
-            <property name="visible">True</property>
+            <property name="visible">False</property>
         </object>
         <object name="wiskunde_graad_11" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Lees Wiskunde 11</property>
@@ -160,7 +160,7 @@
             <property name="permissions">
                 <element value="View"/>
             </property>
-            <property name="visible">True</property>
+            <property name="visible">False</property>
         </object>
         <object name="maths_lit_grade_10" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Read Maths Lit 10</property>
@@ -184,7 +184,7 @@
             <property name="permissions">
                 <element value="View"/>
             </property>
-            <property name="visible">True</property>
+            <property name="visible">False</property>
         </object>
         <object name="everythingscience_link" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Go to Everything Science</property>
@@ -247,7 +247,7 @@
             <property name="permissions">
                 <element value="View"/>
             </property>
-            <property name="visible">True</property>
+            <property name="visible">False</property>
         </object>
         <object name="fisiese_wetenskap_graad_11" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Lees Fisiese Wetenskappe 11</property>
@@ -259,7 +259,7 @@
             <property name="permissions">
                 <element value="View"/>
             </property>
-            <property name="visible">True</property>
+            <property name="visible">False</property>
         </object>
         <object name="everythingmaths_link" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Go to Everything Maths</property>
