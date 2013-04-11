@@ -88,7 +88,8 @@ class TableOfContents(BaseTOC):
 
         # don't add the extra links (which includes practice) on MXit
         if not self.context.restrictedTraverse('@@mobile_tool').isMXit():
-            mobile_items.append(self._practice_url())
+            if self.has_practise_content(self.context):
+                mobile_items.append(self._practice_url())
             for action in actions.get('extra_mobile_links', []):
                 tmp_dict = {
                     'Title': action['title'],
@@ -110,6 +111,25 @@ class TableOfContents(BaseTOC):
             mobile_items.extend(super(TableOfContents, self).getContentItems())
             
         return mobile_items
+    
+    def has_practise_content(self, context):
+        retVal = True
+        paths_with_practise_content = [
+            '/emas/maths',
+            '/emas/maths/grade-10',
+            '/emas/maths/grade-11',
+            '/emas/maths/grade-12',
+            '/emas/science',
+            '/emas/science/grade-10',
+            '/emas/science/grade-11',
+            '/emas/science/grade-12',
+        ]
+        path = self.context.getPhysicalPath()
+        if path:
+            path = '/'.join(path[:3])
+            retVal = path in paths_with_practise_content and True or False
+
+        return retVal
     
     def _practice_url(self):
         title = self.context.Title().lower()
