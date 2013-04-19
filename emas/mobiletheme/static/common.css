@@ -42,8 +42,8 @@ input[type="submit"] {
 
 #personalbar {
     background-color: #DDDDDD;
-    height: 40px;
-    padding: 0.5em 1em;
+    height: 65px;
+    padding: 0.5em 1em 1em;
 }
 #portal-personaltools {
     background: none repeat scroll 0 0 transparent;
