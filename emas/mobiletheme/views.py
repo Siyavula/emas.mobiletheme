@@ -130,20 +130,16 @@ class TableOfContents(BaseTOC):
     
     def has_practise_content(self, context):
         retVal = True
-        paths_with_practise_content = [
-            '/emas/maths',
-            '/emas/maths/grade-10',
-            '/emas/maths/grade-11',
-            '/emas/maths/grade-12',
-            '/emas/science',
-            '/emas/science/grade-10',
-            '/emas/science/grade-11',
-            '/emas/science/grade-12',
+        paths_without_practise_content = [
+            '/emas/maths/grade-10-mathematical-literacy',
+            '/emas/maths/grade-11-mathematical-literacy',
+            '/emas/maths/grade-12-mathematical-literacy',
         ]
         path = self.context.getPhysicalPath()
         if path:
-            path = '/'.join(path[:3])
-            retVal = path in paths_with_practise_content and True or False
+            path = '/'.join(path[:4])
+            if path in paths_without_practise_content:
+                retVal = False
 
         return retVal
     
