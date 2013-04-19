@@ -90,7 +90,7 @@
         </script>
     
     <div>
-        <a href="#" tal:attributes="href search_came_from">Back to where I was.</a>
+        <a href="#" tal:attributes="href search_came_from">Back</a>
     </div>
 
 	<div class="results-intro" tal:condition="not:results">
