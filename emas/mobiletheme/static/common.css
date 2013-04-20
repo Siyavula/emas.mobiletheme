@@ -42,7 +42,6 @@ input[type="submit"] {
 
 #personalbar {
     background-color: #DDDDDD;
-    height: 65px;
     padding: 0.5em 1em 1em;
 }
 #portal-personaltools {
@@ -51,7 +50,6 @@ input[type="submit"] {
     padding: 0.5em 0 0;
 }
 #portal-personaltools #anon-personalbar a {
-    float: left;
     margin-right: 1em;
 }
 
