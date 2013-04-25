@@ -101,7 +101,7 @@ class TableOfContents(BaseTOC):
                 tmp_dict = {
                     'Title': action['title'],
                     'absolute_url': action['url'],
-                    'css_class': 'practice-link',
+                    'css_class': 'toc-link',
                 }
                 mobile_items.append(tmp_dict)
 
@@ -111,7 +111,7 @@ class TableOfContents(BaseTOC):
                 tmp_dict = {
                     'Title': action['title'],
                     'absolute_url': action['url'],
-                    'css_class': 'practice-link',
+                    'css_class': 'toc-link',
                 }
                 mobile_items.append(tmp_dict)
         else:
