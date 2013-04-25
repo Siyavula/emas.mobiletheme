@@ -155,10 +155,18 @@ class TableOfContents(BaseTOC):
             title = 'Practise this section'
         else:
             title = 'Practise'
-             
+        
+        parts = urlparse.urlparse(self.request['URL'])
+        newparts = urlparse.ParseResult(parts.scheme,
+                                        parts.netloc,
+                                        '/@@practice' + parts.path,
+                                        parts.params,
+                                        parts.query,
+                                        parts.fragment)
+        url = urlparse.urlunparse(newparts)
         tmp_dict = {
             'Title': title,
-            'absolute_url': self.context.absolute_url() + '/@@practice',
+            'absolute_url': url,
             'css_class': 'practice-link',
         }
         return tmp_dict
