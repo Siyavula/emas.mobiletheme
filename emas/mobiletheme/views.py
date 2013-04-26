@@ -156,7 +156,7 @@ class TableOfContents(BaseTOC):
         else:
             title = 'Practise'
         
-        parts = urlparse.urlparse(self.request['URL'])
+        parts = urlparse.urlparse(self.context.absolute_url())
         newparts = urlparse.ParseResult(parts.scheme,
                                         parts.netloc,
                                         '/@@practice' + parts.path,
