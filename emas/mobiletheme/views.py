@@ -145,13 +145,14 @@ class TableOfContents(BaseTOC):
     
     def _practice_url(self):
         title = self.context.Title().lower()
+        absolute_url = self.context.absolute_url()
         if INavigationRoot.providedBy(self.context):
             title = 'Practise %s' % self.context.getId().capitalize()
         elif 'grade' in title:
             title = 'Practise this grade'
         elif 'grade' in self.context.aq_parent():
             title = 'Practise this chapter'
-        elif self.context.endswith('.cnxmlplus'):
+        elif absolute_url.endswith('.cnxmlplus'):
             title = 'Practise this section'
         else:
             title = 'Practise'
