@@ -14,7 +14,7 @@ from zope.app.component.hooks import getSite
 from zope.component import getUtility
 
 from lxml.etree import ParserError 
-from lxml.html import fromstring, tostring
+from lxml.html import fromstring, tostring, Element
 
 from plone.app.layout.navigation.root import getNavigationRootObject
 from plone.app.redirector.storage import RedirectionStorage
@@ -68,6 +68,7 @@ def process_img(self, doc, el):
     
     src = el.attrib.get("src", None)
     if src:
+        originalSrc = src
         site = getSite()
         # catch exceptions to ensure broken images don't
         # prevent the page from rendering 
@@ -95,6 +96,12 @@ def process_img(self, doc, el):
             error = '\n'.join(error)
             LOG.error(error)
         
+        # Make image clickable and point to original src
+        a = Element('a')
+        a.attrib['href'] = originalSrc
+        el.getparent().replace(el, a)
+        a.append(el)
+
         # Remove explicit width declarations
         if "width" in el.attrib:            
             del el.attrib["width"]
