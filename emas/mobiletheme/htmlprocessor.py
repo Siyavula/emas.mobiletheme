@@ -544,6 +544,8 @@ class LatexProcessor(BrowserView):
         fp.write(self.latexFooter)
         fp.close()
 
+        fnull = open(os.devnull, "w")
+
         cmdargs = ['latex',
                    '-output-directory',
                    '/tmp',
@@ -553,9 +555,8 @@ class LatexProcessor(BrowserView):
                    'dvi',
                    workfile[1],
                    ]
-        process = subprocess.Popen(cmdargs,
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        rendered, stderr = process.communicate(latex)
+        process = subprocess.Popen(cmdargs, stdin=fnull, stdout=fnull)
+        process.communicate()
        
         dvifile = os.path.join(cachedir, '%s.dvi' %workfile[1])
         pngfile = os.path.join(cachedir, '%s.png' %workfile[1])
@@ -571,9 +572,8 @@ class LatexProcessor(BrowserView):
                    pngfile,
                    dvifile,
         ]
-        process = subprocess.Popen(cmdargs,
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-        stdout, stderr = process.communicate()
+        process = subprocess.Popen(cmdargs, stdin=fnull, stdout=fnull)
+        process.communicate()
         
         try:
             outfile = open(pngfile, 'rb')
