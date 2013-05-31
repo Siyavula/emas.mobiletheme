@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.32
+----
+
+- Make mobile images clickable to see original image.
+
+- Patch for broken pipe errors in LaTeX to PNG code.
+
 1.31
 ----
 
