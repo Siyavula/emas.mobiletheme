@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.33
+----
+
+- Stringify SearchableText, just in case somebody wants to be clever and
+  hack the url with "SearchableText:list=foo"
+
 1.32
 ----
 
