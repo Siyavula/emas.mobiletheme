@@ -26,7 +26,7 @@
                  sort_on request/sort_on|nothing;
                  sort_order python:(sort_on == 'created' or sort_on == 'modified') and 'descending' or 'ascending';
                  dummy python:request.form.update({'sort_order': sort_order});
-                 searchable_text python:request.get('SearchableText', '');
+                 searchable_text python:str(request.get('SearchableText', ''));
 				 searchable_text python:(searchable_text != '' and ' ' not in searchable_text and '*' not in searchable_text) and (searchable_text + '*') or searchable_text;       
                  results python:(searchable_text != '') and context.queryCatalog({'SearchableText' : searchable_text}, use_types_blacklist=use_types_blacklist, use_navigation_root=use_navigation_root) or None;
                  Batch python:modules['Products.CMFPlone'].Batch;
