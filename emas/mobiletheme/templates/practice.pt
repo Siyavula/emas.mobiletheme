@@ -52,8 +52,6 @@
                 <dd tal:content="structure message">service</dd>
                 </tal:messages>
             </dl>
-
-            <span tal:content="structure view/html">Practice content</span>
         </div>
 
         <tal:update tal:condition="view/update"/>
