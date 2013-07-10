@@ -5,6 +5,7 @@ import logging
 import subprocess
 import tempfile
 import urllib
+import lxml
 from cStringIO import StringIO
 try:
     import Image
@@ -14,7 +15,6 @@ except ImportError:
     from PIL import Image
     from PIL import ImageDraw
     from PIL import ImageFont
-from lxml import etree, html
 from xml.parsers.expat import ExpatError
 
 from Products.Five import BrowserView
@@ -129,7 +129,7 @@ class MathMLProcessor(ResizeViewHelper):
 
         self.init()
 
-        doc = html.fromstring(source)
+        doc = lxml.html.fromstring(source)
         portal_url = getToolByName(self.context, 'portal_url')()
 
         # svglib don't handle 'semantics' and 'annotations' tags
@@ -151,7 +151,7 @@ class MathMLProcessor(ResizeViewHelper):
         for mathml in doc.cssselect('math'):
             display = mathml.get('display', 'inline')
             cleanmathml(mathml)
-            mathmlstring = html.tostring(mathml)
+            mathmlstring = lxml.html.tostring(mathml)
 
             # lxml has a bug that includes text behind closing tag -
             # manually split it off and it later
@@ -173,14 +173,14 @@ class MathMLProcessor(ResizeViewHelper):
                 img_tag = '<div class="mathml">%s</div>' % img_tag
 
             if inlinetext:
-                img = html.fromstring('%s <span>%s</span>' %(
+                img = lxml.html.fromstring('%s <span>%s</span>' %(
                     img_tag, inlinetext))
             else:
-                img = html.fromstring(img_tag)
+                img = lxml.html.fromstring(img_tag)
 
             mathml.getparent().replace(mathml, img)
 
-        return html.tostring(doc, method="xml")
+        return lxml.html.tostring(doc, method="xml")
 
 
 class MxitHTMLProcessor(BrowserView):
@@ -189,12 +189,12 @@ class MxitHTMLProcessor(BrowserView):
         if not source:
             return source
 
-        doc = html.fromstring(source)
+        doc = lxml.html.fromstring(source)
         for example in doc.cssselect('div.example'):
             example.getparent().remove(example)
         
         # the the source from our stripped doc above
-        source = html.tostring(doc, method="xml")
+        source = lxml.html.tostring(doc, method="xml")
         
         # MXit has a number of emoticons including things like:
         # (c) that is rendered as chillies.
@@ -226,7 +226,7 @@ class HTMLEntityProcessor(ResizeViewHelper):
             file = self.resizer.cache.get(path)
             if file is None:
                 # get the unicode for the character
-                entity_code = html.fromstring(entity).text
+                entity_code = lxml.html.fromstring(entity).text
                 data = self.convert(entity_code)
                 if not data or len(data) < 1:
                     path = 'notfound.png'
@@ -261,7 +261,7 @@ class UnicodeProcessor(HTMLEntityProcessor):
     """
     def process(self, source):
         for entity, tag in self.entities_image_map.items():
-            entity_code = html.fromstring(entity).text
+            entity_code = lxml.html.fromstring(entity).text
             while source.find(entity_code) > 0:
                 source = source.replace(entity_code, tag)
         return source
@@ -316,9 +316,9 @@ class MxitTableProcessor(BrowserView):
                                   IMobileImageProcessor)
         resizer.init()
         portal_url = getToolByName(self.context, 'portal_url')()
-        doc = html.fromstring(source)
+        doc = lxml.html.fromstring(source)
         for table in doc.cssselect('table'):
-            table_source = html.tostring(table, method="html")
+            table_source = lxml.html.tostring(table, method="html")
             path = resizer.cache.makePathKey(table_source)
             file = resizer.cache.get(path)
             if file is None:
@@ -329,9 +329,9 @@ class MxitTableProcessor(BrowserView):
                     resizer.cache.set(path, data)
 
             img_tag = '<img src="%s/@@mobile_image?key=%s.png"/>' % (portal_url, path)
-            element = html.fromstring(img_tag)
+            element = lxml.html.fromstring(img_tag)
             table.getparent().replace(table, element)
-        return html.tostring(doc, method='xml')
+        return lxml.html.tostring(doc, method='xml')
 
     def convert(self, table, quality='90', width='320'):
         """
@@ -489,7 +489,7 @@ class LatexProcessor(BrowserView):
                                   IMobileImageProcessor)
         resizer.init()
         portal_url = getToolByName(self.context, 'portal_url')()
-        doc = html.fromstring(source)
+        doc = lxml.html.fromstring(source)
         
         img_dict = {}
         # find the block latext in the source
@@ -540,7 +540,7 @@ class LatexProcessor(BrowserView):
         workfile = tempfile.mkstemp(dir=cachedir)
         fp = open(workfile[1], 'wb')
         fp.write(self.latexHeader)
-        fp.write(html.fromstring(latex).text.encode('utf-8'))
+        fp.write(lxml.html.fromstring(latex).text.encode('utf-8'))
         fp.write(self.latexFooter)
         fp.close()
 
@@ -653,6 +653,11 @@ class HTMLImageRewriter(BrowserView):
                                                           self.request)
             html = unicode_to_image_processor.process(html)
 
+        # remove answer-actions
+        doc = lxml.html.fromstring(html)
+        for element in doc.cssselect('.answer-actions'):
+            element.getparent().remove(element)
+        html = lxml.html.tostring(doc, method="xml")
 
         return html
 
