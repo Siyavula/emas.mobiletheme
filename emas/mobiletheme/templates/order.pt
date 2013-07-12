@@ -108,18 +108,18 @@
                     </ul>
 
                     <ul id="table-of-contents" class="visualNoMarker button-links"
-                        tal:define="selected_product view/prod_practice_book;">
+                        tal:define="selected_service view/service;">
                         <h2>Product</h2>
                         <li class="navTreeItem visualNoMarker">
-                            <input name="prod_practice_book" 
-                                id="prod_practice_book"
+                            <input name="service" 
+                                id="service"
                                 checked=""
-                                tal:attributes="checked python:view.prod_practice_book_selected('Practice', selected_product)"
+                                tal:attributes="checked python:view.service_selected('Practice', selected_service)"
                                 class="no-textbook" 
                                 value="monthly-practice" 
                                 type="radio" 
                                 price="15" />
-                            <label for="prod_practice_book">Intelligent Practice one month subscription <strong>R15</strong></label>
+                            <label for="service">Intelligent Practice one month subscription <strong>R15</strong></label>
                         </li>
                     </ul>
                     
