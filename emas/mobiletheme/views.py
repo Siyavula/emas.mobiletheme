@@ -115,7 +115,7 @@ class TableOfContents(BaseTOC):
                 }
                 mobile_items.append(tmp_dict)
         else:
-            mobile_items.extend(super(TableOfContents, self).getContentItems())
+            mobile_items.extend(self._items(container))
             
         return mobile_items
     
