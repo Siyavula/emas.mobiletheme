@@ -45,7 +45,7 @@
                     tal:attributes="action action;
                                     base_action action;">
 
-                    <input type="hidden" name="order.form.submitted" value="true"/>
+                    <input type="hidden" name="mobileorder.form.submitted" value="true"/>
                     <input type="hidden" name="isAnon" value="False" />
                     <input type="hidden" name="ordernumber" value=""
                         tal:attributes="value view/ordernumber"/>
