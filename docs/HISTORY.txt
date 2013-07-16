@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.34
+----
+
+- Conversion spec fixes
+
 1.33
 ----
 
