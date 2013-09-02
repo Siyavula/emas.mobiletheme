@@ -66,8 +66,12 @@ def log_page_view(request, context):
     if not gacode:
         return
     entry['gacode'] = gacode
-
-    entry['referer'] = request.getHeader('HTTP_REFERER')
+    
+    # We try to get the referef off the url param 'referef' first.
+    # This is due to the fact that we have viewlet which crafts an img src
+    # with this param.  It was introduced to stop caches from breaking our
+    # stats gathering.
+    entry['referer'] = request.get('referer', request.getHeader('HTTP_REFERER'))
 
     entry['title'] = context.Title()
 

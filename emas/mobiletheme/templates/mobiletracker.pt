@@ -1,0 +1,4 @@
+<img src="#" id="tracking-image"
+    tal:define="referer python:view.request.getHeader('HTTP_REFERER', '');
+                url string:@@tracking_image?referer=${referer}"
+    tal:attributes="src url"/>
