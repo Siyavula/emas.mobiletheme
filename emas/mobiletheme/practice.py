@@ -1,4 +1,5 @@
 import lxml
+import urlparse
 
 from zope.interface import Interface
 from Products.CMFCore.utils import getToolByName
@@ -39,9 +40,10 @@ class MobilePractice(BasePractice):
         self.expand_chapter_url = '%s/@@practice/dashboard/chapter-' % portal_url
 
         path = self.request.get_header('PATH_INFO')
+        startpos = path.find(self.__name__)
+        # strip everything up to the view name from the path
+        path = path[startpos+len(self.__name__):]
         pathParts = path.strip('/').split('/')
-        if pathParts[:1] == ['@@practice']:
-            del pathParts[0]
 
         self.view_is_dashboard = (pathParts[:1] == ['dashboard'])
         self.view_is_select_grade = (pathParts[:1] == ['select_grade'])
