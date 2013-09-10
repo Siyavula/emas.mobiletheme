@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.35
+----
+
+- Refactored practice proxy and created a not-available page for some views.
+
 1.34
 ----
 
