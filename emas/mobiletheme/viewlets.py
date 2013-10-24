@@ -195,15 +195,6 @@ class MobileTracker(grok.Viewlet):
                                          "plone_portal_state")
         self.site_url = self.portal_state.navigation_root_url()
 
-        ## we don't want to blow up in the face of the user if we restart
-        ## redis. we log as ERROR so we'll still get a flood ERROR emails
-        #try:
-        #    log_page_view(self.request, context)
-        #except ConnectionError:
-        #    if not Globals.DevelopmentMode:
-        #        # Zope is in debug mode
-        #        logger.error(traceback.format_exc())
-    
     def img_url(self):
         referer = self.request.getHeader('HTTP_REFERER', '')
         return '/@@tracking_image?referer=%s' % referer
