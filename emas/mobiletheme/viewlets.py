@@ -1,5 +1,4 @@
 import logging
-import traceback
 import Globals
 from redis.connection import ConnectionError
 from Acquisition import aq_inner, aq_parent
@@ -19,7 +18,6 @@ from plone.app.layout.nextprevious import view as navbase
 from emas.theme.browser.viewlets import PracticeServiceMessagesViewlet as \
     PracticeServiceMessagesViewletBase
 
-from emas.mobiletheme.tracking.views import log_page_view
 from emas.mobiletheme import MessageFactory as _
 
 # Layer for which against all our viewlets are registered
@@ -194,16 +192,9 @@ class MobileTracker(grok.Viewlet):
         self.portal_state = base.getView(context, self.request,
                                          "plone_portal_state")
         self.site_url = self.portal_state.navigation_root_url()
+        self.esi_header = self.request.get('HTTP_X_ESI', None)
+        self.is_esi = self.esi_header and True or False
 
-        ## we don't want to blow up in the face of the user if we restart
-        ## redis. we log as ERROR so we'll still get a flood ERROR emails
-        #try:
-        #    log_page_view(self.request, context)
-        #except ConnectionError:
-        #    if not Globals.DevelopmentMode:
-        #        # Zope is in debug mode
-        #        logger.error(traceback.format_exc())
-    
     def img_url(self):
         referer = self.request.getHeader('HTTP_REFERER', '')
         return '/@@tracking_image?referer=%s' % referer
