@@ -1,4 +1,6 @@
 import urlparse
+import logging
+import traceback
 
 from five import grok
 
@@ -25,6 +27,9 @@ from upfront.shorturl.browser.views import SHORTURLRE
 from emas.app.browser.order import Order as BaseOrder
 from emas.theme.browser.toc import TableOfContents as BaseTOC
 from emas.mobiletheme.shorturl import IMobileImageShortURLStorage
+from emas.mobiletheme.tracking.views import log_page_view
+
+LOG = logging.getLogger('mobile.views')
 
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
@@ -214,3 +219,19 @@ class ShortImageURL(BrowserView):
                 return mobile_image() 
 
         raise NotFound()
+
+
+class MobileTrackingView(grok.View):
+    grok.name('track')
+    grok.context(Interface)
+    
+    def render(self):
+        # we don't want to blow up in the face of the user if we restart
+        # redis. we log as ERROR so we'll still get a flood ERROR emails
+        try:
+            log_page_view(self.request, self.context)
+        except ConnectionError:
+            if not Globals.DevelopmentMode:
+                # Zope is in debug mode
+                LOG.error(traceback.format_exc())
+        return ''
