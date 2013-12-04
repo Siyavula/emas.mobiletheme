@@ -99,7 +99,7 @@ class List_Services(grok.View):
         paid = []
         notpaid = []
         related_services = \
-            [s.related_service.to_object for s in memberservices]
+            [s.related_service(self.context) for s in memberservices]
 
         for service in services:
             # we are only interested in the mxit services now
@@ -116,7 +116,7 @@ class List_Services(grok.View):
         paid = []
         notpaid = []
         related_services = \
-            [s.related_service.to_object for s in memberservices]
+            [s.related_service(self.context) for s in memberservices]
 
         for service in services:
             if MXIT_SERVICE not in service.channels:
