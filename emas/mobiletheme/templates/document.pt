@@ -10,7 +10,7 @@
 <metal:content-core fill-slot="main">
     <div tal:replace="structure context/@@viewlets/plone.nextprevious" />
 
-    <div tal:replace="structure context/global_status_message/macros/portal_message" />
+    <div tal:replace="structure context/@@viewlets/emas.practice_service_messages" />
 
     <h1 class="documentFirstHeading" tal:content="context/Title" />
 
