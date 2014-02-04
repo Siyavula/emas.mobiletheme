@@ -139,7 +139,7 @@ class TableOfContents(BaseTOC):
             '/emas/maths/grade-10-mathematical-literacy',
             '/emas/maths/grade-11-mathematical-literacy',
             '/emas/maths/grade-12-mathematical-literacy',
-            '/emas/sciences/lifesciences',
+            '/emas/science/lifesciences',
         ]
         path = self.context.getPhysicalPath()
         if path:
