@@ -1,6 +1,7 @@
 import urlparse
 import logging
 import traceback
+import Globals
 
 from five import grok
 
@@ -17,6 +18,7 @@ from plone.app.layout.navigation.interfaces import INavigationRoot
 from Products.Five import BrowserView
 from zExceptions import NotFound
 
+from redis.connection import ConnectionError
 from rhaptos.xmlfile.xmlfile import IXMLFile
 from gomobile.mobile.browser.views import MobileTool as BaseMobileTool
 from gomobiletheme.basic.viewlets import getView
