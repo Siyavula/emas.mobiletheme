@@ -56,10 +56,6 @@
         </div>
         <tal:update tal:condition="view/update"/>
 
-        <tal:handled_by_monassis tal:condition="view/view_is_handled_by_monassis">
-          <div tal:replace="structure html" />
-	</tal:handled_by_monassis>
-
         <tal:not_available tal:condition="view/view_not_available_on_mobile">
           <h3>Page not available on mobile</h3>
 	  <p>This page is not available on our mobi site. If your mobile device has a web browser, you can still view this page by clicking on the Full Site link below.</p>
@@ -75,6 +71,10 @@
                                 helper nocall:context/@@mobile_image_mathml_rewriter;
                                 html python:helper.processHTML(html);">
         
+            <tal:handled_by_monassis tal:condition="view/view_is_handled_by_monassis">
+              <div tal:replace="structure html" />
+	    </tal:handled_by_monassis>
+
             <tal:dashboard tal:condition="view/view_is_dashboard">
                 <h1 id="parent-fieldname-title">Dashboard</h1>
 
