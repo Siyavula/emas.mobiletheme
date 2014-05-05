@@ -50,6 +50,7 @@ class MobilePractice(BasePractice):
         self.view_is_question = (pathParts[1:2] == ['question'])
         self.view_is_report_problem = (pathParts[:1] in [['user-feedback-mobi'], ['user-feedback-mobi-success']])
 
+        self.view_is_handled_by_monassis = (pathParts[:1] in [['enter-voucher'], ['check-voucher'], ['redeem-voucher']])
         self.view_not_available_on_mobile = \
             (pathParts[:1] == ['teacher-dashboard']) or \
             (pathParts[:1] == ['question-list']) or \
