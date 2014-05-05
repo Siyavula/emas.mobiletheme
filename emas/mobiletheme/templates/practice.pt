@@ -45,6 +45,7 @@
     </tal:no_active_services>
 
     <tal:services_active condition="view/services_active">
+
         <div tal:condition="view/services_active"
             tal:define="messages view/practice_service_messages">
             <dl class="portalMessage info" id="practice-service-messages" tal:condition="python:len(messages) > 0">
@@ -53,20 +54,24 @@
                 </tal:messages>
             </dl>
         </div>
-
         <tal:update tal:condition="view/update"/>
 
-        <tal:question tal:condition="view/reportproblem">
+        <tal:not_available tal:condition="view/view_not_available_on_mobile">
+          <h3>Page not available on mobile</h3>
+	  <p>This page is not available on our mobi site. If your mobile device has a web browser, you can still view this page by clicking on the Full Site link below.</p>
+	</tal:not_available>
+
+        <tal:report_problem tal:condition="view/view_is_report_problem">
             <div id="report-problem" tal:replace="structure view/reportproblem_form">
                 Report problem form
             </div>
-        </tal:question>
+        </tal:report_problem>
 
         <tal:rewriteimg define="html view/html;
                                 helper nocall:context/@@mobile_image_mathml_rewriter;
                                 html python:helper.processHTML(html);">
         
-            <tal:dashboard tal:condition="view/dashboard">
+            <tal:dashboard tal:condition="view/view_is_dashboard">
                 <h1 id="parent-fieldname-title">Dashboard</h1>
 
                 <h3 id="booktitle" tal:content="view/booktitle">Maths Grade 10</h3>
@@ -90,7 +95,7 @@
                 </ul>
             </tal:dashboard>
 
-            <tal:selectgrade tal:condition="view/selectgrade">
+            <tal:selectgrade tal:condition="view/view_is_select_grade">
                 <h1 id="parent-fieldname-title" tal:content="view/title">Select grade</h1>
 		<p tal:content="view/message">Please select a grade from the list below</p>
                 <ul>
@@ -102,7 +107,7 @@
                 </ul>
             </tal:selectgrade>
 
-            <tal:question tal:condition="view/question">
+            <tal:question tal:condition="view/view_is_question">
 	      <div id="dashboard-link">
                 <a href="#" class="dashboard" tal:attributes="href view/dashboard_url">
                   Return to dashboard

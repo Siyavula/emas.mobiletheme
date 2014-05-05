@@ -33,32 +33,39 @@ class MobilePractice(BasePractice):
         return PRACTICE_URL in path.split('/')
 
     def update(self):
-        pps = self.context.restrictedTraverse('@@plone_portal_state')
-        portal_url = pps.portal_url()
+        portal_url = self.context.restrictedTraverse('@@plone_portal_state').portal_url()
         self.dashboard_url = '%s/@@practice/dashboard' % portal_url
-        self.reportproblem_url = \
-            '%s/@@practice/user-feedback-mobi' % portal_url
+        self.reportproblem_url = '%s/@@practice/user-feedback-mobi' % portal_url
         self.expand_chapter_url = '%s/@@practice/dashboard/chapter-' % portal_url
-        path = self.request.get_header('PATH_INFO')
-        self.dashboard = 'dashboard' in path
-        self.selectgrade = path.endswith('select_grade')
-        self.question = path.endswith('question')
-        self.reportproblem = path.endswith('user-feedback-mobi') or \
-                             path.endswith('user-feedback-mobi-success')
 
-        if self.dashboard:
-            self.prepdashboard()
-        elif self.selectgrade:
-            self.prepselectgrade()
-        elif self.question:
-            self.prepquestion()
-        elif self.reportproblem:
-            self.prep_reportproblem()
+        path = self.request.get_header('PATH_INFO')
+        pathParts = path.strip('/').split('/')
+        if pathParts[:1] == ['@@practice']:
+            del pathParts[0]
+
+        self.view_is_dashboard = (pathParts[:1] == ['dashboard'])
+        self.view_is_select_grade = (pathParts[:1] == ['select_grade'])
+        self.view_is_question = (pathParts[1:2] == ['question'])
+        self.view_is_report_problem = (pathParts[:1] in [['user-feedback-mobi'], ['user-feedback-mobi-success']])
+
+        self.view_not_available_on_mobile = \
+            (pathParts[:1] == ['teacher-dashboard']) or \
+            (pathParts[:1] == ['question-list']) or \
+            (pathParts[:1] == ['admin'])
+
+        if self.view_is_dashboard:
+            self.prep_dashboard()
+        elif self.view_is_select_grade:
+            self.prep_select_grade()
+        elif self.view_is_question:
+            self.prep_question()
+        elif self.view_is_report_problem:
+            self.prep_report_problem()
         
         # do final cleanup on html
         self.cleanup()
 
-    def prepdashboard(self):
+    def prep_dashboard(self):
         html = lxml.html.fromstring(self.html)
 
         # Subject, grade
@@ -106,7 +113,7 @@ class MobilePractice(BasePractice):
                 anchored = True
         self.sections = sections
 
-    def prepselectgrade(self):
+    def prep_select_grade(self):
         html = lxml.html.fromstring(self.html)
         self.title = html.find('.//*[@id="select-grade-title"]').text
         self.message = html.find('.//*[@id="select-grade-message"]').text
@@ -119,7 +126,7 @@ class MobilePractice(BasePractice):
             })
         self.grades = grades
 
-    def prepquestion(self):
+    def prep_question(self):
         html = lxml.html.fromstring(self.html)
 
         self.values = {
@@ -160,7 +167,7 @@ class MobilePractice(BasePractice):
         sidepanel.getparent().remove(sidepanel)
         self.html = lxml.html.tostring(html)
     
-    def prep_reportproblem(self):
+    def prep_report_problem(self):
         html = lxml.html.fromstring(self.html)
         element = html.find('.//*[@id="reportproblem"]')
         self.reportproblem_form = lxml.html.tostring(element)
@@ -174,8 +181,8 @@ class MobilePractice(BasePractice):
             requesting client.
         """
         html = lxml.html.fromstring(self.html)
+
         elements_to_remove = [
-            './/*[@id="dashboard-future-preload"]',
         ]
         for xpath in elements_to_remove:
             element = html.find(xpath)
