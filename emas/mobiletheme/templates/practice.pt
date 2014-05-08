@@ -9,133 +9,63 @@
 
 <metal:content-core fill-slot="main">
 
-    <tal:no_active_services condition="not:view/services_active">
-        <tal:mxit condition="context/@@mobile_tool/isMXit">
-            <h3>Intelligent Practice is not currently available on Mxit.</h3>
-        </tal:mxit>
-        <tal:not_mxit condition="not:context/@@mobile_tool/isMXit">
-        <h3>You don't have access to Intelligent Practice right now</h3>
+  <tal:no_active_services condition="not:view/services_active">
+    <tal:mxit condition="context/@@mobile_tool/isMXit">
+      <h3>Intelligent Practice is not currently available on Mxit.</h3>
+    </tal:mxit>
+    <tal:not_mxit condition="not:context/@@mobile_tool/isMXit">
+      <h3>You don't have access to Intelligent Practice right now</h3>
+      
+      <p>Why?</p>
 
-        <p>Why?</p>
+      <p>When your account was created you either:</p>
+      <ul>
+        <li>paid for subscribtion and your subscription has expired, or</li>
+        <li>you automatically had access via our time-limited, free trial and that has expired.</li>
+      </ul>
 
-        <p>When your account was created you either:</p>
-        <ul>
-            <li>paid for subscribtion and your subscription has expired, or</li>
-            <li>you automatically had access via our time-limited, free trial and that has expired.</li>
-        </ul>
+      <p>What can you do about this?</p>
 
-        <p>What can you do about this?</p>
+      <p>
+	You need to <a href="#" tal:attributes="href string:${context/absolute_url}/@@order">subscribe to Intelligent Practice</a>. 
+        If your school signed you up then you should ask your teacher what the status of the school's subscription is. 
+        If you signed up individually you need to renew your subscription via the <a href="#" tal:attributes="href string:${context/absolute_url}/@@order">orders page</a>.
+      </p>
 
-        <p>You need to <a href="#" tal:attributes="href string:${context/absolute_url}/@@order">subscribe to Intelligent Practice</a>. 
-            If your school signed you up then you should ask your 
-            teacher what the status of the school's subscription is. 
-            If you signed up individually you need to renew your 
-            subscription via the <a href="#" tal:attributes="href string:${context/absolute_url}/@@order">orders page</a>.</p>
+      <p>Even if your school signed you up originally, you can make an individual order to extend your account.</p>
 
-        <p>Even if your school signed you up originally, you can make an 
-            individual order to extend your account.</p>
+      <p>What about my previous data?</p>
 
-        <p>What about my previous data?</p>
+      <p>
+	We don't delete your Intelligent Practice history for at least 3 months.
+	As long as you subscribe again within 3 months your history will still be available and Intelligent Practice will be able to use that information to give you better advice.
+      </p>
+    </tal:not_mxit>
+  </tal:no_active_services>
 
-        <p>We don't delete your Intelligent Practice history for 3 months. As 
-        long as you subscribe again within 3 months your history will still be 
-        available and Intelligent Practice will be able to use that 
-        information to give you better advice.</p>
-        </tal:not_mxit>
-    </tal:no_active_services>
+  <tal:services_active condition="view/services_active">
 
-    <tal:services_active condition="view/services_active">
+    <div tal:condition="view/services_active"
+         tal:define="messages view/practice_service_messages">
+      <dl class="portalMessage info" id="practice-service-messages" tal:condition="python:len(messages) > 0">
+        <tal:messages repeat="message messages">
+          <dd tal:content="structure message">service</dd>
+        </tal:messages>
+      </dl>
+    </div>
 
-        <div tal:condition="view/services_active"
-            tal:define="messages view/practice_service_messages">
-            <dl class="portalMessage info" id="practice-service-messages" tal:condition="python:len(messages) > 0">
-                <tal:messages repeat="message messages">
-                <dd tal:content="structure message">service</dd>
-                </tal:messages>
-            </dl>
-        </div>
-        <tal:update tal:condition="view/update"/>
+    <tal:update tal:condition="view/update"/>
 
-        <tal:not_available tal:condition="view/view_not_available_on_mobile">
-          <h3>Page not available on mobile</h3>
-	  <p>This page is not available on our mobi site. If your mobile device has a web browser, you can still view this page by clicking on the Full Site link below.</p>
-	</tal:not_available>
-
-        <tal:report_problem tal:condition="view/view_is_report_problem">
-            <div id="report-problem" tal:replace="structure view/reportproblem_form">
-                Report problem form
-            </div>
-        </tal:report_problem>
-
-        <tal:rewriteimg define="html view/html;
-                                helper nocall:context/@@mobile_image_mathml_rewriter;
-                                html python:helper.processHTML(html);">
-        
-            <tal:handled_by_monassis tal:condition="view/view_is_handled_by_monassis">
-              <div tal:replace="structure html" />
-	    </tal:handled_by_monassis>
-
-            <tal:dashboard tal:condition="view/view_is_dashboard">
-                <h1 id="parent-fieldname-title">Dashboard</h1>
-
-                <h3 id="booktitle" tal:content="view/booktitle">Maths Grade 10</h3>
-		<p tal:replace="structure view/change_grade"/>
-
-		<p tal:replace="structure view/message"/>
-
-                <ul>
-                  <tal:block repeat="section view/sections">
-		    <li>
-		      <a tal:condition="section/anchor" name="now"></a>
-                      <span class="dashboard-section-title-1"><a href="#" title="Click to practise Algebraic expressions" tal:attributes="href section/href; title section/alttitle" tal:content="section/title">Algebraic expressions</a><span tal:condition="python:len(section['subsections']) == 0">&nbsp;&nbsp;<a href="#" title="Show subsections" tal:attributes="href section/expandurl">(+)</a></span></span>
-		      <span tal:condition="python:section['points'][1] > 0"><br/>Points: <span class="dashboard-section-points" tal:content="python:section['points'][0]">5</span>/<span class="dashboard-section-points-total" tal:content="python:section['points'][1]">10</span> = <span class="dashboard-section-percentage" tal:content="python:'%.0f%%'%(float(section['points'][0])/float(section['points'][1])*100)">50%</span></span>
-                    </li>
-		    <ul tal:condition="python:len(section['subsections']) &gt; 0">
-		      <li tal:repeat="subsection section/subsections">
-                        <span class="dashboard-section-title-2"><a href="#" title="Click to practise The real number system" tal:attributes="href subsection/href; title subsection/alttitle" tal:content="subsection/title">The real number system</a></span>
-		      </li>
-		    </ul>
-		  </tal:block>
-                </ul>
-            </tal:dashboard>
-
-            <tal:selectgrade tal:condition="view/view_is_select_grade">
-                <h1 id="parent-fieldname-title" tal:content="view/title">Select grade</h1>
-		<p tal:content="view/message">Please select a grade from the list below</p>
-                <ul>
-                  <tal:block repeat="grade view/grades">
-		    <li>
-                      <a href="#" tal:attributes="href grade/href" tal:content="grade/text">Grade 10</a>
-                    </li>
-		  </tal:block>
-                </ul>
-            </tal:selectgrade>
-
-            <tal:question tal:condition="view/view_is_question">
-	      <div id="dashboard-link">
-                <a href="#" class="dashboard" tal:attributes="href view/dashboard_url">
-                  Return to dashboard
-                </a>
-	      </div>
-              <div id="practice-mini-dashboard">
-                <div id="mini-dashboard-question-count">Questions completed: <strong tal:content="view/values/questions_completed">1</strong></div>
-                <div id="mini-dashboard-points-scored">Points: <strong tal:content="view/values/points_scored">1</strong> / <strong tal:content="view/values/points_total">3</strong></div>
-              </div>
-              <div tal:replace="structure html" />
-              <div id="howtowrite" tal:condition="view/howtowrite">
-                <h2>How should I type my answer?</h2>
-                <div tal:content="structure view/howtowrite"/>
-              </div>
-              <div id="report-a-problem-link">
-                <a href="#" class="problem" tal:attributes="href view/reportproblem_url">
-                  Report a problem
-                </a>
-              </div>
-            </tal:question>
-        </tal:rewriteimg>
-    </tal:services_active>
+    <tal:rewriteimg define="html view/html;
+                            helper nocall:context/@@mobile_image_mathml_rewriter;
+                            html python:helper.processHTML(html);">
+      <tal:handled_by_monassis tal:condition="view/view_is_handled_by_monassis">
+        <div tal:replace="structure html"/>
+      </tal:handled_by_monassis>
+    </tal:rewriteimg>
+  </tal:services_active>
 
 </metal:content-core>
-            
+
 </body>
 </html> 
