@@ -62,10 +62,14 @@ BasicCleaner.process = process
 
 
 def process_img(self, doc, el):
-    """ Process <img> tag in the source docu,ent.
+    """ Process <img> tag in the source document.
     """
     self.add_alt_tags(el)
-    
+
+    # Skip over images with the nomobileresize attribute
+    if el.attrib.pop("nomobileresize", "") != "":
+        return
+
     src = el.attrib.get("src", None)
     if src:
         originalSrc = src
