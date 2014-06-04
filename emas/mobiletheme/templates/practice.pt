@@ -9,7 +9,7 @@
 
 <metal:content-core fill-slot="main">
 
-  <tal:no_active_services condition="not:view/services_active">
+  <tal:no_active_services condition="view/show_no_access_message">
     <tal:mxit condition="context/@@mobile_tool/isMXit">
       <h3>Intelligent Practice is not currently available on Mxit.</h3>
     </tal:mxit>
@@ -43,7 +43,7 @@
     </tal:not_mxit>
   </tal:no_active_services>
 
-  <tal:services_active condition="view/services_active">
+  <tal:services_active condition="not:view/show_no_access_message">
 
     <div tal:condition="view/services_active"
          tal:define="messages view/practice_service_messages">
