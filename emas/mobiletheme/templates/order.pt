@@ -28,7 +28,7 @@
                 });
             });
         </script>
-        <h1 class="documentFirstHeading">Order form</h1>
+        <h1 class="documentFirstHeading">Choose your subject and grade</h1>
 
         <div id="content-core"
             tal:define="action python:view.action(False);">
@@ -113,7 +113,7 @@
                         <li class="navTreeItem visualNoMarker">
                             <input name="service" 
                                 id="service"
-                                checked=""
+                                checked="checked"
                                 tal:attributes="checked python:view.service_selected('Practice', selected_service)"
                                 class="no-textbook" 
                                 value="monthly-practice" 
@@ -135,8 +135,7 @@
                         </li>
                     </ul>
                     <div class="ordertotal">
-                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Submit
-                        </button>
+                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Place order</button>
                     </div>
                 </form>
             </div>

@@ -43,6 +43,12 @@ WELCOME_MSG = \
     unlimited homework practice.
     """
 
+MARKETING_MSG = \
+    """
+    <b>Did you know?</b> You can practise thousands of exam questions
+    for only R15 per month. <a href="@@order">Buy now</a>.
+    """
+
 MXIT_MARKER = 'MXit'
 MXIT_AGENT_HEADER = 'HTTP_USER_AGENT'
 
@@ -131,8 +137,11 @@ class TableOfContents(BaseTOC):
         pmt = getToolByName(self.context, 'portal_membership')
         navroot = pps.navigation_root()
         message = ''
-        if pmt.isAnonymousUser() and self.context == navroot:
-            message = WELCOME_MSG
+        if self.context == navroot:
+            if pmt.isAnonymousUser():
+                message = WELCOME_MSG
+            else:
+                message = MARKETING_MSG
         return message
     
     def has_practise_content(self, context):
