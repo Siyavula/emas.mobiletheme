@@ -34,7 +34,7 @@
             tal:define="action python:view.action(False);">
 
             <div tal:condition="context/@@mobile_tool/isMXit">
-                Intelligent Practice is not available for order on Mxit
+                Practice is not available for order on Mxit
             </div>
 
             <div id="individual-order-form" class="selectpackage"
@@ -118,7 +118,7 @@
                                 value="monthly-practice" 
                                 type="radio" 
                                 price="15" />
-                            <label for="service">Intelligent Practice one month subscription <strong>R15</strong></label>
+                            <label for="service">Practice: one month subscription <strong>R15</strong></label>
                         </li>
                     </ul>
                     

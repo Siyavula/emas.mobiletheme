@@ -120,7 +120,7 @@
                     <input type="hidden" name="pwd_empty" id="pwd_empty" value="0" />
                     
                     <div>
-                        Login to access Intelligent Practice, for unlimited Maths and Science homework practice. If you don’t have an account, <a href="@@register">register</a> for a free trial now.
+                        Login to access unlimited Maths and Science homework practice. If you don’t have an account, <a href="@@register">register</a> for a free trial now.
                     </div>
 
                     <div class="field"
