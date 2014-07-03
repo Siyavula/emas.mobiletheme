@@ -46,7 +46,7 @@ WELCOME_MSG = \
 MARKETING_MSG = \
     """
     <b>Did you know?</b> You can practise thousands of exam questions
-    for only R15 per month. <a href="@@order">Buy now</a>.
+    for only R15 per month. <a href="@@order">Buy now</a>
     """
 
 MXIT_MARKER = 'MXit'

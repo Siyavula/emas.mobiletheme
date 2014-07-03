@@ -114,7 +114,6 @@
                             <input name="service" 
                                 id="service"
                                 checked="checked"
-                                tal:attributes="checked python:view.service_selected('Practice', selected_service)"
                                 class="no-textbook" 
                                 value="monthly-practice" 
                                 type="radio" 
