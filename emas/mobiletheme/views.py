@@ -36,17 +36,10 @@ LOG = logging.getLogger('mobile.views')
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
 
-WELCOME_MESSAGE = \
-    """
-    Read textbooks for free or <a href="@@register">sign up</a>
-    and <a href="login">login</a> for exam practice.
-    """
+WELCOME_MESSAGE = """<p>Read textbooks for free or <a href="@@register">sign up</a> and <a href="login">login</a> for exam practice.</p>"""
 
 MARKETING_MESSAGES = [
-    """
-    <b>Did you know?</b> You can practise thousands of exam questions
-    for only R15 per month. <a href="@@order">Buy now</a>
-    """,
+    """<p><b>Did you know?</b> You can practise thousands of exam questions for only R15 per month. <a href="@@order">Buy now</a></p>""",
 ]
 
 MXIT_MARKER = 'MXit'
@@ -136,11 +129,12 @@ class TableOfContents(BaseTOC):
         pps = self.context.restrictedTraverse('@@plone_portal_state')
         pmt = getToolByName(self.context, 'portal_membership')
         navroot = pps.navigation_root()
+        message = ''
         if self.context == navroot:
+            if pmt.isAnonymousUser():
+                message = WELCOME_MESSAGE
             import random
-            message = WELCOME_MESSAGE + '<br/>' + random.choice(MARKETING_MESSAGES)
-        else:
-            message = ''
+            message += random.choice(MARKETING_MESSAGES)
         return message
     
     def has_practise_content(self, context):
