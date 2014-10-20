@@ -12,7 +12,7 @@
 
         <tal:not_mxit condition="not:context/@@mobile_tool/isMXit">
         <div id="welcome-message" tal:content="structure view/welcome_message">
-            Read textbooks for free or <a href="@@register">sign up</a> and <a href="login">login</a> to Intelligent Practice, for unlimited homework practice.
+            Read textbooks for free or <a href="@@register">sign up</a> and <a href="login">login</a> for exam homework practice.
         </div>
         </tal:not_mxit>
 

@@ -1,0 +1,11 @@
+<tal:definitions define="is_esi request/HTTP_X_ESI | nothing;">
+
+<div id="tracking-esi" tal:condition="is_esi">
+    <esi:include xmlns:esi="http://www.edge-delivery.org/esi/1.0"
+          tal:attributes="src string:${context/absolute_url}/@@track" />
+</div>
+
+<tal:noesi condition="not: is_esi"
+    replace="structure here/@@track" />
+
+</tal:definitions>

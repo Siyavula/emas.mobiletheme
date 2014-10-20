@@ -1,4 +1,7 @@
 import urlparse
+import logging
+import traceback
+import Globals
 
 from five import grok
 
@@ -15,6 +18,7 @@ from plone.app.layout.navigation.interfaces import INavigationRoot
 from Products.Five import BrowserView
 from zExceptions import NotFound
 
+from redis.connection import ConnectionError
 from rhaptos.xmlfile.xmlfile import IXMLFile
 from gomobile.mobile.browser.views import MobileTool as BaseMobileTool
 from gomobiletheme.basic.viewlets import getView
@@ -25,16 +29,18 @@ from upfront.shorturl.browser.views import SHORTURLRE
 from emas.app.browser.order import Order as BaseOrder
 from emas.theme.browser.toc import TableOfContents as BaseTOC
 from emas.mobiletheme.shorturl import IMobileImageShortURLStorage
+from emas.mobiletheme.tracking.views import log_page_view
+
+LOG = logging.getLogger('mobile.views')
 
 grok.templatedir('templates')
 grok.layer(IThemeLayer)
 
-WELCOME_MSG = \
-    """
-    Read textbooks for free or <a href="@@register">sign up</a>
-    and <a href="login">login</a> to Intelligent Practice, for
-    unlimited homework practice.
-    """
+WELCOME_MESSAGE = """<p>Read textbooks for free or <a href="@@register">sign up</a> and <a href="login">login</a> for exam practice.</p>"""
+
+MARKETING_MESSAGES = [
+    """<p><b>Did you know?</b> You can practise thousands of exam questions for only R15 per month. <a href="@@order">Buy now</a></p>""",
+]
 
 MXIT_MARKER = 'MXit'
 MXIT_AGENT_HEADER = 'HTTP_USER_AGENT'
@@ -124,8 +130,11 @@ class TableOfContents(BaseTOC):
         pmt = getToolByName(self.context, 'portal_membership')
         navroot = pps.navigation_root()
         message = ''
-        if pmt.isAnonymousUser() and self.context == navroot:
-            message = WELCOME_MSG
+        if self.context == navroot:
+            if pmt.isAnonymousUser():
+                message = WELCOME_MESSAGE
+            import random
+            message += random.choice(MARKETING_MESSAGES)
         return message
     
     def has_practise_content(self, context):
@@ -134,6 +143,7 @@ class TableOfContents(BaseTOC):
             '/emas/maths/grade-10-mathematical-literacy',
             '/emas/maths/grade-11-mathematical-literacy',
             '/emas/maths/grade-12-mathematical-literacy',
+            '/emas/science/lifesciences',
         ]
         path = self.context.getPhysicalPath()
         if path:
@@ -214,3 +224,19 @@ class ShortImageURL(BrowserView):
                 return mobile_image() 
 
         raise NotFound()
+
+
+class MobileTrackingView(grok.View):
+    grok.name('track')
+    grok.context(Interface)
+    
+    def render(self):
+        # we don't want to blow up in the face of the user if we restart
+        # redis. we log as ERROR so we'll still get a flood ERROR emails
+        try:
+            log_page_view(self.request, self.context)
+        except ConnectionError:
+            if not Globals.DevelopmentMode:
+                # Zope is in debug mode
+                LOG.error(traceback.format_exc())
+        return ''

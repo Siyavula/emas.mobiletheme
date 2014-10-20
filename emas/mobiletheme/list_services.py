@@ -4,7 +4,8 @@ from zope.interface import Interface
 
 from plone.uuid.interfaces import IUUID
 
-from emas.app.browser.utils import member_services_for_subject
+from emas.app.memberservice import MemberServicesDataAccess
+from emas.app.browser.utils import practice_service_intids
 
 from interfaces import IThemeLayer
 
@@ -31,19 +32,17 @@ class List_Services(grok.View):
         self.portal_url = self.pps.portal_url()
         self.member = self.pps.member()
         self.memberservices = []
-        self.msfolder = self.portal.memberservices
         self.isMxit = self.context.restrictedTraverse('@@mobile_tool').isMXit()
         self.navroot = self.pps.navigation_root()
         self.subject = self.getSubject(self.navroot)
         self.services = self._getServices(self.portal, self.subject)
+        self.dao = MemberServicesDataAccess(self.context)
 
         memberid = self.member.getId()
         if memberid:
-            uuids = [IUUID(service) for service in self.services]
-            self.memberservices = member_services_for_subject(self.context,
-                                                              uuids,
-                                                              memberid,
-                                                              self.subject)
+            ids = practice_service_intids(self.context)
+            self.memberservices = \
+                self.dao.get_memberservices_by_subject(memberid, self.subject)
 
     def getSubject(self, navroot):
         return navroot.getId()
@@ -100,7 +99,7 @@ class List_Services(grok.View):
         paid = []
         notpaid = []
         related_services = \
-            [s.related_service.to_object for s in memberservices]
+            [s.related_service(self.context) for s in memberservices]
 
         for service in services:
             # we are only interested in the mxit services now
@@ -117,7 +116,7 @@ class List_Services(grok.View):
         paid = []
         notpaid = []
         related_services = \
-            [s.related_service.to_object for s in memberservices]
+            [s.related_service(self.context) for s in memberservices]
 
         for service in services:
             if MXIT_SERVICE not in service.channels:

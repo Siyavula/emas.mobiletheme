@@ -543,6 +543,9 @@ class LatexProcessor(BrowserView):
         fp.write(lxml.html.fromstring(latex).text.encode('utf-8'))
         fp.write(self.latexFooter)
         fp.close()
+        # we have to close the file descriptor too, otherwise we like
+        # file descriptors
+        os.close(workfile[0])
 
         fnull = open(os.devnull, "w")
 
@@ -581,13 +584,19 @@ class LatexProcessor(BrowserView):
             outfile.close()
         except IOError:
             data = None
-        
-        for extension in ['tex', 'dvi', 'aux', 'log', 'png']:
+
+        def unlink(filename):
             try:
-                os.unlink(os.path.join(cachedir, '%s.%s' %(workfile[1], extension)))
+                os.unlink(filename)
             except OSError:
                 # it's ok, the file does not exist, so no need to do cleanup.
                 pass
+        
+        for extension in ['tex', 'dvi', 'aux', 'log', 'png']:
+            unlink(os.path.join(cachedir, '%s.%s' %(workfile[1], extension)))
+
+        # clean up the tempfile too
+        unlink(os.path.join(cachedir, workfile[1]))
 
         return data and ''.join(data) or None
 

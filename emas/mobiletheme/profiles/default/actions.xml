@@ -39,6 +39,18 @@
             </property>
             <property name="visible">True</property>
         </object>
+        <object name="voucher" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Voucher</property>
+            <property name="description" i18n:translate="">Voucher</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/@@practice/enter-voucher</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr">not:context/@@mobile_tool/isMXit</property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
         <object name="preferences" meta_type="CMF Action" i18n:domain="plone">
             <property name="title" i18n:translate="">Preferences</property>
             <property name="description" i18n:translate=""></property>
@@ -242,6 +254,18 @@
             <property name="description" i18n:translate="">Read Physical Sciences 12</property>
             <property
                 name="url_expr">string:${globals_view/navigationRootUrl}/grade-12</property>
+            <property name="icon_expr"></property>
+            <property name="available_expr"></property>
+            <property name="permissions">
+                <element value="View"/>
+            </property>
+            <property name="visible">True</property>
+        </object>
+        <object name="life_science_grade_10" meta_type="CMF Action" i18n:domain="plone">
+            <property name="title" i18n:translate="">Read Life Sciences 10</property>
+            <property name="description" i18n:translate="">Read Life Sciences 10</property>
+            <property
+                name="url_expr">string:${globals_view/navigationRootUrl}/lifesciences/grade-10</property>
             <property name="icon_expr"></property>
             <property name="available_expr"></property>
             <property name="permissions">

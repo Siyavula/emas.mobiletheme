@@ -28,13 +28,13 @@
                 });
             });
         </script>
-        <h1 class="documentFirstHeading">Order form</h1>
+        <h1 class="documentFirstHeading">Choose your subject and grade</h1>
 
         <div id="content-core"
             tal:define="action python:view.action(False);">
 
             <div tal:condition="context/@@mobile_tool/isMXit">
-                Intelligent Practice is not available for order on Mxit
+                Practice is not available for order on Mxit
             </div>
 
             <div id="individual-order-form" class="selectpackage"
@@ -113,13 +113,12 @@
                         <li class="navTreeItem visualNoMarker">
                             <input name="service" 
                                 id="service"
-                                checked=""
-                                tal:attributes="checked python:view.service_selected('Practice', selected_service)"
+                                checked="checked"
                                 class="no-textbook" 
                                 value="monthly-practice" 
                                 type="radio" 
                                 price="15" />
-                            <label for="service">Intelligent Practice one month subscription <strong>R15</strong></label>
+                            <label for="service">Practice: one month subscription <strong>R15</strong></label>
                         </li>
                     </ul>
                     
@@ -135,8 +134,7 @@
                         </li>
                     </ul>
                     <div class="ordertotal">
-                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Submit
-                        </button>
+                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Place order</button>
                     </div>
                 </form>
             </div>
