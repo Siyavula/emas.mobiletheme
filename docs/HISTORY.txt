@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.36
+----
+
+- Merge performance-tuning branch
+
 1.35
 ----
 
