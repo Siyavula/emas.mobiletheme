@@ -49,63 +49,45 @@
                     <input type="hidden" name="isAnon" value="False" />
                     <input type="hidden" name="ordernumber" value=""
                         tal:attributes="value view/ordernumber"/>
-                    
-                    <ul id="table-of-contents" class="visualNoMarker button-links"
-                        tal:define="selected_subjects view/subjects;">
-                        <h2>Subject</h2>
-                        <li class="navTreeItem visualNoMarker">
-                            <input name="subjects"
-                                   id="subjects-maths"
-                                   checked=""
-                                   tal:attributes="checked python:view.subject_selected('Maths', selected_subjects)"
-                                   value="Maths"
-                                   type="radio" />
-                            <label for="subjects-maths">Maths</label>
-                        </li>
-                        <li class="navTreeItem visualNoMarker">
-                            <input name="subjects"
-                                   id="subjects-science"
-                                   checked=""
-                                   tal:attributes="checked python:view.subject_selected('Science', selected_subjects)"
-                                   value="Science"
-                                   multiplier="1"
-                                   type="radio" />
-                            <label for="subjects-science">Physical Sciences</label>
-                        </li>
-                    </ul>
 
-                    <ul id="table-of-contents" class="visualNoMarker button-links"
-                        tal:define="selected_grade view/grade">
-                        <h2>Grade</h2>
+                    <tal:selected tal:define="selected_item view/selected_item">
+                    <ul id="table-of-contents" class="visualNoMarker button-links">
+                        <h2>Mathematics</h2>
+                        <tal:grades repeat="grade python:(8, 9, 10, 11, 12)">
                         <li class="navTreeItem visualNoMarker">
-                            <input name="grade"
-                                   id="grade10"
+                            <input name="item"
+                                   id="subjects-maths-8"
                                    checked=""
-                                   tal:attributes="checked python:view.grade_selected('grade10', selected_grade)"
-                                   value="grade10"
+                                   value="Maths-8"
+                                   tal:attributes="checked python:view.is_selected('Maths-8', selected_item);
+                                                   id string:subject-maths-${grade};
+                                                   value string:Maths-${grade}"
                                    type="radio" />
-                            <label for="grade10">Grade 10 (CAPS)</label>
+                            <label for="subjects-maths-8"
+                                   tal:attributes="for string:subjects-math-${grade}"
+                                   tal:content="string:Grade ${grade}">Grade 8</label>
                         </li>
-                        <li class="navTreeItem visualNoMarker">
-                            <input name="grade" 
-                                   id="grade11"
-                                   checked=""
-                                   tal:attributes="checked python:view.grade_selected('grade11', selected_grade)"
-                                   value="grade11" 
-                                   type="radio" />
-                            <label for="grade11">Grade 11 (CAPS)</label>
-                        </li>
-
-                        <li class="navTreeItem visualNoMarker">
-                            <input name="grade"
-                                   id="grade12"
-                                   checked=""
-                                   tal:attributes="checked python:view.grade_selected('grade12', selected_grade)"
-                                   value="grade12" 
-                                   type="radio" />
-                            <label for="grade12">Grade 12 (CAPS)</label>
-                        </li>
+                        </tal:grades>
                     </ul>
+                    <ul id="table-of-contents" class="visualNoMarker button-links">
+                        <h2>Science</h2>
+                        <tal:grades repeat="grade python:(8, 9, 10, 11, 12)">
+                        <li class="navTreeItem visualNoMarker">
+                            <input name="item"
+                                   id="subjects-maths-8"
+                                   checked=""
+                                   value="Maths-8"
+                                   tal:attributes="checked python:view.is_selected('Maths-8', selected_item);
+                                                   id string:subject-maths-${grade};
+                                                   value string:Maths-${grade}"
+                                   type="radio" />
+                            <label for="subjects-maths-8"
+                                   tal:attributes="for string:subjects-math-${grade}"
+                                   tal:content="string:Grade ${grade}">Grade 8</label>
+                        </li>
+                        </tal:grades>
+                    </ul>
+                    </tal:selected>
 
                     <ul id="table-of-contents" class="visualNoMarker button-links"
                         tal:define="selected_service view/service;">

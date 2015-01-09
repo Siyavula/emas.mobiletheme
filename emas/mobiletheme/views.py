@@ -86,6 +86,11 @@ class Order(BaseOrder):
     def update(self):
         return super(Order, self).update()
 
+    def selected_item(self):
+        return self.request.get('item', '')
+
+    def is_selected(self, item, selected):
+        return item == selected and 'checked' or ''
 
 class TableOfContents(BaseTOC):
     """ Helper methods and a template that renders only the table of contents.
