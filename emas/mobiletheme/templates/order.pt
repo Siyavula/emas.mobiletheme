@@ -116,7 +116,7 @@
                         </li>
                     </ul>
                     <div class="ordertotal">
-                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Place order</button>
+                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Order</button>
                     </div>
                 </form>
             </div>
