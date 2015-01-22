@@ -71,7 +71,7 @@
                     </ul>
                     <ul id="table-of-contents" class="visualNoMarker button-links">
                         <h2>Science</h2>
-                        <tal:grades repeat="grade python:(8, 9, 10, 11, 12)">
+                        <tal:grades repeat="grade python:(10, 11, 12)">
                         <li class="navTreeItem visualNoMarker">
                             <input name="item"
                                    id="subjects-maths-8"
