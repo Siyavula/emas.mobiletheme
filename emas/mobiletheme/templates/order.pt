@@ -56,15 +56,15 @@
                         <tal:grades repeat="grade python:(8, 9, 10, 11, 12)">
                         <li class="navTreeItem visualNoMarker">
                             <input name="item"
-                                   id="subjects-maths-8"
+                                   id="subject-maths-8"
                                    checked=""
                                    value="Maths-8"
                                    tal:attributes="checked python:view.is_selected('Maths-8', selected_item);
                                                    id string:subject-maths-${grade};
                                                    value string:Maths-${grade}"
                                    type="radio" />
-                            <label for="subjects-maths-8"
-                                   tal:attributes="for string:subjects-math-${grade}"
+                            <label for="subject-maths-8"
+                                   tal:attributes="for string:subject-math-${grade}"
                                    tal:content="string:Grade ${grade}">Grade 8</label>
                         </li>
                         </tal:grades>
@@ -74,15 +74,15 @@
                         <tal:grades repeat="grade python:(10, 11, 12)">
                         <li class="navTreeItem visualNoMarker">
                             <input name="item"
-                                   id="subjects-maths-8"
+                                   id="subject-science-8"
                                    checked=""
-                                   value="Maths-8"
-                                   tal:attributes="checked python:view.is_selected('Maths-8', selected_item);
-                                                   id string:subject-maths-${grade};
-                                                   value string:Maths-${grade}"
+                                   value="Science-8"
+                                   tal:attributes="checked python:view.is_selected('Science-8', selected_item);
+                                                   id string:subject-science-${grade};
+                                                   value string:Science-${grade}"
                                    type="radio" />
-                            <label for="subjects-maths-8"
-                                   tal:attributes="for string:subjects-math-${grade}"
+                            <label for="subject-science-8"
+                                   tal:attributes="for string:subject-science-${grade}"
                                    tal:content="string:Grade ${grade}">Grade 8</label>
                         </li>
                         </tal:grades>
