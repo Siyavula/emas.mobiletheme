@@ -98,7 +98,7 @@ def process_img(self, doc, el):
                                                          'Unknown'),
                      traceback.format_exc()]
             error = '\n'.join(error)
-            LOG.error(error)
+            LOG.info(error)
         
         # Make image clickable and point to original src
         a = Element('a')
