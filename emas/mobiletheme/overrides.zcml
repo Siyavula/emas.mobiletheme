@@ -1,0 +1,11 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+    <adapter
+        for="zope.interface.Interface zope.publisher.interfaces.browser.IBrowserRequest"
+        provides="gomobile.mobile.interfaces.IMobileRedirector"
+        factory=".redirector.Redirector"
+        />
+
+</configure>
