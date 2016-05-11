@@ -98,7 +98,9 @@ def process_img(self, doc, el):
                                                          'Unknown'),
                      traceback.format_exc()]
             error = '\n'.join(error)
-            LOG.info(error)
+            # This is creating unnecessary noise in log files and is
+            # being totally ignored
+            # LOG.info(error)
         
         # Make image clickable and point to original src
         a = Element('a')
