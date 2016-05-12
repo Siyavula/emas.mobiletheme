@@ -97,8 +97,10 @@ def process_img(self, doc, el):
                      'User Agent: %s' % site.REQUEST.get('HTTP_USER_AGENT', 
                                                          'Unknown'),
                      traceback.format_exc()]
-            error = '\n'.join(error)
-            LOG.info(error)
+            # Stop logging image processing errors, it creates
+            # unnecessary noise in the error log
+            # error = '\n'.join(error)
+            # LOG.info(error)
         
         # Make image clickable and point to original src
         a = Element('a')
