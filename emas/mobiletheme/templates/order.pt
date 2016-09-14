@@ -9,26 +9,33 @@
 <body>
 
     <metal:core fill-slot="main">
-        <script type="text/javascript">
-            $('document').ready(function(evt) {
-                $('li').hover(
-                    function(evt) {
-                        $(this).addClass('mouse_over');
-                    },
-                    function(evt) {
-                        $(this).removeClass('mouse_over');
-                    }
-                );
-                $('li').click(function(evt) {
-                    $(this).find('input').click();
-                    evt.stopPropagation();
-                });
-                $('li input').click(function(evt) {
-                    evt.stopPropagation();
-                });
-            });
-        </script>
-        <h1 class="documentFirstHeading">Choose your subject and grade</h1>
+        <style>
+        .order-form .sv-panel>.sv-panel__header {
+            color: #000;
+            text-align: center;
+        }
+        .order-form h2.title,
+        .order-form .form-actions {
+            text-align: center;
+        }
+        .order-form .sv-panel>.sv-panel__header {
+            font-size: 20px;
+            background-color: #efefef;
+        }
+        .order-form .sv-panel>.sv-panel__header strong {
+            font-weight: bold;
+        }
+        .order-form {
+            width: 100%;
+        }
+        .order-form ul > li {
+            list-style: none;
+        }
+        .order-form label {
+            cursor: pointer;
+            font-weight: 400;
+        }
+        </style>
 
         <div id="content-core"
             tal:define="action python:view.action(False);">
@@ -37,89 +44,173 @@
                 Practice is not available for order on Mxit
             </div>
 
-            <div id="individual-order-form" class="selectpackage"
-                tal:condition="not:context/@@mobile_tool/isMXit">
+            <div class="order-form">
+                <h2 class="title">Pick the payment option that suits your pocket</h2>
+                <div class="order-col">
+                    <span class="sv-panel sv-panel--large">
+                        <span class="sv-panel__header">
+                            One <strong>month</strong> at a time<br/>
+                            at <strong>R15</strong>.
+                        </span>
+                        <span class="sv-panel__body">
+                            <form name="orderform" 
+                                  class="update-action" method="POST"
+                                tal:attributes="action action;
+                                                base_action action;">
 
-                <form id="individual-orderform" name="orderform" 
-                      class="update-action" method="POST"
-                    tal:attributes="action action;
-                                    base_action action;">
+                                <input type="hidden" name="order.form.submitted" value="true"/>
+                                <input type="hidden" name="service" value="monthly-practice"/>
+                                <input type="hidden" name="grade" value="grade12"/>
+                                <input type="hidden" name="isAnon" value="False"/>
+                                <input type="hidden" name="ordernumber" value=""
+                                    tal:attributes="value view/ordernumber"/>
+                                <div class="form-body">
+                                    <p>Just what you need, when you need it. No need for a bank account or credit card to pay</p>
 
-                    <input type="hidden" name="mobileorder.form.submitted" value="true"/>
-                    <input type="hidden" name="isAnon" value="False" />
-                    <input type="hidden" name="ordernumber" value=""
-                        tal:attributes="value view/ordernumber"/>
+                                    <p>Ways you can pay for this option:</p>
+                                    <ul class="sv-list">
+                                        <li class="sv-list-item">
+                                            <label for="sms">
+                                                <input name="prod_payment"
+                                                    id="sms"
+                                                    value="sms"
+                                                    type="radio"/> With your airtime<br/>(by sending a premium sms)
+                                            </label>
+                                        </li>
+                                    </ul>
+                                    <p>Get access to:</p>
 
-                    <tal:selected tal:define="selected_item view/selected_item">
-                    <ul id="table-of-contents" class="visualNoMarker button-links">
-                        <h2>Mathematics</h2>
-                        <tal:grades repeat="grade python:(8, 9, 10, 11, 12)">
-                        <li class="navTreeItem visualNoMarker">
-                            <input name="item"
-                                   id="subject-maths-8"
-                                   checked=""
-                                   value="Maths-8"
-                                   tal:attributes="checked python:view.is_selected('Maths-8', selected_item);
-                                                   id string:subject-maths-${grade};
-                                                   value string:Maths-${grade}"
-                                   type="radio" />
-                            <label for="subject-maths-8"
-                                   tal:attributes="for string:subject-math-${grade}"
-                                   tal:content="string:Grade ${grade}">Grade 8</label>
-                        </li>
-                        </tal:grades>
-                    </ul>
-                    <ul id="table-of-contents" class="visualNoMarker button-links">
-                        <h2>Science</h2>
-                        <tal:grades repeat="grade python:(10, 11, 12)">
-                        <li class="navTreeItem visualNoMarker">
-                            <input name="item"
-                                   id="subject-science-8"
-                                   checked=""
-                                   value="Science-8"
-                                   tal:attributes="checked python:view.is_selected('Science-8', selected_item);
-                                                   id string:subject-science-${grade};
-                                                   value string:Science-${grade}"
-                                   type="radio" />
-                            <label for="subject-science-8"
-                                   tal:attributes="for string:subject-science-${grade}"
-                                   tal:content="string:Grade ${grade}">Grade 8</label>
-                        </li>
-                        </tal:grades>
-                    </ul>
-                    </tal:selected>
-
-                    <ul id="table-of-contents" class="visualNoMarker button-links"
-                        tal:define="selected_service view/service;">
-                        <h2>Product</h2>
-                        <li class="navTreeItem visualNoMarker">
-                            <input name="service" 
-                                id="service"
-                                checked="checked"
-                                class="no-textbook" 
-                                value="monthly-practice" 
-                                type="radio" 
-                                price="15" />
-                            <label for="service">Practice: one month subscription <strong>R15</strong></label>
-                        </li>
-                    </ul>
-                    
-                    <ul id="table-of-contents" class="visualNoMarker button-links">
-                        <h2>How would you like to pay?</h2>
-                        <li class="button" tal:define="selected view/prod_payment">
-                            <input name="prod_payment"
-                                id="prod_payment"
-                                checked="checked"
-                                value="sms"
-                                type="radio" />
-                            <label for="prod_payment">Premium SMS</label>
-                        </li>
-                    </ul>
-                    <div class="ordertotal">
-                        <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Order</button>
-                    </div>
-                </form>
+                                    <ul class="sv-list" tal:define="selected view/subjects">
+                                        <li class="sv-list-item">
+                                            <label for="month_maths">
+                                                <input name="subjects"
+                                                    id="month_maths"
+                                                    checked=""
+                                                    tal:attributes="checked python:view.subject_selected('Maths', selected)"
+                                                    value="Maths"
+                                                    type="radio"
+                                                    price="15"/> Maths
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="month_science">
+                                                <input name="subjects"
+                                                    id="month_science"
+                                                    checked=""
+                                                    tal:attributes="checked python:view.subject_selected('Science', selected)"
+                                                    value="Science"
+                                                    price="15"
+                                                    type="radio"> Science
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Buy now for one month
+                                    </button>
+                                </div>
+                            </form>
+                        </span>
+                    </span>
+                </div>
             </div>
+
+
+            <div class="order-form">
+
+                <div class="order-col">
+                    <span class="sv-panel">
+                        <span class="sv-panel__header">
+                            A whole <strong>year</strong> upfront<br/>
+                            at <strong>R150</strong>
+                        </span>
+                        <span class="sv-panel__body">
+                            <form name="orderform" 
+                                  class="update-action" method="POST"
+                                tal:attributes="action action;
+                                                base_action action;">
+
+                                <input type="hidden" name="order.form.submitted" value="true"/>
+                                <input type="hidden" name="isAnon" value="False"/>
+                                <input type="hidden" name="ordernumber" value=""
+                                    tal:attributes="value view/ordernumber"/>
+                                <div class="form-body">
+                                    <p>All the practise you need without having to hassle with renewing your subscription each month</p>
+                                    <p>Ways you can pay for this option</p>
+
+                                    <ul class="sv-list" tal:define="selected view/prod_payment">
+                                        <li class="sv-list-item">
+                                            <label for="creditcard">
+                                                <input name="prod_payment"
+                                                    id="creditcard"
+                                                    checked=""
+                                                    tal:attributes="checked python:view.prod_payment_selected('creditcard', selected)"
+                                                    value="creditcard"
+                                                    type="radio"> Credit Card
+                                            </label>
+                                        </li>
+                                        <li class="sv-list-item">
+                                            <label for="eft">
+                                                <input name="prod_payment"
+                                                    id="eft"
+                                                    checked=""
+                                                    tal:attributes="checked python:view.prod_payment_selected('eft', selected)"
+                                                    value="eft"
+                                                    type="radio"> Electronic Funds Transfer (EFT)
+                                            </label>
+                                        </li>
+                                    </ul>
+
+                                    <p>Get access to</p>
+
+                                    <ul class="sv-list" tal:define="selected view/subjects">
+                                        <li class="sv-list-item">
+                                            <label for="year_maths">
+                                                <input name="subjects"
+                                                    id="year_maths"
+                                                    checked=""
+                                                    tal:attributes="checked python:view.subject_selected('Maths', selected)"
+                                                    value="Maths"
+                                                    type="radio"
+                                                    price="150"> Maths
+                                            </label>
+                                        </li>
+                                        <li class="sv-list-item">
+                                            <label for="year_science">
+                                                <input name="subjects"
+                                                    id="year_science"
+                                                    checked=""
+                                                    tal:attributes="checked python:view.subject_selected('Science', selected)"
+                                                    value="Science"
+                                                    price="150"
+                                                    type="radio"> Science
+                                            </label>
+                                        </li>
+                                        <li>
+                                            <label for="year_both">
+                                                <input name="subjects"
+                                                    id="year_both"
+                                                    checked=""
+                                                    tal:attributes="checked python:view.subject_selected('Maths,Science', selected)"
+                                                    price="300"
+                                                    value="Maths,Science"
+                                                    type="radio"> Both (R300 total)
+                                            </label>
+                                        </li>
+                                    </ul>
+                                </div> 
+                                <div class="form-actions">
+                                    <button type="submit" class="button generic no-icon small-caps allowMultiSubmit" name="submitorder" value="1">Buy now for a whole year
+                                    </button>
+                                </div>
+                            </form>
+                        </span>
+                    </span>
+                </div>
+
+            </div>
+
         </div>
 
     </metal:core>
