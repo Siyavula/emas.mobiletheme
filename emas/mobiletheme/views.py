@@ -82,15 +82,11 @@ class Order(BaseOrder):
     """ Specialised to accommodate mobile workflow and template and to add
         security constraint.
     """
-    grok.require('cmf.SetOwnProperties')
+    grok.require('zope2.View')
+
     def update(self):
         return super(Order, self).update()
 
-    def selected_item(self):
-        return self.request.get('item', '')
-
-    def is_selected(self, item, selected):
-        return item == selected and 'checked' or ''
 
 class TableOfContents(BaseTOC):
     """ Helper methods and a template that renders only the table of contents.

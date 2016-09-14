@@ -38,11 +38,23 @@
         </style>
 
         <div id="content-core"
-            tal:define="action python:view.action(False);">
+            tal:define="isAnon context/@@plone_portal_state/anonymous;
+                        action python:view.action(isAnon);">
 
             <div tal:condition="context/@@mobile_tool/isMXit">
                 Practice is not available for order on Mxit
             </div>
+
+            <span class="sv-alert sv-alert--warning" tal:condition="isAnon"
+                tal:define="login_url string:${context/absolute_url}/sign-in;
+                            register_url string:${context/absolute_url}/registration/sign-up-form-1">
+              <span class="icon icon-warning-circled" aria-hidden="true"></span> 
+                You are <strong>not signed in</strong>. You need an account on the site before you can buy a subscription. Please <a href="#" tal:attributes="href login_url">sign in</a> or <a href="#" tal:attributes="href register_url">sign up</a>.
+            </span>
+
+            <span class="sv-alert sv-alert--danger" tal:condition="view/errors">
+                <span class="icon icon-danger-circled" aria-hidden="true"></span> <span tal:replace="view/errors">Error!</span>
+            </span>
 
             <div class="order-form">
                 <h2 class="title">Pick the payment option that suits your pocket</h2>
@@ -68,11 +80,12 @@
                                     <p>Just what you need, when you need it. No need for a bank account or credit card to pay</p>
 
                                     <p>Ways you can pay for this option:</p>
-                                    <ul class="sv-list">
+                                    <ul class="sv-list" tal:define="selected view/prod_payment">
                                         <li class="sv-list-item">
                                             <label for="sms">
                                                 <input name="prod_payment"
                                                     id="sms"
+                                                    tal:attributes="checked python:view.prod_payment_selected('sms', selected)"
                                                     value="sms"
                                                     type="radio"/> With your airtime<br/>(by sending a premium sms)
                                             </label>
